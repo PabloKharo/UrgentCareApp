@@ -51,7 +51,8 @@
 	  <None Remove=".gitattributes" />
 	  <None Remove=".gitignore" />
 	  <None Remove="README.md" />
-	  <None Remove="Resources\Images\info.png" />
+	  <None Remove="Resources\Images\dark_info.png" />
+	  <None Remove="Resources\Images\light_info.png" />
 	</ItemGroup>
 
 	<ItemGroup>

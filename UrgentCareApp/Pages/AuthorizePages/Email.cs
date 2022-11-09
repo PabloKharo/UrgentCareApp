@@ -36,16 +36,12 @@ public class EmailBorderStrokeColorConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        Color color = (Color)App.Current.Resources.MergedDictionaries.First()["MainStroke"];
         string email = value as string;
-
         // Если поле пустое, то красивее, когда полоса черная
         if (string.IsNullOrEmpty(email))
-            return color;
+            return parameter;
 
-        if (!Email.IsEmail(email))
-            color = Colors.Red;
-        return color;
+        return Email.IsEmail(email)? parameter : Colors.Red;
 
     }
 

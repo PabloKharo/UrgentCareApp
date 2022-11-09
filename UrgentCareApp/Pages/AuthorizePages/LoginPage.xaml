@@ -7,12 +7,13 @@
         <local:EmailBorderStrokeColorConverter x:Key="emailBorderStrokeColorConverter" />
     </ContentPage.Resources>
 
+
     <Grid RowDefinitions="Auto, Auto, *, Auto">
         <!-- Заголовок -->
-        <Grid Padding="5" Background="White">
+        <Grid Padding="5" BackgroundColor="{AppThemeBinding Light={StaticResource LightMainHeaderBackgroud}, Dark={StaticResource DarkMainHeaderBackgroud}}">
             <Label Text="Авторизация" FontSize="24"
                     HorizontalOptions="Center" VerticalOptions="Center"/>
-            <ImageButton x:Name="InfoButton" Source="info.png" HeightRequest="48" Margin="0,0,-20,0"
+            <ImageButton x:Name="InfoButton" Source="{AppThemeBinding Light=light_info.png, Dark=dark_info.png}" HeightRequest="48" Margin="0,0,-20,0"
                     HorizontalOptions="End" VerticalOptions="Center" Clicked="InfoButton_Clicked"/>
         </Grid>
 
@@ -24,8 +25,9 @@
             <!-- Почтовый адрес -->
             <VerticalStackLayout>
                 <Label Text="Почтовый адрес" Margin="15,0,0,0"/>
-                <Border Stroke="{Binding Source={x:Reference EmailEntry}, Path=Text, Converter={StaticResource emailBorderStrokeColorConverter}}" 
-                        StrokeShape="RoundRectangle 25,25,25,25">
+                <Border Stroke="{Binding Source={x:Reference EmailEntry}, Path=Text, Converter={StaticResource emailBorderStrokeColorConverter}, 
+                    ConverterParameter={AppThemeBinding Light={StaticResource LightMainStroke}, Dark={StaticResource DarkMainStroke}}}"
+                    StrokeShape="RoundRectangle 25,25,25,25">
                     <Grid Margin="15,0,15,0">
                         <Entry x:Name="EmailEntry" HorizontalOptions="Fill" Text="{Binding Email.Value}" Keyboard="Email"/>
                         <Border BackgroundColor="{Binding Path=BackgroundColor, Source={RelativeSource AncestorType={x:Type Border}, AncestorLevel=1}}" 
@@ -44,7 +46,7 @@
                         </Label.GestureRecognizers>
                     </Label>
                 </HorizontalStackLayout>
-                <Border Stroke="{StaticResource MainStroke}" StrokeShape="RoundRectangle 25,25,25,25">
+                <Border StrokeShape="RoundRectangle 25,25,25,25">
                     <Grid Margin="15,0,15,0">
                         <Entry x:Name="PasswordEntry" HorizontalOptions="Fill" Text="{Binding Password}" IsPassword="True" Keyboard="Default"/>
                         <Border BackgroundColor="{Binding Path=BackgroundColor, Source={RelativeSource AncestorType={x:Type Border}, AncestorLevel=1}}" 
@@ -54,9 +56,8 @@
             </VerticalStackLayout>
 
             <!-- Кнопка входа -->
-            <Border Stroke="{StaticResource MainStroke}" StrokeShape="RoundRectangle 25,25,25,25" HorizontalOptions="Center">
-                <Button x:Name="LoginButton" Text=" Войти " HorizontalOptions="Center" Clicked="LoginButton_Clicked"
-                         BackgroundColor="{StaticResource MainButton}" TextColor="Black"/>
+            <Border StrokeShape="RoundRectangle 25,25,25,25" HorizontalOptions="Center">
+                <Button x:Name="LoginButton" Text=" Войти " HorizontalOptions="Center" Clicked="LoginButton_Clicked"/>
             </Border>
         </VerticalStackLayout>
 
