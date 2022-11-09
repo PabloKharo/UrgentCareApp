@@ -9,8 +9,8 @@ public partial class LoginPage : ContentPage
     {
         InitializeComponent();
 
-        Email.Value = Preferences.Default.Get(nameof(Email), string.Empty);
-        Password = Preferences.Default.Get(nameof(Password), string.Empty);
+        Email.Value = Preferences.Email;
+        Password = Preferences.Password;
 
         BindingContext = this;
     }
@@ -27,10 +27,6 @@ public partial class LoginPage : ContentPage
     {
         if (!Email.IsEmail() || string.IsNullOrWhiteSpace(Password))
             return;
-
-
-        Preferences.Default.Set(nameof(Email), Email.Value);
-        Preferences.Default.Set(nameof(Password), Password);
     }
 
     private void RegistrationLabel_Tapped(object sender, TappedEventArgs e)

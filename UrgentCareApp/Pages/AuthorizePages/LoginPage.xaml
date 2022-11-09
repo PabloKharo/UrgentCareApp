@@ -17,8 +17,7 @@
                     HorizontalOptions="End" VerticalOptions="Center" Clicked="InfoButton_Clicked"/>
         </Grid>
 
-        <BoxView Grid.Row="1" HeightRequest="2" Color="LightGray"
-            VerticalOptions="End"/>
+        <BoxView Grid.Row="1" HeightRequest="2" VerticalOptions="End"/>
 
         <!-- Основное поле -->
         <VerticalStackLayout Grid.Row="2" VerticalOptions="Center" Padding="30" Spacing="10">

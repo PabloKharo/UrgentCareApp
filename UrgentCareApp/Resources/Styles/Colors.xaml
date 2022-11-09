@@ -22,8 +22,9 @@
     <Color x:Key="LightMainStroke">Black</Color>
     <Color x:Key="DarkMainStroke">#2c2c2c</Color>
     
-
-    <!-- Мои кисти -->
+    <!-- Цвета границ -->
+    <Color x:Key="LightMainBoxView">LightGray</Color>
+    <Color x:Key="DarkMainBoxView">#919191</Color>
 
 
     <!-- Предустановленные цвета -->
