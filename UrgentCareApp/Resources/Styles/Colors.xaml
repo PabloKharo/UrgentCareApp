@@ -4,6 +4,12 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
+    <!-- Мои цвета -->
+    <Color x:Key="MainBackgroud">#ECF4FF</Color>
+    <Color x:Key="MainButton">#75EE73</Color>
+    <Color x:Key="MainStroke">Black</Color>
+
+    <!-- Предустановленные цвета -->
     <Color x:Key="Primary">#512BD4</Color>
     <Color x:Key="Secondary">#DFD8F7</Color>
     <Color x:Key="Tertiary">#2B0B98</Color>

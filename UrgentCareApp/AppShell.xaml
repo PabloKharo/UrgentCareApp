@@ -3,12 +3,11 @@
     x:Class="UrgentCareApp.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:UrgentCareApp"
+    xmlns:loginpage="clr-namespace:UrgentCareApp.Pages.AuthorizePages"
     Shell.FlyoutBehavior="Disabled">
 
     <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+        ContentTemplate="{DataTemplate loginpage:LoginPage}"
+        Route="UrgentCareApp.Pages.AuthorizePages.LoginPage" />
 
 </Shell>
