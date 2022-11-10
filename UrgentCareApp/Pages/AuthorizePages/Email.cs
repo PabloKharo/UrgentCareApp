@@ -37,11 +37,13 @@ public class EmailBorderStrokeColorConverter : IValueConverter
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         string email = value as string;
+        Border border = new Border();
+
         // Если поле пустое, то красивее, когда полоса черная
         if (string.IsNullOrEmpty(email))
-            return parameter;
+            return border.Stroke;
 
-        return Email.IsEmail(email)? parameter : Colors.Red;
+        return Email.IsEmail(email)? border.Stroke : Colors.Red;
 
     }
 

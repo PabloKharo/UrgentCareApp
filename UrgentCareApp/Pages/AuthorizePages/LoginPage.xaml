@@ -24,8 +24,7 @@
             <!-- Почтовый адрес -->
             <VerticalStackLayout>
                 <Label Text="Почтовый адрес" Margin="15,0,0,0"/>
-                <Border Stroke="{Binding Source={x:Reference EmailEntry}, Path=Text, Converter={StaticResource emailBorderStrokeColorConverter}, 
-                    ConverterParameter={AppThemeBinding Light={StaticResource LightMainStroke}, Dark={StaticResource DarkMainStroke}}}"
+                <Border Stroke="{Binding Source={x:Reference EmailEntry}, Path=Text, Converter={StaticResource emailBorderStrokeColorConverter}}"
                     StrokeShape="RoundRectangle 25,25,25,25">
                     <Grid Margin="15,0,15,0">
                         <Entry x:Name="EmailEntry" HorizontalOptions="Fill" Text="{Binding Email.Value}" Keyboard="Email"/>
