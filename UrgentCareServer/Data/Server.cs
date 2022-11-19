@@ -5,7 +5,7 @@ namespace UrgentCareServer.Data;
 
 
 // TODO: Заменить работу с БД на работу с сервером
-public static class UserControl
+public static class Server
 {
     private static SQLiteAsyncConnection db;
     private static async Task Init()

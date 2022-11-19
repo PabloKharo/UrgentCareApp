@@ -18,7 +18,7 @@ public class UserControlTests
     [DataRow("ads@dsa#a.ru", "p")]
     public async Task UserExists_False(string email, string pass)
     {
-        Assert.IsFalse(await UserControl.UserExistsAsync(email, pass));
+        Assert.IsFalse(await Server.UserExistsAsync(email, pass));
     }
 
     [TestMethod]
@@ -31,8 +31,8 @@ public class UserControlTests
         UrgentCareServer.Models.User user = new();
         user.Email = email;
         user.Password = pass;
-        if (!await UserControl.UserExistsAsync(email))
-            await UserControl.SaveUserAsync(user);
-        Assert.IsTrue(await UserControl.UserExistsAsync(email, pass));
+        if (!await Server.UserExistsAsync(email))
+            await Server.SaveUserAsync(user);
+        Assert.IsTrue(await Server.UserExistsAsync(email, pass));
     }
 }

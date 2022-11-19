@@ -14,6 +14,5 @@ public static class Database
         db = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
 
         // Создание таблиц, если они не существуют
-        var res = await db.CreateTableAsync<User>();
     }
 }

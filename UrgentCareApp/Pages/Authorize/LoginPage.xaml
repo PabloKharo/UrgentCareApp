@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="UrgentCareApp.Pages.Authorize.LoginPage"
+             xmlns:viewmodel="clr-namespace:UrgentCareApp.ViewModels.Authorize"
+             x:DataType="viewmodel:LoginViewModel"
+             xmlns:converter="clr-namespace:UrgentCareApp.Converters">
+    <ContentPage.Resources>
+        <converter:EmailBorderStrokeColorConverter x:Key="emailBorderStrokeColorConverter" />
+        <converter:UnderlineEntryBorderConverter x:Key="underlineEntryBorderConverter"/>
+    </ContentPage.Resources>
+
+
+    <ScrollView>
+        <Grid RowDefinitions="Auto, Auto, *, Auto">
+            <!-- Заголовок -->
+            <Grid Padding="5" BackgroundColor="{AppThemeBinding Light={StaticResource LightMainHeaderBackgroud}, Dark={StaticResource DarkMainHeaderBackgroud}}">
+                <Label Text="Авторизация" FontSize="24" HorizontalOptions="Center" VerticalOptions="Center"/>
+                <ImageButton x:Name="InfoButton" Source="{AppThemeBinding Light=light_info.png, Dark=dark_info.png}" HeightRequest="48"
+                             HorizontalOptions="End" VerticalOptions="Center" Command="{Binding NavigateToInformationPageCommand}"/>
+            </Grid>
+            <BoxView Grid.Row="1" HeightRequest="2" VerticalOptions="End"/>
+
+            <!-- Основное поле -->
+            <VerticalStackLayout Grid.Row="2" VerticalOptions="Center" Padding="30" Spacing="10">
+                <!-- Почтовый адрес -->
+                <VerticalStackLayout>
+                    <Label Text="Почтовый адрес" Margin="15,0,0,0"/>
+                    <Border Stroke="{Binding Path=Email.Value, Converter={StaticResource emailBorderStrokeColorConverter}}"
+                            StrokeShape="RoundRectangle 25,25,25,25">
+                        <Grid Margin="15,0,15,0">
+                            <Entry HorizontalOptions="Fill" VerticalOptions="Center" Text="{Binding Email.Value}" Keyboard="Email"/>
+                            <Border BackgroundColor="{Binding Path=BackgroundColor, Source={RelativeSource AncestorType={x:Type Border}, AncestorLevel=1}}" 
+                                    Stroke="{Binding Path=BackgroundColor, Source={RelativeSource AncestorType={x:Type Border}, AncestorLevel=1}}"
+                                    Margin="{Binding Source={RelativeSource AncestorType={x:Type Grid}, AncestorLevel=1}, Path=Height, Converter={StaticResource underlineEntryBorderConverter}}"/>
+                        </Grid>
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- Пароль -->
+                <VerticalStackLayout>
+                    <HorizontalStackLayout Margin="15,0,0,0" Spacing="5">
+                        <Label Text="Пароль"/>
+                        <Label Text="(восстановить)" TextDecorations="Underline">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding NavigateToRestoringPasswordPageCommand}" NumberOfTapsRequired="1"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </HorizontalStackLayout>
+                    <Border StrokeShape="RoundRectangle 25,25,25,25">
+                        <Grid Margin="15,0,15,0">
+                            <Entry HorizontalOptions="Fill" VerticalOptions="Center" Text="{Binding Password}" IsPassword="True" Keyboard="Default"/>
+                            <Border BackgroundColor="{Binding Path=BackgroundColor, Source={RelativeSource AncestorType={x:Type Border}, AncestorLevel=1}}" 
+                                    Stroke="{Binding Path=BackgroundColor, Source={RelativeSource AncestorType={x:Type Border}, AncestorLevel=1}}"
+                                    Margin="{Binding Source={RelativeSource AncestorType={x:Type Grid}, AncestorLevel=1}, Path=Height, Converter={StaticResource underlineEntryBorderConverter}}" />
+                        </Grid>
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- TODO: добавить кнопку "сохранить пароль" -->
+
+                <!-- Кнопка входа -->
+                <Border StrokeShape="RoundRectangle 25,25,25,25" HorizontalOptions="Center">
+                    <Button Text=" Войти " HorizontalOptions="Center" Command="{Binding LoginCommand}"/>
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- Регистрация -->
+            <Label Grid.Row="3" Text="Регистрация" TextDecorations="Underline" HorizontalOptions="Center" Margin="0,0,0,16">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding NavigateToRegistrationPageCommand}" NumberOfTapsRequired="1"/>
+                </Label.GestureRecognizers>
+            </Label>
+
+
+
+        </Grid>
+
+    </ScrollView>
+</ContentPage>

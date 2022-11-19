@@ -1,4 +1,4 @@
-﻿using UrgentCareApp.Pages.AuthorizePages;
+﻿using UrgentCareApp.Models;
 
 namespace UrgentCareTests;
 
@@ -10,10 +10,9 @@ public class EmailTests
     [DataRow("adsads")]
     [DataRow("ads@akd@")]
     [DataRow("ads@dsa#a.ru")]
-    public void IsEmail_False(string str)
+    public void IsEmailAddress_False(string str)
     {
-        UrgentCareApp.Pages.AuthorizePages.Email email = new();
-        email.Value = str;
+        EmailAddress email = new(str);
         Assert.IsFalse(email.IsEmail());
     }
 
@@ -22,10 +21,9 @@ public class EmailTests
     [DataRow("a@m.ru.ru")]
     [DataRow("k.p.a@m.ru.ru")]
     [DataRow("LongMail@yandex.ru")]
-    public void IsEmail_True(string str) 
+    public void IsEmailAddress_True(string str) 
     {
-        UrgentCareApp.Pages.AuthorizePages.Email email = new();
-        email.Value = str;
+        EmailAddress email = new(str);
         Assert.IsTrue(email.IsEmail());
     }
 }

@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
+using UrgentCareApp.ViewModels;
+using UrgentCareApp.Pages;
 
 namespace UrgentCareApp;
 
@@ -19,6 +21,10 @@ public static class MauiProgram
 		builder.Logging.AddDebug();
 #endif
 
-		return builder.Build();
+        builder.Services.AddTransient<Pages.Authorize.LoginPage>();
+        builder.Services.AddSingleton<ViewModels.Authorize.LoginViewModel>();
+
+
+        return builder.Build();
 	}
 }
