@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="UrgentCareApp.Views.Authorize.LoginPage"
+             xmlns:viewmodel="clr-namespace:UrgentCareApp.ViewModels.Authorize"
+             x:DataType="viewmodel:LoginViewModel"
+             xmlns:converter="clr-namespace:UrgentCareApp.Converters"
+             xmlns:controls="clr-namespace:UrgentCareApp.CustomControls">
+    <ContentPage.Resources>
+        <converter:EmailBorderStrokeColorConverter x:Key="emailBorderStrokeColorConverter" />
+    </ContentPage.Resources>
+
+
+    <ScrollView>
+        <Grid RowDefinitions="Auto, *, Auto">
+            <!-- Заголовок -->
+            <VerticalStackLayout>
+                <StackLayout Orientation="Horizontal" Padding="5" BackgroundColor="{AppThemeBinding Light={StaticResource LightMainHeaderBackgroud}, Dark={StaticResource DarkMainHeaderBackgroud}}" HeightRequest="48">
+                    <Label Text="Авторизация" FontSize="20" HorizontalOptions="StartAndExpand" VerticalOptions="Center"/>
+                    <ImageButton Source="{AppThemeBinding Light=light_info.png, Dark=dark_info.png}" HeightRequest="40" WidthRequest="40"
+                                    VerticalOptions="Center" HorizontalOptions="End" Command="{Binding NavigateToInformationPageCommand}"/>
+                </StackLayout>
+                <BoxView HeightRequest="2" HorizontalOptions="Fill"/>
+            </VerticalStackLayout>
+
+            <!-- Основное поле -->
+            <VerticalStackLayout Grid.Row="1" VerticalOptions="Center" Padding="30" Spacing="10">
+                <!-- Почтовый адрес -->
+                <VerticalStackLayout>
+                    <Label Text="Почтовый адрес" Margin="15,0,0,0"/>
+                    <Border Stroke="{Binding Path=Email.Value, Converter={StaticResource emailBorderStrokeColorConverter}}"
+                            StrokeShape="RoundRectangle 25,25,25,25">
+                        <controls:EntryWithoutUnderline Margin="15,0,15,0" HorizontalOptions="Fill" VerticalOptions="Center" 
+                                                        Text="{Binding Email.Value}" Keyboard="Email" NoUnderline="True"/>
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- Пароль -->
+                <VerticalStackLayout>
+                    <HorizontalStackLayout Margin="15,0,0,0" Spacing="5">
+                        <Label Text="Пароль"/>
+                        <Label Text="(восстановить)" TextDecorations="Underline">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding NavigateToRestoringPasswordPageCommand}" NumberOfTapsRequired="1"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </HorizontalStackLayout>
+                    <Border StrokeShape="RoundRectangle 25,25,25,25">
+                        <controls:EntryWithoutUnderline Margin="15,0,15,0" HorizontalOptions="Fill" VerticalOptions="Center" 
+                                                        Text="{Binding Password}" IsPassword="True" Keyboard="Default" NoUnderline="True"/>
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- CheckBox оставаться в системе -->
+                <HorizontalStackLayout HorizontalOptions="Center">
+                    <CheckBox IsChecked="{Binding SavePassword}"/>
+                    <Label Text="Входить автоматически" VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+
+                <!-- Кнопка входа -->
+                <Border StrokeShape="RoundRectangle 25,25,25,25" HorizontalOptions="Center">
+                    <Button Text=" Войти " HorizontalOptions="Center" Command="{Binding LoginCommand}"/>
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- Регистрация -->
+            <Label Grid.Row="2" Text="Регистрация" TextDecorations="Underline" HorizontalOptions="Center" Margin="0,0,0,16">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding NavigateToRegistrationPageCommand}" NumberOfTapsRequired="1"/>
+                </Label.GestureRecognizers>
+            </Label>
+
+
+
+        </Grid>
+
+    </ScrollView>
+</ContentPage>

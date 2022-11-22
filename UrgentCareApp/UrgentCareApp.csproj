@@ -51,11 +51,14 @@
 	  <None Remove=".gitattributes" />
 	  <None Remove=".gitignore" />
 	  <None Remove="README.md" />
+	  <None Remove="Resources\Images\dark_go_back.png" />
 	  <None Remove="Resources\Images\dark_info.png" />
+	  <None Remove="Resources\Images\light_go_back.png" />
 	  <None Remove="Resources\Images\light_info.png" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Maui" Version="3.0.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 		<PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
@@ -66,13 +69,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Pages\Authorize\LoginPage.xaml">
+	  <MauiXaml Update="Views\Authorize\LoginPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Views\" />
 	</ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
 using UrgentCareApp.ViewModels.Authorize;
 
-namespace UrgentCareApp.Pages.Authorize;
+namespace UrgentCareApp.Views.Authorize;
 
 public partial class LoginPage : ContentPage
 {

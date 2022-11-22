@@ -19,6 +19,7 @@ public static class Server
         var res = await db.CreateTableAsync<User>();
     }
 
+    // Сохранение пользователя (убрать)
     public static async Task<int> SaveUserAsync(User user)
     {
         await Init();
@@ -28,18 +29,21 @@ public static class Server
             return await db.InsertAsync(user);
     }
 
+    // Удаление пользователя (убрать)
     public static async Task<int> DeleteUserAsync(User user)
     {
         await Init();
         return await db.DeleteAsync(user);
     }
 
+    // Проверка, что пользователь существует (убрать)
     public static async Task<bool> UserExistsAsync(string email)
     {
         await Init();
         return await db.Table<User>().Where(user => user.Email == email).CountAsync() > 0;
     }
 
+    // Аутентификация пользователя
     public static async Task<bool> UserExistsAsync(string email, string password)
     {
         await Init();

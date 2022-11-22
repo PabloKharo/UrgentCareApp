@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using UrgentCareApp.ViewModels;
-using UrgentCareApp.Pages;
+using UrgentCareApp.Views;
+using CommunityToolkit.Maui;
 
 namespace UrgentCareApp;
 
@@ -15,16 +16,17 @@ public static class MauiProgram
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-			});
+			}).UseMauiCommunityToolkit();
 
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
 
-        builder.Services.AddTransient<Pages.Authorize.LoginPage>();
+        // Добавление страницы аутентификации
+        builder.Services.AddTransient<Views.Authorize.LoginPage>();
         builder.Services.AddSingleton<ViewModels.Authorize.LoginViewModel>();
 
-
+		
         return builder.Build();
 	}
 }

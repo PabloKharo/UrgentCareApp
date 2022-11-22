@@ -19,37 +19,38 @@ public partial class LoginViewModel : ObservableObject
 
     public LoginViewModel()
     {
-        // Если ранее был успешный вход , попробовать войти со старыми данными
-        if (!Preferences.WasAuthorized)
-            return;
-        Login();
+        // Если ранее был успешный вход, попробовать войти со старыми данными
+        if (Preferences.WasAuthorized)
+            Login();
     }
 
-    [RelayCommand]
+    public IAsyncRelayCommand NavigateToInformationPageCommand { get; }
     async void NavigateToInformationPage()
     {
         // TODO: Перейти на страницу информации приложения
     }
 
-    [RelayCommand]
+    public IAsyncRelayCommand NavigateToRestoringPasswordPageCommand { get; }
     async void NavigateToRestoringPasswordPage()
     {
         // TODO: Перейти на страницу восстановления пароля
     }
-
-    [RelayCommand]
+    public IAsyncRelayCommand NavigateToRegistrationPageCommand { get; }
     async void NavigateToRegistrationPage()
     {
         // TODO: Перейти на страницу регистрации в приложении
     }
 
-    [RelayCommand]
+    public IAsyncRelayCommand LoginCommand { get; }
     async void Login()
     {
+        // Проверка, что введены правильные данные
         if (!Email.IsEmail() || string.IsNullOrWhiteSpace(Password))
             return;
 
+        // TODO: включить ActivityIndicator
         if (!await Server.UserExistsAsync(Email.Value, Password))
+            // TODO: Высветить ошибку
             return;
 
         Preferences.Email = Email.Value;
