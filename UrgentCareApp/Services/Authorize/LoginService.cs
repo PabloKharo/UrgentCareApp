@@ -57,7 +57,7 @@ public class LoginService
 #if DEBUG
             Debug.WriteLine(@"\tERROR {0}", ex.Message);
 #endif
-            ToastHelper.Show("Ошибка при подключении к серверу.");
+            ToastHelper.Show(Properties.Resources.ErrorServerConnection);
         }
         
         return string.Empty;

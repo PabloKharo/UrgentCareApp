@@ -6,17 +6,20 @@
              x:DataType="viewmodel:LoginViewModel"
              xmlns:controls="clr-namespace:UrgentCareApp.Controls"
              xmlns:triggers="clr-namespace:UrgentCareApp.Triggers"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:properties="clr-namespace:UrgentCareApp.Properties">
 
-    
     <ScrollView>
         <Grid>
+            <!-- Индикатор при запросе к серверу -->
             <ActivityIndicator HorizontalOptions="Center" VerticalOptions="Center" IsRunning="{Binding IsLoginingIn}" IsVisible="{Binding IsLoginingIn}"/>
+            
             <Grid RowDefinitions="Auto, *, Auto" IsVisible="{Binding IsNotLoginingIn}">
                 <!-- Заголовок -->
                 <VerticalStackLayout>
-                    <StackLayout Orientation="Horizontal" Padding="5" BackgroundColor="{AppThemeBinding Light={StaticResource LightMainHeaderBackgroud}, Dark={StaticResource DarkMainHeaderBackgroud}}" HeightRequest="48">
-                        <Label Text="Авторизация" FontSize="20" HorizontalOptions="StartAndExpand" VerticalOptions="Center"/>
+                    <StackLayout BackgroundColor="{AppThemeBinding Light={StaticResource LightMainHeaderBackgroud}, Dark={StaticResource DarkMainHeaderBackgroud}}"
+                                 Orientation="Horizontal" Padding="5" HeightRequest="48">
+                        <Label Text="{x:Static properties:Resources.Authorization}" FontSize="20" HorizontalOptions="StartAndExpand" VerticalOptions="Center"/>
                         <ImageButton Source="{AppThemeBinding Light=light_info.png, Dark=dark_info.png}" HeightRequest="40" WidthRequest="40"
                                         VerticalOptions="Center" HorizontalOptions="End" Command="{Binding NavigateToInformationPageCommand}"/>
                     </StackLayout>
@@ -26,12 +29,13 @@
                 <!-- Основное поле -->
                 <VerticalStackLayout Grid.Row="1" VerticalOptions="Center" Padding="30" Spacing="10">
 
-                    <Label Text="Данные были введены неверно" HorizontalOptions="Center" TextColor="{AppThemeBinding Light={StaticResource LightRed}, Dark={StaticResource DarkRed}}" 
+                    <Label Text="{x:Static properties:Resources.InvalidUserData}" HorizontalOptions="Center" 
+                           TextColor="{AppThemeBinding Light={StaticResource LightRed}, Dark={StaticResource DarkRed}}" 
                            IsVisible="{Binding InvalidUserDataOccured}" FontSize="12"/>
 
                     <!-- Почтовый адрес -->
                     <VerticalStackLayout>
-                        <Label Text="Почтовый адрес" Margin="15,0,0,0"/>
+                        <Label Text="{x:Static properties:Resources.Email}" Margin="15,0,0,0"/>
                         <Border StrokeShape="RoundRectangle 25,25,25,25">
                             <controls:EntryWithoutUnderline Margin="15,0,15,0" HorizontalOptions="Fill" VerticalOptions="Center" 
                                                             Text="{Binding Email.Value}" Keyboard="Email" NoUnderline="True">
@@ -55,12 +59,15 @@
                     <!-- Пароль -->
                     <VerticalStackLayout>
                         <HorizontalStackLayout Margin="15,0,0,0" Spacing="5">
-                            <Label Text="Пароль"/>
-                            <Label Text="(восстановить)" TextDecorations="Underline">
-                                <Label.GestureRecognizers>
+                            <Label Text="{x:Static properties:Resources.Password}"/>
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="("/>
+                                <Label Text="{x:Static properties:Resources.Restore}" TextTransform="Lowercase" TextDecorations="Underline"/>
+                                <Label Text=")"/>
+                                <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding NavigateToRestoringPasswordPageCommand}" NumberOfTapsRequired="1"/>
-                                </Label.GestureRecognizers>
-                            </Label>
+                                </StackLayout.GestureRecognizers>
+                            </StackLayout>
                         </HorizontalStackLayout>
                         <Border StrokeShape="RoundRectangle 25,25,25,25">
                             <controls:EntryWithoutUnderline Margin="15,0,15,0" HorizontalOptions="Fill" VerticalOptions="Center" 
@@ -79,17 +86,17 @@
                     <!-- CheckBox оставаться в системе -->
                     <HorizontalStackLayout HorizontalOptions="Center">
                         <CheckBox IsChecked="{Binding SavePassword}"/>
-                        <Label Text="Входить автоматически" VerticalOptions="Center"/>
+                        <Label Text="{x:Static properties:Resources.LogInAutomatically}" VerticalOptions="Center"/>
                     </HorizontalStackLayout>
                     
                     <!-- Кнопка входа -->
                     <Border StrokeShape="RoundRectangle 25,25,25,25" HorizontalOptions="Center">
-                        <Button Text=" Войти " HorizontalOptions="Center" Command="{Binding LoginCommand}"/>
+                        <Button Text="{x:Static properties:Resources.LogIn}" Padding="15, 0, 15, 0" HorizontalOptions="Center" Command="{Binding LoginCommand}"/>
                     </Border>
                 </VerticalStackLayout>
 
                 <!-- Регистрация -->
-                <Label Grid.Row="2" Text="Регистрация" TextDecorations="Underline" HorizontalOptions="Center" Margin="0,0,0,16">
+                <Label Grid.Row="2" Text="{x:Static properties:Resources.Registration}" TextDecorations="Underline" HorizontalOptions="Center" Margin="0,0,0,16">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding NavigateToRegistrationPageCommand}" NumberOfTapsRequired="1"/>
                     </Label.GestureRecognizers>
