@@ -11,7 +11,7 @@ public static class Database
         if (db is not null)
             return;
 
-        db = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.DatabaseFlags);
+        db = new SQLiteAsyncConnection(Settings.DatabasePath, Settings.DatabaseFlags);
 
         // Создание таблиц, если они не существуют
     }

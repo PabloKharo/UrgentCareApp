@@ -73,6 +73,7 @@
 
 	<ItemGroup>
 	  <Folder Include="Converters\" />
+	  <Folder Include="Exceptions\" />
 	</ItemGroup>
 
 </Project>

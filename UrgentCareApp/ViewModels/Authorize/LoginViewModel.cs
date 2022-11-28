@@ -1,20 +1,20 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using UrgentCareApp.Models;
-using UrgentCareApp.Services;
+using UrgentCareApp.Services.Authorize;
 
 namespace UrgentCareApp.ViewModels.Authorize;
 
 public partial class LoginViewModel : ObservableObject
 {
     [ObservableProperty]
-    bool _savePassword = true;
-
-    [ObservableProperty]
     EmailAddress _email = new(Settings.Email);
 
     [ObservableProperty]
     string _password = Settings.Password;
+
+    [ObservableProperty]
+    bool _savePassword = true;
 
     [ObservableProperty] // Поле состояния запроса к серверу
     [NotifyPropertyChangedFor(nameof(IsNotLoginingIn))]
@@ -66,15 +66,16 @@ public partial class LoginViewModel : ObservableObject
         // TODO: Убрать задержку
         await Task.Delay(1000);
 
-        if (!await Server.UserExistsAsync(Email.Value, Password))
+        LoginService loginService = new();
+        string authToken = await loginService.AuthenticateUser(Email.Value, Password);
+        if (authToken == string.Empty)
         {
             IsLoginingIn = false;
-
-            await Task.Delay(50);
             InvalidUserDataOccured = true;
             return;
         }
 
+        Settings.AuthToken = authToken;
         Settings.Email = Email.Value;
         if (SavePassword)
             Settings.Password = Password;

@@ -1,7 +1,10 @@
-﻿namespace UrgentCareApp;
+﻿using SQLite;
+
+namespace UrgentCareApp;
 
 public static class Settings
 {
+    #region App
     // Почта пользователя
     public static string Email
     {
@@ -23,4 +26,50 @@ public static class Settings
         set => Preferences.Set(nameof(WasAuthorized), value);
     }
 
+    // Токен для взаимодействия с сервером
+    // Не сохраняем, так как при следующем входе в приложение,
+    // будет перезаход в приложение
+    public static string AuthToken { get; set; }
+
+    #endregion
+
+
+    #region Database
+    // Название БД
+    public const string DatabaseFilename = "urgent_care.db3";
+
+    // Путь к БД
+    public static string DatabasePath => GetPath();
+
+    private static string GetPath()
+    {
+        try
+        {
+            return Path.Combine(FileSystem.AppDataDirectory, DatabaseFilename);
+        }
+        catch
+        {
+            // Необходимо для тестирования
+            return Path.Combine(@"C:\UrgentCareApp", DatabaseFilename);
+        }
+    }
+
+    // Флаги для инициализации БД
+    public const SQLiteOpenFlags DatabaseFlags =
+        // Открыть БД на чтение и запись
+        SQLiteOpenFlags.ReadWrite |
+        // Создать БД, если не существует
+        SQLiteOpenFlags.Create |
+        // Включить мультипоточный доступ к БД
+        SQLiteOpenFlags.SharedCache;
+
+    #endregion
+
+
+    #region Server
+
+    // Адрес сервера для общения
+    public static string ServerAddress = SecretSettings.ServerAddress;
+
+    #endregion
 }
