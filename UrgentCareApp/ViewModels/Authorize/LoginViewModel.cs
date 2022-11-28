@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using UrgentCareApp.Models;
-using UrgentCareServer.Data;
+using UrgentCareApp.Services;
 
 namespace UrgentCareApp.ViewModels.Authorize;
 
@@ -11,53 +11,78 @@ public partial class LoginViewModel : ObservableObject
     bool _savePassword = true;
 
     [ObservableProperty]
-    EmailAddress _email = new(Preferences.Email);
+    EmailAddress _email = new(Settings.Email);
 
     [ObservableProperty]
-    string _password = Preferences.Password;
+    string _password = Settings.Password;
 
+    [ObservableProperty] // Поле состояния запроса к серверу
+    [NotifyPropertyChangedFor(nameof(IsNotLoginingIn))]
+    bool _isLoginingIn = false;
+    public bool IsNotLoginingIn { get => !IsLoginingIn;}
+
+    [ObservableProperty] // Поле состояния ошибки при вводе данных пользователя
+    bool _invalidUserDataOccured = false;
 
     public LoginViewModel()
     {
         // Если ранее был успешный вход, попробовать войти со старыми данными
-        if (Preferences.WasAuthorized)
+        if (Settings.WasAuthorized)
             Login();
     }
 
-    public IAsyncRelayCommand NavigateToInformationPageCommand { get; }
+    [RelayCommand]
     async void NavigateToInformationPage()
     {
         // TODO: Перейти на страницу информации приложения
     }
 
-    public IAsyncRelayCommand NavigateToRestoringPasswordPageCommand { get; }
+    [RelayCommand]
     async void NavigateToRestoringPasswordPage()
     {
         // TODO: Перейти на страницу восстановления пароля
     }
-    public IAsyncRelayCommand NavigateToRegistrationPageCommand { get; }
+
+    [RelayCommand]
     async void NavigateToRegistrationPage()
     {
         // TODO: Перейти на страницу регистрации в приложении
     }
 
-    public IAsyncRelayCommand LoginCommand { get; }
+    [RelayCommand]
     async void Login()
     {
+        InvalidUserDataOccured = false;
+
         // Проверка, что введены правильные данные
         if (!Email.IsEmail() || string.IsNullOrWhiteSpace(Password))
+        {
+            InvalidUserDataOccured = true;
             return;
+        }
 
-        // TODO: включить ActivityIndicator
+        IsLoginingIn = true;
+
+        // TODO: Убрать задержку
+        await Task.Delay(1000);
+
         if (!await Server.UserExistsAsync(Email.Value, Password))
-            // TODO: Высветить ошибку
-            return;
+        {
+            IsLoginingIn = false;
 
-        Preferences.Email = Email.Value;
+            await Task.Delay(50);
+            InvalidUserDataOccured = true;
+            return;
+        }
+
+        Settings.Email = Email.Value;
         if (SavePassword)
-            Preferences.Password = Password;
+            Settings.Password = Password;
+
+        Settings.WasAuthorized = true;
 
         // TODO: Перейти на следующую страницу
 
+        IsLoginingIn = false;
     }
 }

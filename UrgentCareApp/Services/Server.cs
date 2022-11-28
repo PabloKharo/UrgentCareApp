@@ -1,8 +1,7 @@
 ﻿using SQLite;
-using UrgentCareServer.Models;
+using UrgentCareApp.Models;
 
-namespace UrgentCareServer.Data;
-
+namespace UrgentCareApp.Services;
 
 // TODO: Заменить работу с БД на работу с сервером
 public static class Server
@@ -13,7 +12,7 @@ public static class Server
         if (db is not null)
             return;
 
-        db = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
+        db = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.DatabaseFlags);
 
         // Создание таблиц, если они не существуют
         var res = await db.CreateTableAsync<User>();
@@ -23,7 +22,7 @@ public static class Server
     public static async Task<int> SaveUserAsync(User user)
     {
         await Init();
-        if(user.Id != 0)
+        if (user.Id != 0)
             return await db.UpdateAsync(user);
         else
             return await db.InsertAsync(user);

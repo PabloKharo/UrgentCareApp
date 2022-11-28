@@ -16,17 +16,28 @@ public static class MauiProgram
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-			}).UseMauiCommunityToolkit();
+			}).UseMauiCommunityToolkit()
+			.RegisterViewModels()
+			.RegisterViews();
 
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
-
-        // Добавление страницы аутентификации
-        builder.Services.AddTransient<Views.Authorize.LoginPage>();
-        builder.Services.AddSingleton<ViewModels.Authorize.LoginViewModel>();
-
 		
         return builder.Build();
 	}
+
+	public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder mauiAppBuilder)
+	{
+        mauiAppBuilder.Services.AddSingleton<ViewModels.Authorize.LoginViewModel>();
+
+		return mauiAppBuilder;
+    }
+
+	public static MauiAppBuilder RegisterViews(this MauiAppBuilder mauiAppBuilder)
+	{
+        mauiAppBuilder.Services.AddTransient<Views.Authorize.LoginPage>();
+
+		return mauiAppBuilder;
+    }
 }

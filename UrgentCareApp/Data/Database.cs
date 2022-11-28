@@ -1,7 +1,7 @@
 ﻿using SQLite;
-using UrgentCareServer.Models;
+using UrgentCareApp.Models;
 
-namespace UrgentCareServer.Data;
+namespace UrgentCareApp.Data;
 
 public static class Database
 {
@@ -11,7 +11,7 @@ public static class Database
         if (db is not null)
             return;
 
-        db = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
+        db = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.DatabaseFlags);
 
         // Создание таблиц, если они не существуют
     }

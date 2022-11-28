@@ -4,73 +4,97 @@
              x:Class="UrgentCareApp.Views.Authorize.LoginPage"
              xmlns:viewmodel="clr-namespace:UrgentCareApp.ViewModels.Authorize"
              x:DataType="viewmodel:LoginViewModel"
-             xmlns:converter="clr-namespace:UrgentCareApp.Converters"
-             xmlns:controls="clr-namespace:UrgentCareApp.CustomControls">
-    <ContentPage.Resources>
-        <converter:EmailBorderStrokeColorConverter x:Key="emailBorderStrokeColorConverter" />
-    </ContentPage.Resources>
+             xmlns:controls="clr-namespace:UrgentCareApp.Controls"
+             xmlns:triggers="clr-namespace:UrgentCareApp.Triggers"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
 
-
+    
     <ScrollView>
-        <Grid RowDefinitions="Auto, *, Auto">
-            <!-- Заголовок -->
-            <VerticalStackLayout>
-                <StackLayout Orientation="Horizontal" Padding="5" BackgroundColor="{AppThemeBinding Light={StaticResource LightMainHeaderBackgroud}, Dark={StaticResource DarkMainHeaderBackgroud}}" HeightRequest="48">
-                    <Label Text="Авторизация" FontSize="20" HorizontalOptions="StartAndExpand" VerticalOptions="Center"/>
-                    <ImageButton Source="{AppThemeBinding Light=light_info.png, Dark=dark_info.png}" HeightRequest="40" WidthRequest="40"
-                                    VerticalOptions="Center" HorizontalOptions="End" Command="{Binding NavigateToInformationPageCommand}"/>
-                </StackLayout>
-                <BoxView HeightRequest="2" HorizontalOptions="Fill"/>
-            </VerticalStackLayout>
-
-            <!-- Основное поле -->
-            <VerticalStackLayout Grid.Row="1" VerticalOptions="Center" Padding="30" Spacing="10">
-                <!-- Почтовый адрес -->
+        <Grid>
+            <ActivityIndicator HorizontalOptions="Center" VerticalOptions="Center" IsRunning="{Binding IsLoginingIn}" IsVisible="{Binding IsLoginingIn}"/>
+            <Grid RowDefinitions="Auto, *, Auto" IsVisible="{Binding IsNotLoginingIn}">
+                <!-- Заголовок -->
                 <VerticalStackLayout>
-                    <Label Text="Почтовый адрес" Margin="15,0,0,0"/>
-                    <Border Stroke="{Binding Path=Email.Value, Converter={StaticResource emailBorderStrokeColorConverter}}"
-                            StrokeShape="RoundRectangle 25,25,25,25">
-                        <controls:EntryWithoutUnderline Margin="15,0,15,0" HorizontalOptions="Fill" VerticalOptions="Center" 
-                                                        Text="{Binding Email.Value}" Keyboard="Email" NoUnderline="True"/>
-                    </Border>
+                    <StackLayout Orientation="Horizontal" Padding="5" BackgroundColor="{AppThemeBinding Light={StaticResource LightMainHeaderBackgroud}, Dark={StaticResource DarkMainHeaderBackgroud}}" HeightRequest="48">
+                        <Label Text="Авторизация" FontSize="20" HorizontalOptions="StartAndExpand" VerticalOptions="Center"/>
+                        <ImageButton Source="{AppThemeBinding Light=light_info.png, Dark=dark_info.png}" HeightRequest="40" WidthRequest="40"
+                                        VerticalOptions="Center" HorizontalOptions="End" Command="{Binding NavigateToInformationPageCommand}"/>
+                    </StackLayout>
+                    <BoxView HeightRequest="2" HorizontalOptions="Fill"/>
                 </VerticalStackLayout>
 
-                <!-- Пароль -->
-                <VerticalStackLayout>
-                    <HorizontalStackLayout Margin="15,0,0,0" Spacing="5">
-                        <Label Text="Пароль"/>
-                        <Label Text="(восстановить)" TextDecorations="Underline">
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding NavigateToRestoringPasswordPageCommand}" NumberOfTapsRequired="1"/>
-                            </Label.GestureRecognizers>
-                        </Label>
+                <!-- Основное поле -->
+                <VerticalStackLayout Grid.Row="1" VerticalOptions="Center" Padding="30" Spacing="10">
+
+                    <Label Text="Данные были введены неверно" HorizontalOptions="Center" TextColor="{AppThemeBinding Light={StaticResource LightRed}, Dark={StaticResource DarkRed}}" 
+                           IsVisible="{Binding InvalidUserDataOccured}" FontSize="12"/>
+
+                    <!-- Почтовый адрес -->
+                    <VerticalStackLayout>
+                        <Label Text="Почтовый адрес" Margin="15,0,0,0"/>
+                        <Border StrokeShape="RoundRectangle 25,25,25,25">
+                            <controls:EntryWithoutUnderline Margin="15,0,15,0" HorizontalOptions="Fill" VerticalOptions="Center" 
+                                                            Text="{Binding Email.Value}" Keyboard="Email" NoUnderline="True">
+                                <controls:EntryWithoutUnderline.Behaviors>
+                                    <toolkit:EmailValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}"
+                                                                     ValidStyle="{StaticResource ValidEntryStyle}"
+                                                                     Flags="ValidateOnValueChanged"/>
+                                </controls:EntryWithoutUnderline.Behaviors>
+                            </controls:EntryWithoutUnderline>
+
+                            <Border.Triggers>
+                                <DataTrigger TargetType="Border" Binding="{Binding InvalidUserDataOccured}" Value="True">
+                                    <DataTrigger.EnterActions>
+                                        <triggers:WrongValsTriggerAction />
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                            </Border.Triggers>
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <!-- Пароль -->
+                    <VerticalStackLayout>
+                        <HorizontalStackLayout Margin="15,0,0,0" Spacing="5">
+                            <Label Text="Пароль"/>
+                            <Label Text="(восстановить)" TextDecorations="Underline">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding NavigateToRestoringPasswordPageCommand}" NumberOfTapsRequired="1"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </HorizontalStackLayout>
+                        <Border StrokeShape="RoundRectangle 25,25,25,25">
+                            <controls:EntryWithoutUnderline Margin="15,0,15,0" HorizontalOptions="Fill" VerticalOptions="Center" 
+                                                            Text="{Binding Password}" IsPassword="True" Keyboard="Default" NoUnderline="True"/>
+
+                            <Border.Triggers>
+                                <DataTrigger TargetType="Border" Binding="{Binding InvalidUserDataOccured}" Value="True">
+                                    <DataTrigger.EnterActions>
+                                        <triggers:WrongValsTriggerAction />
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                            </Border.Triggers>
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <!-- CheckBox оставаться в системе -->
+                    <HorizontalStackLayout HorizontalOptions="Center">
+                        <CheckBox IsChecked="{Binding SavePassword}"/>
+                        <Label Text="Входить автоматически" VerticalOptions="Center"/>
                     </HorizontalStackLayout>
-                    <Border StrokeShape="RoundRectangle 25,25,25,25">
-                        <controls:EntryWithoutUnderline Margin="15,0,15,0" HorizontalOptions="Fill" VerticalOptions="Center" 
-                                                        Text="{Binding Password}" IsPassword="True" Keyboard="Default" NoUnderline="True"/>
+                    
+                    <!-- Кнопка входа -->
+                    <Border StrokeShape="RoundRectangle 25,25,25,25" HorizontalOptions="Center">
+                        <Button Text=" Войти " HorizontalOptions="Center" Command="{Binding LoginCommand}"/>
                     </Border>
                 </VerticalStackLayout>
 
-                <!-- CheckBox оставаться в системе -->
-                <HorizontalStackLayout HorizontalOptions="Center">
-                    <CheckBox IsChecked="{Binding SavePassword}"/>
-                    <Label Text="Входить автоматически" VerticalOptions="Center"/>
-                </HorizontalStackLayout>
-
-                <!-- Кнопка входа -->
-                <Border StrokeShape="RoundRectangle 25,25,25,25" HorizontalOptions="Center">
-                    <Button Text=" Войти " HorizontalOptions="Center" Command="{Binding LoginCommand}"/>
-                </Border>
-            </VerticalStackLayout>
-
-            <!-- Регистрация -->
-            <Label Grid.Row="2" Text="Регистрация" TextDecorations="Underline" HorizontalOptions="Center" Margin="0,0,0,16">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding NavigateToRegistrationPageCommand}" NumberOfTapsRequired="1"/>
-                </Label.GestureRecognizers>
-            </Label>
-
-
+                <!-- Регистрация -->
+                <Label Grid.Row="2" Text="Регистрация" TextDecorations="Underline" HorizontalOptions="Center" Margin="0,0,0,16">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding NavigateToRegistrationPageCommand}" NumberOfTapsRequired="1"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </Grid>
 
         </Grid>
 

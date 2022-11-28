@@ -1,6 +1,6 @@
 ﻿using SQLite;
 
-namespace UrgentCareServer.Models;
+namespace UrgentCareApp.Models;
 
 // TODO: Пользователи БД, после создания сервера, убрать
 [Table("Users")]
@@ -13,5 +13,10 @@ public class User
     [NotNull]
     public string Password { get; set; }
 
-
+    public User() { }
+    public User(string email, string password)
+    {
+        Email = email;
+        Password = password;
+    }
 }

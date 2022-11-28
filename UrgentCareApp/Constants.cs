@@ -1,11 +1,13 @@
 ﻿using SQLite;
 
-namespace UrgentCareServer;
+namespace UrgentCareApp;
 
 public static class Constants
 {
+    // Название БД
     public const string DatabaseFilename = "urgent_care.db3";
 
+    // Путь к БД
     public static string DatabasePath => GetPath();
 
     private static string GetPath()
@@ -20,14 +22,14 @@ public static class Constants
             return Path.Combine(@"C:\UrgentCareApp", DatabaseFilename);
         }
     }
-        
 
-    public const SQLite.SQLiteOpenFlags Flags =
+    // Флаги для инициализации БД
+    public const SQLiteOpenFlags DatabaseFlags =
         // Открыть БД на чтение и запись
-        SQLite.SQLiteOpenFlags.ReadWrite |
+        SQLiteOpenFlags.ReadWrite |
         // Создать БД, если не существует
-        SQLite.SQLiteOpenFlags.Create |
+        SQLiteOpenFlags.Create |
         // Включить мультипоточный доступ к БД
-        SQLite.SQLiteOpenFlags.SharedCache;
+        SQLiteOpenFlags.SharedCache;
 
 }

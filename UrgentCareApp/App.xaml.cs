@@ -1,4 +1,4 @@
-﻿using UrgentCareApp.CustomControls;
+﻿using UrgentCareApp.Controls;
 
 namespace UrgentCareApp;
 

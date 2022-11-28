@@ -16,7 +16,7 @@
 
     <!-- Цвета кнопок -->
     <Color x:Key="LightMainButtonBackgroud">#75EE73</Color>
-    <Color x:Key="DarkMainButtonBackgroud">#137A1A</Color>
+    <Color x:Key="DarkMainButtonBackgroud">#077000</Color>
 
     <!-- Цвета границ -->
     <Color x:Key="LightMainStroke">Black</Color>
@@ -26,6 +26,8 @@
     <Color x:Key="LightMainBoxView">LightGray</Color>
     <Color x:Key="DarkMainBoxView">#919191</Color>
 
+    <Color x:Key="LightRed">#CD0000</Color>
+    <Color x:Key="DarkRed">#A30000</Color>
 
     <!-- Предустановленные цвета -->
     <Color x:Key="Primary">#779fe5</Color>

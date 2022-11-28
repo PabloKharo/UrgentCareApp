@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace UrgentCareApp.Models;
 
-// класс для хранения почтового адреса
+// Класс для хранения почтового адреса
 public partial class EmailAddress : ObservableObject
 {
     [ObservableProperty]
