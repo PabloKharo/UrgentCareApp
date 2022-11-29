@@ -1,6 +1,6 @@
-﻿namespace UrgentCareApp.UnitTests.Models;
+﻿namespace UrgentCareApp.UnitTests.Helpers;
 
-public class EmailAddressTests
+public class StringHelperTests
 {
     [Theory]
     [InlineData("")]
@@ -8,9 +8,8 @@ public class EmailAddressTests
     [InlineData("ads@akd@")]
     [InlineData("ads@dsa#a.ru")]
     // Тестирование неверного адреса почты
-    public void IsEmailAddress_False(string str)
+    public void IsEmail_False(string email)
     {
-        EmailAddress email = new(str);
         Assert.False(email.IsEmail());
     }
 
@@ -20,9 +19,8 @@ public class EmailAddressTests
     [InlineData("k.p.a@m.ru.ru")]
     [InlineData("LongMail@yandex.ru")]
     // Тестирование верного адреса почты
-    public void IsEmailAddress_True(string str)
+    public void IsEmail_True(string email)
     {
-        EmailAddress email = new(str);
         Assert.True(email.IsEmail());
     }
 }

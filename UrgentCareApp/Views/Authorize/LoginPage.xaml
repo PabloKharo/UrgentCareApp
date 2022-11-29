@@ -38,7 +38,7 @@
                         <Label Text="{x:Static properties:Resources.Email}" Margin="15,0,0,0"/>
                         <Border StrokeShape="RoundRectangle 25,25,25,25">
                             <controls:EntryWithoutUnderline Margin="15,0,15,0" HorizontalOptions="Fill" VerticalOptions="Center" 
-                                                            Text="{Binding Email.Value}" Keyboard="Email" NoUnderline="True">
+                                                            Text="{Binding Email}" Keyboard="Email" NoUnderline="True">
                                 <controls:EntryWithoutUnderline.Behaviors>
                                     <toolkit:EmailValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}"
                                                                      ValidStyle="{StaticResource ValidEntryStyle}"

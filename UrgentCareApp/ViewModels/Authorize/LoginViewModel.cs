@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using UrgentCareApp.Models;
+using UrgentCareApp.Helpers;
 using UrgentCareApp.Services.Authorize;
 
 namespace UrgentCareApp.ViewModels.Authorize;
@@ -8,7 +9,7 @@ namespace UrgentCareApp.ViewModels.Authorize;
 public partial class LoginViewModel : ObservableObject
 {
     [ObservableProperty]
-    EmailAddress _email = new(Settings.Email);
+    string _email = new(Settings.Email);
 
     [ObservableProperty]
     string _password = Settings.Password;
@@ -67,7 +68,7 @@ public partial class LoginViewModel : ObservableObject
         await Task.Delay(1000);
 
         LoginService loginService = new();
-        string authToken = await loginService.AuthenticateUser(Email.Value, Password);
+        string authToken = await loginService.AuthenticateUser(Email, Password);
         if (authToken == string.Empty)
         {
             IsLoginingIn = false;
@@ -76,7 +77,7 @@ public partial class LoginViewModel : ObservableObject
         }
 
         Settings.AuthToken = authToken;
-        Settings.Email = Email.Value;
+        Settings.Email = Email;
         if (SavePassword)
             Settings.Password = Password;
 
