@@ -16,7 +16,7 @@ public partial class App : Application
 	{
         Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping("NoUnderline", (h, v) =>
         {
-			if (v is EntryWithoutUnderline)
+			if (v is EntryNoUnderline)
 			{
 #if ANDROID
 				h.PlatformView.BackgroundTintList = Android.Content.Res.ColorStateList.ValueOf(Android.Graphics.Color.Transparent) ;

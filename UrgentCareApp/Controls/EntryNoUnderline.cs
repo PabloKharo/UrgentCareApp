@@ -1,13 +1,13 @@
 ﻿namespace UrgentCareApp.Controls;
 
-public class EntryWithoutUnderline :Entry
+public class EntryNoUnderline :Entry
 {
     public static readonly BindableProperty NoUnderlineProperty =
-        BindableProperty.Create("NoUnderline", typeof(bool), typeof(EntryWithoutUnderline), false);
+        BindableProperty.Create("NoUnderline", typeof(bool), typeof(EntryNoUnderline), false);
 
     public bool NoUnderline
     {
-        get => (bool)GetValue(NoUnderlineProperty);
+        get => true;
         set => SetValue(NoUnderlineProperty, value);
     }
 }

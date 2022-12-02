@@ -132,11 +132,11 @@
     </Style>
 
     <!-- Стили для видов правильности данных в Entry-->
-    <Style x:Key="ValidEntryStyle" TargetType="controls:EntryWithoutUnderline">
+    <Style x:Key="ValidEntryStyle" TargetType="controls:EntryNoUnderline">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
     </Style>
 
-    <Style x:Key="InvalidEntryStyle" TargetType="controls:EntryWithoutUnderline">
+    <Style x:Key="InvalidEntryStyle" TargetType="controls:EntryNoUnderline">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource LightRed}, Dark={StaticResource DarkRed}}" />
     </Style>
 

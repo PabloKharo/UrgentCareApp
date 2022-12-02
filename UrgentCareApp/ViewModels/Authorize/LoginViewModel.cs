@@ -29,29 +29,29 @@ public partial class LoginViewModel : ObservableObject
     {
         // Если ранее был успешный вход, попробовать войти со старыми данными
         if (Settings.WasAuthorized)
-            Login();
+            _ = Login();
     }
 
     [RelayCommand]
-    async void NavigateToInformationPage()
+    async Task NavigateToInformationPage()
     {
         // TODO: Перейти на страницу информации приложения
     }
 
     [RelayCommand]
-    async void NavigateToRestoringPasswordPage()
+    async Task NavigateToRestoringPasswordPage()
     {
         // TODO: Перейти на страницу восстановления пароля
     }
 
     [RelayCommand]
-    async void NavigateToRegistrationPage()
+    async Task NavigateToRegistrationPage()
     {
         // TODO: Перейти на страницу регистрации в приложении
     }
 
     [RelayCommand]
-    async void Login()
+    async Task Login()
     {
         InvalidUserDataOccured = false;
 

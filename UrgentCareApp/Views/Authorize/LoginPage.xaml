@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<controls:MasterContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="UrgentCareApp.Views.Authorize.LoginPage"
              xmlns:viewmodel="clr-namespace:UrgentCareApp.ViewModels.Authorize"
@@ -7,27 +7,22 @@
              xmlns:controls="clr-namespace:UrgentCareApp.Controls"
              xmlns:triggers="clr-namespace:UrgentCareApp.Triggers"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:properties="clr-namespace:UrgentCareApp.Properties">
+             xmlns:properties="clr-namespace:UrgentCareApp.Properties"
+             
+             HeaderText="{x:Static properties:Resources.Authorization}"
+             
+             RightButtonVisible="True"
+             RightButtonSource="{AppThemeBinding Light=light_info.png, Dark=dark_info.png}"
+             RightButtonCommand="{Binding NavigateToInformationPageCommand}">
 
     <ScrollView>
         <Grid>
             <!-- Индикатор при запросе к серверу -->
             <ActivityIndicator HorizontalOptions="Center" VerticalOptions="Center" IsRunning="{Binding IsLoginingIn}" IsVisible="{Binding IsLoginingIn}"/>
-            
-            <Grid RowDefinitions="Auto, *, Auto" IsVisible="{Binding IsNotLoginingIn}">
-                <!-- Заголовок -->
-                <VerticalStackLayout>
-                    <StackLayout BackgroundColor="{AppThemeBinding Light={StaticResource LightMainHeaderBackgroud}, Dark={StaticResource DarkMainHeaderBackgroud}}"
-                                 Orientation="Horizontal" Padding="5" HeightRequest="48">
-                        <Label Text="{x:Static properties:Resources.Authorization}" FontSize="20" HorizontalOptions="StartAndExpand" VerticalOptions="Center"/>
-                        <ImageButton Source="{AppThemeBinding Light=light_info.png, Dark=dark_info.png}" HeightRequest="40" WidthRequest="40"
-                                        VerticalOptions="Center" HorizontalOptions="End" Command="{Binding NavigateToInformationPageCommand}"/>
-                    </StackLayout>
-                    <BoxView HeightRequest="2" HorizontalOptions="Fill"/>
-                </VerticalStackLayout>
 
+            <Grid RowDefinitions="*, Auto" IsVisible="{Binding IsNotLoginingIn}">
                 <!-- Основное поле -->
-                <VerticalStackLayout Grid.Row="1" VerticalOptions="Center" Padding="30" Spacing="10">
+                <VerticalStackLayout VerticalOptions="Center" Padding="30" Spacing="10">
 
                     <Label Text="{x:Static properties:Resources.InvalidUserData}" HorizontalOptions="Center" 
                            TextColor="{AppThemeBinding Light={StaticResource LightRed}, Dark={StaticResource DarkRed}}" 
@@ -37,15 +32,6 @@
                     <VerticalStackLayout>
                         <Label Text="{x:Static properties:Resources.Email}" Margin="15,0,0,0"/>
                         <Border StrokeShape="RoundRectangle 25,25,25,25">
-                            <controls:EntryWithoutUnderline Margin="15,0,15,0" HorizontalOptions="Fill" VerticalOptions="Center" 
-                                                            Text="{Binding Email}" Keyboard="Email" NoUnderline="True">
-                                <controls:EntryWithoutUnderline.Behaviors>
-                                    <toolkit:EmailValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}"
-                                                                     ValidStyle="{StaticResource ValidEntryStyle}"
-                                                                     Flags="ValidateOnValueChanged"/>
-                                </controls:EntryWithoutUnderline.Behaviors>
-                            </controls:EntryWithoutUnderline>
-
                             <Border.Triggers>
                                 <DataTrigger TargetType="Border" Binding="{Binding InvalidUserDataOccured}" Value="True">
                                     <DataTrigger.EnterActions>
@@ -53,6 +39,15 @@
                                     </DataTrigger.EnterActions>
                                 </DataTrigger>
                             </Border.Triggers>
+
+                            <controls:EntryNoUnderline Margin="15,0,15,0" HorizontalOptions="Fill" VerticalOptions="Center" 
+                                                       Text="{Binding Email}" Keyboard="Email">
+                                <controls:EntryNoUnderline.Behaviors>
+                                    <toolkit:EmailValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}"
+                                                                     ValidStyle="{StaticResource ValidEntryStyle}"
+                                                                     Flags="ValidateOnValueChanged"/>
+                                </controls:EntryNoUnderline.Behaviors>
+                            </controls:EntryNoUnderline>
                         </Border>
                     </VerticalStackLayout>
 
@@ -70,9 +65,6 @@
                             </StackLayout>
                         </HorizontalStackLayout>
                         <Border StrokeShape="RoundRectangle 25,25,25,25">
-                            <controls:EntryWithoutUnderline Margin="15,0,15,0" HorizontalOptions="Fill" VerticalOptions="Center" 
-                                                            Text="{Binding Password}" IsPassword="True" Keyboard="Default" NoUnderline="True"/>
-
                             <Border.Triggers>
                                 <DataTrigger TargetType="Border" Binding="{Binding InvalidUserDataOccured}" Value="True">
                                     <DataTrigger.EnterActions>
@@ -80,6 +72,9 @@
                                     </DataTrigger.EnterActions>
                                 </DataTrigger>
                             </Border.Triggers>
+                            
+                            <controls:EntryNoUnderline Margin="15,0,15,0" HorizontalOptions="Fill" VerticalOptions="Center" 
+                                                       Text="{Binding Password}" IsPassword="True" Keyboard="Default"/>
                         </Border>
                     </VerticalStackLayout>
 
@@ -91,12 +86,12 @@
                     
                     <!-- Кнопка входа -->
                     <Border StrokeShape="RoundRectangle 25,25,25,25" HorizontalOptions="Center">
-                        <Button Text="{x:Static properties:Resources.LogIn}" Padding="15, 0, 15, 0" HorizontalOptions="Center" Command="{Binding LoginCommand}"/>
+                        <Button Text="{x:Static properties:Resources.LogIn}" Padding="15,0,15,0" HorizontalOptions="Center" Command="{Binding LoginCommand}"/>
                     </Border>
                 </VerticalStackLayout>
 
                 <!-- Регистрация -->
-                <Label Grid.Row="2" Text="{x:Static properties:Resources.Registration}" TextDecorations="Underline" HorizontalOptions="Center" Margin="0,0,0,16">
+                <Label Grid.Row="1" Text="{x:Static properties:Resources.Registration}" TextDecorations="Underline" HorizontalOptions="Center" Margin="0,0,0,16">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding NavigateToRegistrationPageCommand}" NumberOfTapsRequired="1"/>
                     </Label.GestureRecognizers>
@@ -106,4 +101,4 @@
         </Grid>
 
     </ScrollView>
-</ContentPage>
+</controls:MasterContentPage>
