@@ -1,26 +1,26 @@
-﻿using System;
+﻿using OnmpApp.Data;
+using OnmpApp.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
-using OnmpApp.Data;
-using OnmpApp.Helpers;
-using OnmpApp.Models;
 
 namespace OnmpApp.Services.Authorize;
 
-public class LoginService
+public class RegistrationService
 {
+    public RegistrationService() { }
 
-    public LoginService() { }
-
-    public async Task<bool> AuthenticateUser(string email, string password)
+    public async Task<bool> RegisterUser(string email, string password)
     {
         try
         {
-            return await Database.UserDataValid(email, password);
+            if (await Database.UserEmailExists(email))
+                return false;
+
+            return await Database.UserCreate(email, password);
         }
         catch (Exception ex)
         {
@@ -29,7 +29,8 @@ public class LoginService
 #endif
             ToastHelper.Show(Properties.Resources.Error);
         }
-        
+
         return false;
     }
+
 }

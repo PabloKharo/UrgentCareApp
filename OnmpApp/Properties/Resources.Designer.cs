@@ -79,6 +79,15 @@ namespace OnmpApp.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Произошла ошибка!.
+        /// </summary>
+        public static string Error {
+            get {
+                return ResourceManager.GetString("Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Ошибка при подключении к серверу.
         /// </summary>
         public static string ErrorServerConnection {
@@ -124,6 +133,15 @@ namespace OnmpApp.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Зарегистрироваться.
+        /// </summary>
+        public static string Register {
+            get {
+                return ResourceManager.GetString("Register", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Регистрация.
         /// </summary>
         public static string Registration {
@@ -133,11 +151,29 @@ namespace OnmpApp.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Повторите пароль.
+        /// </summary>
+        public static string RepeatPassword {
+            get {
+                return ResourceManager.GetString("RepeatPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Восстановить.
         /// </summary>
         public static string Restore {
             get {
                 return ResourceManager.GetString("Restore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Вы успешно зарегестрировались!.
+        /// </summary>
+        public static string SuccessRegistration {
+            get {
+                return ResourceManager.GetString("SuccessRegistration", resourceCulture);
             }
         }
     }

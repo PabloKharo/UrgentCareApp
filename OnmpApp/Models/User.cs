@@ -2,22 +2,30 @@
 
 namespace OnmpApp.Models;
 
-// TODO: Пользователи БД, после создания сервера, убрать
 [Table("Users")]
 public class User
 {
     [PrimaryKey, AutoIncrement]
     public int Id { get; set; }
     [NotNull, Indexed(Name = "email_idx", Order = 1, Unique = true)]
-    public string Email { get; set; } = string.Empty;
+    public string Email { get; set; }
     [NotNull]
-    public string Password { get; set; } = string.Empty;
+    // TODO: сделать шифрование для пароля
+    public string Password { get; set; }
+    [NotNull]
+    public DepartmentType DepartmentType { get; set; } = 0;
 
-    public string AuthToken { get; set; } = string.Empty;
     public User() { }
-    public User(string email, string password)
+    public User(string email, string password, DepartmentType departmentType = 0)
     {
         Email = email;
         Password = password;
+        DepartmentType = departmentType;
     }
+}
+
+public enum DepartmentType
+{
+    ОНМП,
+    СНП
 }

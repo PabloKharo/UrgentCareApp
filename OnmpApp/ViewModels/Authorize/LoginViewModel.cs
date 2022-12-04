@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using OnmpApp.Models;
 using OnmpApp.Helpers;
 using OnmpApp.Services.Authorize;
+using OnmpApp.Views.Authorize;
 
 namespace OnmpApp.ViewModels.Authorize;
 
@@ -25,6 +26,9 @@ public partial class LoginViewModel : ObservableObject
     [ObservableProperty] // Поле состояния ошибки при вводе данных пользователя
     bool _invalidUserDataOccured = false;
 
+    [ObservableProperty]
+    string _errorText = Properties.Resources.InvalidUserData;
+
     public LoginViewModel()
     {
         // Если ранее был успешный вход, попробовать войти со старыми данными
@@ -38,16 +42,17 @@ public partial class LoginViewModel : ObservableObject
         // TODO: Перейти на страницу информации приложения
     }
 
+    /* Действие кнопки "восстановить"
     [RelayCommand]
     async Task NavigateToRestoringPasswordPage()
     {
-        // TODO: Перейти на страницу восстановления пароля
-    }
+        // Перейти на страницу восстановления пароля
+    }*/
 
     [RelayCommand]
     async Task NavigateToRegistrationPage()
     {
-        // TODO: Перейти на страницу регистрации в приложении
+        await Shell.Current.GoToAsync(nameof(RegistrationPage));
     }
 
     [RelayCommand]
@@ -68,15 +73,14 @@ public partial class LoginViewModel : ObservableObject
         await Task.Delay(1000);
 
         LoginService loginService = new();
-        string authToken = await loginService.AuthenticateUser(Email, Password);
-        if (authToken == string.Empty)
+        bool logined = await loginService.AuthenticateUser(Email, Password);
+        if (!logined)
         {
             IsLoginingIn = false;
             InvalidUserDataOccured = true;
             return;
         }
 
-        Settings.AuthToken = authToken;
         Settings.Email = Email;
         if (SavePassword)
             Settings.Password = Password;

@@ -16,7 +16,7 @@
 
     <Style TargetType="Border">
         <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource LightMainStroke}, Dark={StaticResource DarkMainStroke}}" />
-        <Setter Property="StrokeShape" Value="Rectangle"/>
+        <Setter Property="StrokeShape" Value="RoundRectangle 25,25,25,25"/>
         <Setter Property="StrokeThickness" Value="1"/>
     </Style>
 

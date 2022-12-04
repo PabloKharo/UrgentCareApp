@@ -2,6 +2,7 @@
 using OnmpApp.ViewModels;
 using OnmpApp.Views;
 using CommunityToolkit.Maui;
+using OnmpApp.Data;
 
 namespace OnmpApp;
 
@@ -23,21 +24,26 @@ public static class MauiProgram
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
-		
+
+		_ = Database.Init();
+
         return builder.Build();
 	}
 
 	public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder mauiAppBuilder)
 	{
-        mauiAppBuilder.Services.AddSingleton<ViewModels.Authorize.LoginViewModel>();
+        mauiAppBuilder.Services.AddTransient<ViewModels.Authorize.LoginViewModel>();
+        mauiAppBuilder.Services.AddTransient<ViewModels.Authorize.RegistrationViewModel>();
 
-		return mauiAppBuilder;
+        return mauiAppBuilder;
     }
 
 	public static MauiAppBuilder RegisterViews(this MauiAppBuilder mauiAppBuilder)
 	{
         mauiAppBuilder.Services.AddTransient<Views.Authorize.LoginPage>();
+        mauiAppBuilder.Services.AddTransient<Views.Authorize.RegistrationPage>();
 
-		return mauiAppBuilder;
+
+        return mauiAppBuilder;
     }
 }

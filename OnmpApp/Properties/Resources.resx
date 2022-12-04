@@ -123,6 +123,9 @@
   <data name="Email" xml:space="preserve">
     <value>Почтовый адрес</value>
   </data>
+  <data name="Error" xml:space="preserve">
+    <value>Произошла ошибка!</value>
+  </data>
   <data name="ErrorServerConnection" xml:space="preserve">
     <value>Ошибка при подключении к серверу</value>
   </data>
@@ -138,10 +141,19 @@
   <data name="Password" xml:space="preserve">
     <value>Пароль</value>
   </data>
+  <data name="Register" xml:space="preserve">
+    <value>Зарегистрироваться</value>
+  </data>
   <data name="Registration" xml:space="preserve">
     <value>Регистрация</value>
   </data>
+  <data name="RepeatPassword" xml:space="preserve">
+    <value>Повторите пароль</value>
+  </data>
   <data name="Restore" xml:space="preserve">
     <value>Восстановить</value>
+  </data>
+  <data name="SuccessRegistration" xml:space="preserve">
+    <value>Вы успешно зарегестрировались!</value>
   </data>
 </root>

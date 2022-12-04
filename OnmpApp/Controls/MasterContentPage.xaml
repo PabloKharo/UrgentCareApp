@@ -10,7 +10,7 @@
                     <StackLayout BackgroundColor="{AppThemeBinding Light={StaticResource LightMainHeaderBackgroud}, Dark={StaticResource DarkMainHeaderBackgroud}}"
                                      Orientation="Horizontal" Padding="5" HeightRequest="48">
                         <ImageButton Source="{AppThemeBinding Light=light_go_back.png, Dark=dark_go_back.png}" HeightRequest="40" WidthRequest="40"
-                                     VerticalOptions="Center" HorizontalOptions="Start" Command="{TemplateBinding GoBack}" IsVisible="{TemplateBinding BackButtonVisible}"/>
+                                     VerticalOptions="Center" HorizontalOptions="Start" Command="{TemplateBinding GoBackCommand}" IsVisible="{TemplateBinding BackButtonVisible}"/>
                         
                         <Label Text="{TemplateBinding HeaderText}" FontSize="20" HorizontalOptions="StartAndExpand" VerticalOptions="Center"/>
 

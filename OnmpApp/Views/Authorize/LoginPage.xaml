@@ -5,6 +5,7 @@
              xmlns:viewmodel="clr-namespace:OnmpApp.ViewModels.Authorize"
              x:DataType="viewmodel:LoginViewModel"
              xmlns:controls="clr-namespace:OnmpApp.Controls"
+                            
              xmlns:triggers="clr-namespace:OnmpApp.Triggers"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:properties="clr-namespace:OnmpApp.Properties"
@@ -24,14 +25,14 @@
                 <!-- Основное поле -->
                 <VerticalStackLayout VerticalOptions="Center" Padding="30" Spacing="10">
 
-                    <Label Text="{x:Static properties:Resources.InvalidUserData}" HorizontalOptions="Center" 
+                    <Label Text="{Binding ErrorText}" HorizontalOptions="Center" 
                            TextColor="{AppThemeBinding Light={StaticResource LightRed}, Dark={StaticResource DarkRed}}" 
                            IsVisible="{Binding InvalidUserDataOccured}" FontSize="12"/>
 
                     <!-- Почтовый адрес -->
                     <VerticalStackLayout>
                         <Label Text="{x:Static properties:Resources.Email}" Margin="15,0,0,0"/>
-                        <Border StrokeShape="RoundRectangle 25,25,25,25">
+                        <Border>
                             <Border.Triggers>
                                 <DataTrigger TargetType="Border" Binding="{Binding InvalidUserDataOccured}" Value="True">
                                     <DataTrigger.EnterActions>
@@ -55,6 +56,7 @@
                     <VerticalStackLayout>
                         <HorizontalStackLayout Margin="15,0,0,0" Spacing="5">
                             <Label Text="{x:Static properties:Resources.Password}"/>
+                            <!-- Кнопка восстановить
                             <StackLayout Orientation="Horizontal">
                                 <Label Text="("/>
                                 <Label Text="{x:Static properties:Resources.Restore}" TextTransform="Lowercase" TextDecorations="Underline"/>
@@ -63,8 +65,9 @@
                                     <TapGestureRecognizer Command="{Binding NavigateToRestoringPasswordPageCommand}" NumberOfTapsRequired="1"/>
                                 </StackLayout.GestureRecognizers>
                             </StackLayout>
+                            -->
                         </HorizontalStackLayout>
-                        <Border StrokeShape="RoundRectangle 25,25,25,25">
+                        <Border>
                             <Border.Triggers>
                                 <DataTrigger TargetType="Border" Binding="{Binding InvalidUserDataOccured}" Value="True">
                                     <DataTrigger.EnterActions>
@@ -85,7 +88,7 @@
                     </HorizontalStackLayout>
                     
                     <!-- Кнопка входа -->
-                    <Border StrokeShape="RoundRectangle 25,25,25,25" HorizontalOptions="Center">
+                    <Border HorizontalOptions="Center">
                         <Button Text="{x:Static properties:Resources.LogIn}" Padding="15,0,15,0" HorizontalOptions="Center" Command="{Binding LoginCommand}"/>
                     </Border>
                 </VerticalStackLayout>

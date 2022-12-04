@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<controls:MasterContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="OnmpApp.Views.Authorize.RegistrationPage"
+             xmlns:viewmodel="clr-namespace:OnmpApp.ViewModels.Authorize"
+             x:DataType="viewmodel:RegistrationViewModel"
+             xmlns:controls="clr-namespace:OnmpApp.Controls"
+                            
+             xmlns:triggers="clr-namespace:OnmpApp.Triggers"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:properties="clr-namespace:OnmpApp.Properties"
+             
+             BackButtonVisible="True"
+             HeaderText="{x:Static properties:Resources.Registration}">
+    <ScrollView>
+        <VerticalStackLayout VerticalOptions="Center" Padding="30" Spacing="10">
+
+            <Label Text="{Binding ErrorText}" HorizontalOptions="Center" 
+                               TextColor="{AppThemeBinding Light={StaticResource LightRed}, Dark={StaticResource DarkRed}}" 
+                               IsVisible="{Binding InvalidUserDataOccured}" FontSize="12"/>
+
+            <!-- Почтовый адрес -->
+            <VerticalStackLayout>
+                <Label Text="{x:Static properties:Resources.Email}" Margin="15,0,0,0"/>
+                <Border>
+                    <Border.Triggers>
+                        <DataTrigger TargetType="Border" Binding="{Binding InvalidEmailOccured}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <triggers:WrongValsTriggerAction />
+                            </DataTrigger.EnterActions>
+                        </DataTrigger>
+                    </Border.Triggers>
+
+                    <controls:EntryNoUnderline Margin="15,0,15,0" HorizontalOptions="Fill" VerticalOptions="Center" 
+                                                           Text="{Binding Email}" Keyboard="Email">
+                        <controls:EntryNoUnderline.Behaviors>
+                            <toolkit:EmailValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}"
+                                                                         ValidStyle="{StaticResource ValidEntryStyle}"
+                                                                         Flags="ValidateOnValueChanged"/>
+                        </controls:EntryNoUnderline.Behaviors>
+                    </controls:EntryNoUnderline>
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- Пароль -->
+            <VerticalStackLayout>
+                <Label Text="{x:Static properties:Resources.Password}" Margin="15,0,0,0"/>
+                <Border>
+                    <Border.Triggers>
+                        <DataTrigger TargetType="Border" Binding="{Binding InvalidPasswordOccured}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <triggers:WrongValsTriggerAction />
+                            </DataTrigger.EnterActions>
+                        </DataTrigger>
+                    </Border.Triggers>
+
+                    <controls:EntryNoUnderline Margin="15,0,15,0" HorizontalOptions="Fill" VerticalOptions="Center" 
+                                           Text="{Binding FirstPassword}" IsPassword="True" Keyboard="Default"/>
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- Повторение пароля -->
+            <VerticalStackLayout>
+                <Label Text="{x:Static properties:Resources.RepeatPassword}" Margin="15,0,0,0"/>
+                <Border>
+                    <Border.Triggers>
+                        <DataTrigger TargetType="Border" Binding="{Binding InvalidPasswordOccured}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <triggers:WrongValsTriggerAction />
+                            </DataTrigger.EnterActions>
+                        </DataTrigger>
+                    </Border.Triggers>
+
+                    <controls:EntryNoUnderline Margin="15,0,15,0" HorizontalOptions="Fill" VerticalOptions="Center" 
+                                                           Text="{Binding SecondPassword}" IsPassword="True" Keyboard="Default"/>
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- Кнопка регистрации -->
+            <Border HorizontalOptions="Center">
+                <Button Text="{x:Static properties:Resources.Register}" Padding="15,0,15,0" HorizontalOptions="Center" Command="{Binding RegisterCommand}"/>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+</controls:MasterContentPage>
