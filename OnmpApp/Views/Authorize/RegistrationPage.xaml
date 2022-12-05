@@ -20,61 +20,16 @@
                                IsVisible="{Binding InvalidUserDataOccured}" FontSize="12"/>
 
             <!-- Почтовый адрес -->
-            <VerticalStackLayout>
-                <Label Text="{x:Static properties:Resources.Email}" Margin="15,0,0,0"/>
-                <Border>
-                    <Border.Triggers>
-                        <DataTrigger TargetType="Border" Binding="{Binding InvalidEmailOccured}" Value="True">
-                            <DataTrigger.EnterActions>
-                                <triggers:WrongValsTriggerAction />
-                            </DataTrigger.EnterActions>
-                        </DataTrigger>
-                    </Border.Triggers>
-
-                    <controls:EntryNoUnderline Margin="15,0,15,0" HorizontalOptions="Fill" VerticalOptions="Center" 
-                                                           Text="{Binding Email}" Keyboard="Email">
-                        <controls:EntryNoUnderline.Behaviors>
-                            <toolkit:EmailValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}"
-                                                                         ValidStyle="{StaticResource ValidEntryStyle}"
-                                                                         Flags="ValidateOnValueChanged"/>
-                        </controls:EntryNoUnderline.Behaviors>
-                    </controls:EntryNoUnderline>
-                </Border>
-            </VerticalStackLayout>
+            <controls:EmailControl LabelText="{x:Static properties:Resources.Email}" EntryText="{Binding Email}"
+                                           InvalidTriger="{Binding InvalidEmailOccured}"/>
 
             <!-- Пароль -->
-            <VerticalStackLayout>
-                <Label Text="{x:Static properties:Resources.Password}" Margin="15,0,0,0"/>
-                <Border>
-                    <Border.Triggers>
-                        <DataTrigger TargetType="Border" Binding="{Binding InvalidPasswordOccured}" Value="True">
-                            <DataTrigger.EnterActions>
-                                <triggers:WrongValsTriggerAction />
-                            </DataTrigger.EnterActions>
-                        </DataTrigger>
-                    </Border.Triggers>
-
-                    <controls:EntryNoUnderline Margin="15,0,15,0" HorizontalOptions="Fill" VerticalOptions="Center" 
-                                           Text="{Binding FirstPassword}" IsPassword="True" Keyboard="Default"/>
-                </Border>
-            </VerticalStackLayout>
+            <controls:PasswordControl LabelText="{x:Static properties:Resources.Password}" EntryText="{Binding FirstPassword}"
+                                              InvalidTriger="{Binding InvalidPasswordOccured}"/>
 
             <!-- Повторение пароля -->
-            <VerticalStackLayout>
-                <Label Text="{x:Static properties:Resources.RepeatPassword}" Margin="15,0,0,0"/>
-                <Border>
-                    <Border.Triggers>
-                        <DataTrigger TargetType="Border" Binding="{Binding InvalidPasswordOccured}" Value="True">
-                            <DataTrigger.EnterActions>
-                                <triggers:WrongValsTriggerAction />
-                            </DataTrigger.EnterActions>
-                        </DataTrigger>
-                    </Border.Triggers>
-
-                    <controls:EntryNoUnderline Margin="15,0,15,0" HorizontalOptions="Fill" VerticalOptions="Center" 
-                                                           Text="{Binding SecondPassword}" IsPassword="True" Keyboard="Default"/>
-                </Border>
-            </VerticalStackLayout>
+            <controls:PasswordControl LabelText="{x:Static properties:Resources.RepeatPassword}" EntryText="{Binding SecondPassword}"
+                                              InvalidTriger="{Binding InvalidPasswordOccured}"/>
 
             <!-- Кнопка регистрации -->
             <Border HorizontalOptions="Center">
