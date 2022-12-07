@@ -35,6 +35,10 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddTransient<ViewModels.Authorize.LoginViewModel>();
         mauiAppBuilder.Services.AddTransient<ViewModels.Authorize.RegistrationViewModel>();
 
+        mauiAppBuilder.Services.AddTransient<ViewModels.MainTabs.SearchTabViewModel>();
+
+        mauiAppBuilder.Services.AddTransient<ViewModels.UserSettings.SettingsViewModel>();
+
         return mauiAppBuilder;
     }
 
@@ -43,6 +47,9 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddTransient<Views.Authorize.LoginPage>();
         mauiAppBuilder.Services.AddTransient<Views.Authorize.RegistrationPage>();
 
+        mauiAppBuilder.Services.AddTransient<Views.MainTabs.SearchTabPage>();
+
+        mauiAppBuilder.Services.AddTransient<Views.UserSettings.SettingsPage>();
 
         return mauiAppBuilder;
     }

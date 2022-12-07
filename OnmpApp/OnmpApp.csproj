@@ -101,10 +101,12 @@
 	  <None Remove=".gitattributes" />
 	  <None Remove=".gitignore" />
 	  <None Remove="README.md" />
+	  <None Remove="Resources\Images\black_home.png" />
 	  <None Remove="Resources\Images\dark_go_back.png" />
 	  <None Remove="Resources\Images\dark_info.png" />
 	  <None Remove="Resources\Images\light_go_back.png" />
 	  <None Remove="Resources\Images\light_info.png" />
+	  <None Remove="Resources\Images\user.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -129,6 +131,12 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Authorize\RegistrationPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\MainTabs\SearchTabPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\UserSettings\SettingsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

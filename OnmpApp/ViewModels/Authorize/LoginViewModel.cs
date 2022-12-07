@@ -86,9 +86,7 @@ public partial class LoginViewModel : ObservableObject
             Settings.Password = Password;
 
         Settings.WasAuthorized = true;
-
-        // TODO: Перейти на следующую страницу
-
+        await Shell.Current.GoToAsync("//TabPage");
         IsLoginingIn = false;
     }
 }

@@ -15,6 +15,7 @@
     <ScrollView>
         <VerticalStackLayout VerticalOptions="Center" Padding="30" Spacing="10">
 
+            <!-- Текст ошибки -->
             <Label Text="{Binding ErrorText}" HorizontalOptions="Center" 
                                TextColor="{AppThemeBinding Light={StaticResource LightRed}, Dark={StaticResource DarkRed}}" 
                                IsVisible="{Binding InvalidUserDataOccured}" FontSize="12"/>

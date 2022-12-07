@@ -123,11 +123,17 @@
   <data name="Email" xml:space="preserve">
     <value>Почтовый адрес</value>
   </data>
+  <data name="EmailAlreadyExists" xml:space="preserve">
+    <value>Почта уже существует</value>
+  </data>
   <data name="Error" xml:space="preserve">
     <value>Произошла ошибка!</value>
   </data>
   <data name="ErrorServerConnection" xml:space="preserve">
     <value>Ошибка при подключении к серверу</value>
+  </data>
+  <data name="InvalidEmailFormat" xml:space="preserve">
+    <value>Неверный формат почты</value>
   </data>
   <data name="InvalidUserData" xml:space="preserve">
     <value>Данные были введены неверно</value>
@@ -138,8 +144,14 @@
   <data name="LogInAutomatically" xml:space="preserve">
     <value>Входить автоматически</value>
   </data>
+  <data name="LogOut" xml:space="preserve">
+    <value>Выйти из аккаунта</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Пароль</value>
+  </data>
+  <data name="PasswordsDontMatch" xml:space="preserve">
+    <value>Пароли не совпадают</value>
   </data>
   <data name="Register" xml:space="preserve">
     <value>Зарегистрироваться</value>
@@ -152,6 +164,9 @@
   </data>
   <data name="Restore" xml:space="preserve">
     <value>Восстановить</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Настройки</value>
   </data>
   <data name="SuccessRegistration" xml:space="preserve">
     <value>Вы успешно зарегестрировались!</value>

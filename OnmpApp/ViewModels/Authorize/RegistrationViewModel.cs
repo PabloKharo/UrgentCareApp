@@ -46,7 +46,7 @@ namespace OnmpApp.ViewModels.Authorize
             if (!Email.IsEmail())
             {
                 InvalidEmailOccured = true;
-                ErrorText = "Неверный формат почты";
+                ErrorText = Properties.Resources.InvalidEmailFormat;
                 return;
             }
 
@@ -54,7 +54,7 @@ namespace OnmpApp.ViewModels.Authorize
             if (string.IsNullOrEmpty(FirstPassword) || FirstPassword != SecondPassword)
             {
                 InvalidPasswordOccured = true;
-                ErrorText = "Пароли не совпадают";
+                ErrorText = Properties.Resources.PasswordsDontMatch;
                 return;
             }
 
@@ -63,7 +63,7 @@ namespace OnmpApp.ViewModels.Authorize
             if (!registered)
             {
                 InvalidEmailOccured = true;
-                ErrorText = "Почта уже существует";
+                ErrorText = Properties.Resources.EmailAlreadyExists;
                 return;
             }
 

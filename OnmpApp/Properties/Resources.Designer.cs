@@ -79,6 +79,15 @@ namespace OnmpApp.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Почта уже существует.
+        /// </summary>
+        public static string EmailAlreadyExists {
+            get {
+                return ResourceManager.GetString("EmailAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Произошла ошибка!.
         /// </summary>
         public static string Error {
@@ -93,6 +102,15 @@ namespace OnmpApp.Properties {
         public static string ErrorServerConnection {
             get {
                 return ResourceManager.GetString("ErrorServerConnection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Неверный формат почты.
+        /// </summary>
+        public static string InvalidEmailFormat {
+            get {
+                return ResourceManager.GetString("InvalidEmailFormat", resourceCulture);
             }
         }
         
@@ -124,11 +142,29 @@ namespace OnmpApp.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Выйти из аккаунта.
+        /// </summary>
+        public static string LogOut {
+            get {
+                return ResourceManager.GetString("LogOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Пароль.
         /// </summary>
         public static string Password {
             get {
                 return ResourceManager.GetString("Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Пароли не совпадают.
+        /// </summary>
+        public static string PasswordsDontMatch {
+            get {
+                return ResourceManager.GetString("PasswordsDontMatch", resourceCulture);
             }
         }
         
@@ -165,6 +201,15 @@ namespace OnmpApp.Properties {
         public static string Restore {
             get {
                 return ResourceManager.GetString("Restore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Настройки.
+        /// </summary>
+        public static string Settings {
+            get {
+                return ResourceManager.GetString("Settings", resourceCulture);
             }
         }
         
