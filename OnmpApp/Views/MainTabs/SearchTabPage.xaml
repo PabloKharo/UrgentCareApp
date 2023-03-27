@@ -16,7 +16,22 @@
              RightButtonSource="{AppThemeBinding Light=user.png, Dark=user.png}"
              RightButtonCommand="{Binding NavigateToSettingsPageCommand}"
              >
-    <ScrollView>
-        <Label Text="123"/>
-    </ScrollView>
+
+    <VerticalStackLayout VerticalOptions="Center" Padding="30" Spacing="10">
+        <!-- Поле для поиска -->
+        <Border>
+            <controls:EntryNoUnderline Margin="15,0,15,0" HorizontalOptions="Fill" VerticalOptions="Center"
+                                       Placeholder="{x:Static properties:Resources.Search}" Text="{Binding SearchText}"/>
+        </Border>
+
+        <!-- Фильтры -->
+        <HorizontalStackLayout HorizontalOptions="EndAndExpand">
+            <Label Text="{x:Static properties:Resources.Filters}"/>
+            <Label Text="{x:StaticResource DownArrow}"/>
+        </HorizontalStackLayout>
+
+        <!-- Карточки -->
+        
+        
+    </VerticalStackLayout>
 </controls:MasterContentPage>

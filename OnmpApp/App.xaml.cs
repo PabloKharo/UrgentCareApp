@@ -14,8 +14,8 @@ public partial class App : Application
 
 	void ModifyEntryWithoutUnderline()
 	{
-        Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping("NoUnderline", (h, v) =>
-        {
+		Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping("NoUnderline", (h, v) =>
+		{
 			if (v is EntryNoUnderline)
 			{
 #if ANDROID
@@ -26,6 +26,6 @@ public partial class App : Application
 				// h.PlatformView.BorderStyle = UIKit.UITextBorderStyle.None;
 #endif
 			}
-        });
-    }
+		});
+	}
 }

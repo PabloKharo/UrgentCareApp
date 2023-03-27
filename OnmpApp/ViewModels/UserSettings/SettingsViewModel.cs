@@ -12,6 +12,9 @@ namespace OnmpApp.ViewModels.UserSettings;
 public partial class SettingsViewModel : ObservableObject
 {
 
+    [ObservableProperty]
+    string _currentVersion = AppInfo.Current.VersionString;
+
     [RelayCommand]
     async Task LogOut()
     {

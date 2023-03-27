@@ -14,6 +14,16 @@
              HeaderText="{x:Static properties:Resources.Settings}"
              >
     <ScrollView>
-        <Button Text="{x:Static properties:Resources.LogOut}" Command="{Binding LogOutCommand}"/>
+        <StackLayout Padding="10">
+            <Button Text="{x:Static properties:Resources.LogOut}" Command="{Binding LogOutCommand}" 
+                    BorderWidth="1" BorderColor="Gray"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}"/>
+
+            <StackLayout VerticalOptions="EndAndExpand">
+                <Label Text="Версия приложения" HorizontalOptions="CenterAndExpand"/>
+                <Label Text="{Binding CurrentVersion}" HorizontalOptions="CenterAndExpand"/>
+            </StackLayout>
+        </StackLayout>
+        
     </ScrollView>
 </controls:MasterContentPage>

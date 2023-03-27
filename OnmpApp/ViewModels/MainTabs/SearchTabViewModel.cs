@@ -12,6 +12,8 @@ namespace OnmpApp.ViewModels.MainTabs;
 
 public partial class SearchTabViewModel : ObservableObject
 {
+    [ObservableProperty]
+    string _searchText = "";
 
     [RelayCommand]
     async Task NavigateToSettingsPage()

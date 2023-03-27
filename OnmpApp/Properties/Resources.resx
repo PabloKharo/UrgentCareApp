@@ -132,6 +132,9 @@
   <data name="ErrorServerConnection" xml:space="preserve">
     <value>Ошибка при подключении к серверу</value>
   </data>
+  <data name="Filters" xml:space="preserve">
+    <value>Фильтры</value>
+  </data>
   <data name="InvalidEmailFormat" xml:space="preserve">
     <value>Неверный формат почты</value>
   </data>
@@ -164,6 +167,9 @@
   </data>
   <data name="Restore" xml:space="preserve">
     <value>Восстановить</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Поиск</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Настройки</value>
