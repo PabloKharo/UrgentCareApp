@@ -5,20 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OnmpApp.Models
+namespace OnmpApp.Models;
+
+public enum CardType
 {
-    enum CardType
-    {
-        [Description("Черновик")]
-        Draft,
-
-        [Description("Готовый")]
-        Ready,
-
-        [Description("Шаблон")]
-        Template,
-
-        [Description("Архив")]
-        Archive
-    }
+    Draft,
+    Ready,
+    Template,
+    Archive
 }

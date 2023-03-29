@@ -61,11 +61,29 @@ namespace OnmpApp.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Архив.
+        /// </summary>
+        public static string Archive {
+            get {
+                return ResourceManager.GetString("Archive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Авторизация.
         /// </summary>
         public static string Authorization {
             get {
                 return ResourceManager.GetString("Authorization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Черновик.
+        /// </summary>
+        public static string Draft {
+            get {
+                return ResourceManager.GetString("Draft", resourceCulture);
             }
         }
         
@@ -178,6 +196,15 @@ namespace OnmpApp.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Готовый.
+        /// </summary>
+        public static string Ready {
+            get {
+                return ResourceManager.GetString("Ready", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Зарегистрироваться.
         /// </summary>
         public static string Register {
@@ -232,11 +259,29 @@ namespace OnmpApp.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Вы успешно зарегестрировались!.
+        ///   Ищет локализованную строку, похожую на Вы успешно зарегистрировались!.
         /// </summary>
         public static string SuccessRegistration {
             get {
                 return ResourceManager.GetString("SuccessRegistration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Шаблон.
+        /// </summary>
+        public static string Template {
+            get {
+                return ResourceManager.GetString("Template", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Неизвестный тип.
+        /// </summary>
+        public static string UnknownType {
+            get {
+                return ResourceManager.GetString("UnknownType", resourceCulture);
             }
         }
     }

@@ -10,8 +10,8 @@ public partial class AppShell : Shell
 	{
 		InitializeComponent();
 
-        Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
-        Routing.RegisterRoute($"{nameof(LoginPage)}/{nameof(RegistrationPage)}", typeof(RegistrationPage));
-        Routing.RegisterRoute($"{nameof(SearchTabPage)}/{nameof(SettingsPage)}", typeof(SettingsPage));
-    }
+		Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
+		Routing.RegisterRoute($"{nameof(LoginPage)}/{nameof(RegistrationPage)}", typeof(RegistrationPage));
+		Routing.RegisterRoute($"{nameof(SearchTabPage)}/{nameof(SettingsPage)}", typeof(SettingsPage));
+	}
 }
