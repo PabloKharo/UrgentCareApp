@@ -4,6 +4,7 @@ namespace OnmpApp.Helpers;
 
 public static class StringHelper
 {
+    // Проверка строки, является ли она почтой
     public static bool IsEmail(this string str)
     {
         if (string.IsNullOrEmpty(str))

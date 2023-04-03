@@ -34,7 +34,7 @@
                                        Placeholder="{x:Static properties:Resources.Search}" Text="{Binding SearchText}" TextChanged="EntryNoUnderline_TextChanged"/>
         </Border>
 
-        <!-- Фильтры -->
+        <!-- Текст для раскрытия фильтров -->
         <HorizontalStackLayout Grid.Row="1" HorizontalOptions="EndAndExpand">
             <HorizontalStackLayout.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding ToggleFiltersCommand}" NumberOfTapsRequired="1" />
@@ -50,10 +50,11 @@
             </Label>
         </HorizontalStackLayout>
 
-        <Frame Grid.Row="2" IsVisible="{Binding FiltersShown}" Padding="0" Margin="5">
-            <Frame.Behaviors>
+        <!-- Фильтры -->
+        <Border Grid.Row="2" IsVisible="{Binding FiltersShown}" Padding="0" Margin="5">
+            <Border.Behaviors>
                 <behaviors:VisibilityAnimationBehavior />
-            </Frame.Behaviors>
+            </Border.Behaviors>
             <VerticalStackLayout>
                 <Grid>
                     <Grid.RowDefinitions>
@@ -101,11 +102,17 @@
 
                 </Grid>
             </VerticalStackLayout>
-        </Frame>
+        </Border>
         
 
         <!-- Карточки -->
         <Border Grid.Row="3" StrokeShape="Rectangle">
+            <Border.Shadow>
+                <Shadow Brush="Black"
+                Offset="0,0"
+                Opacity="0.8" />
+            </Border.Shadow>
+            
             <Border.Behaviors>
                 <behaviors:VisibilityAnimationBehavior TranslateAnimation="True" />
             </Border.Behaviors>
@@ -119,6 +126,7 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:SmallCard">
                             <SwipeView>
+                                <!-- Удаление элемента -->
                                 <SwipeView.LeftItems>
                                     <SwipeItems Mode="Execute">
                                         <SwipeItem IconImageSource="black_home.png"
@@ -126,6 +134,7 @@
                                                BackgroundColor="Red" /> 
                                     </SwipeItems>
                                 </SwipeView.LeftItems>
+                                <!-- Архивация элементаВ элемента -->
                                 <SwipeView.RightItems>
                                     <SwipeItems Mode="Execute">
                                         <SwipeItem IconImageSource="black_home.png"

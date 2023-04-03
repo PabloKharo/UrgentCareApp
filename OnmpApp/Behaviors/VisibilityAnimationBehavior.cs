@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace OnmpApp.Behaviors
 {
+    // Анимация "появления" при выходе из невидимости элементов
     public class VisibilityAnimationBehavior : Behavior<View>
     {
+        // Поле для элементов, которые также должны быть с анимацией, но всегда видимы
         public static readonly BindableProperty TranslateAnimationProperty =
             BindableProperty.Create(nameof(TranslateAnimation), typeof(bool), typeof(VisibilityAnimationBehavior), default(bool));
 

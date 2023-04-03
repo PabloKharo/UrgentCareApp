@@ -15,10 +15,12 @@
              >
     <ScrollView>
         <StackLayout Padding="10">
+            <!-- Кнопка выхода -->
             <Button Text="{x:Static properties:Resources.LogOut}" Command="{Binding LogOutCommand}" 
                     BorderWidth="1" BorderColor="Gray"
                     BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}"/>
-
+            
+            <!-- Версия приложения -->
             <StackLayout VerticalOptions="EndAndExpand">
                 <Label Text="Версия приложения" HorizontalOptions="CenterAndExpand"/>
                 <Label Text="{Binding CurrentVersion}" HorizontalOptions="CenterAndExpand"/>

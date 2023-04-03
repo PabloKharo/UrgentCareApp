@@ -19,6 +19,7 @@ public partial class SearchTabViewModel : ObservableObject
     // TODO: Добавить сортировку
     // TODO: Добавить фильтр для дат
 
+    
     [ObservableProperty]
     string _searchText = "";
 
@@ -28,7 +29,7 @@ public partial class SearchTabViewModel : ObservableObject
     [ObservableProperty]
     bool _filtersShown = false;
 
-
+    // Поля, определяющие, какие типы карт искать
     [ObservableProperty]
     bool _draftChecked = true;
     [RelayCommand]
@@ -84,7 +85,7 @@ public partial class SearchTabViewModel : ObservableObject
         await Shell.Current.GoToAsync(nameof(SettingsPage));
     }
 
-    [RelayCommand]
+    [RelayCommand] // Нажатие на карту
     async void ItemTapped(SmallCard selectedCard)
     {
         if (selectedCard == null)
@@ -93,18 +94,19 @@ public partial class SearchTabViewModel : ObservableObject
         await Microsoft.Maui.Controls.Application.Current.MainPage.DisplayAlert("Уведомление", "Вы нажали на поле", "OK");
     }
 
-    [RelayCommand]
+    [RelayCommand] // Переключение видимости фильтров
     async void ToggleFilters()
     {
         FiltersShown = !FiltersShown;
     }
 
-    [RelayCommand]
+    [RelayCommand] // Добавление элементов, которые не были показаны
     async void RemainingItemsThresholdReached()
     {
         
     }
 
+    // Поиск элемента при изменении запроса
     public void SearchTextChanged()
     {
         if (SearchText == null)
@@ -118,6 +120,7 @@ public partial class SearchTabViewModel : ObservableObject
                 ).ToObservableCollection();
     }
 
+    // Удаление элемента
     public void ItemDelete(SmallCard selectedCard)
     {
         if (selectedCard == null)
@@ -128,6 +131,7 @@ public partial class SearchTabViewModel : ObservableObject
 
     }
 
+    // Архивация элемента
     public void ItemArchive(SmallCard selectedCard)
     {
         if (selectedCard == null)

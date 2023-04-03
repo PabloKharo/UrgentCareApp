@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace OnmpApp.Models;
 
+// Короткое описание медицинской карты
 public partial class SmallCard: ObservableObject
 {
     [ObservableProperty]

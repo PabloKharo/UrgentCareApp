@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace OnmpApp.Models;
 
+// Возможные типы медицинских карт
 public enum CardType
 {
     Draft,

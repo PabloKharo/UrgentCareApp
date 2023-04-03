@@ -15,7 +15,7 @@ public partial class SettingsViewModel : ObservableObject
     [ObservableProperty]
     string _currentVersion = AppInfo.Current.VersionString;
 
-    [RelayCommand]
+    [RelayCommand] // Выход из программы
     async Task LogOut()
     {
         OnmpApp.Settings.WasAuthorized = false;
