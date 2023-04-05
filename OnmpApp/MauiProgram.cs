@@ -36,8 +36,10 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddTransient<ViewModels.Authorize.RegistrationViewModel>();
 
         mauiAppBuilder.Services.AddTransient<ViewModels.MainTabs.SearchTabViewModel>();
+        mauiAppBuilder.Services.AddTransient<ViewModels.MainTabs.EditorPreviewCardTabViewModel>();
 
         mauiAppBuilder.Services.AddTransient<ViewModels.UserSettings.SettingsViewModel>();
+
 
         return mauiAppBuilder;
     }
@@ -48,6 +50,7 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddTransient<Views.Authorize.RegistrationPage>();
 
         mauiAppBuilder.Services.AddTransient<Views.MainTabs.SearchTabPage>();
+        mauiAppBuilder.Services.AddTransient<Views.MainTabs.EditorPreviewCardTabPage>();
 
         mauiAppBuilder.Services.AddTransient<Views.UserSettings.SettingsPage>();
 

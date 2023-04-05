@@ -26,6 +26,8 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+
         </Grid.RowDefinitions>
         
         <!-- Поле для поиска -->
@@ -112,70 +114,76 @@
                 Offset="0,0"
                 Opacity="0.8" />
             </Border.Shadow>
-            
+
             <Border.Behaviors>
                 <behaviors:VisibilityAnimationBehavior TranslateAnimation="True" />
             </Border.Behaviors>
             <ScrollView>
-                <CollectionView ItemsSource="{Binding SmallCards}" x:Name="CardsCollection"
+                <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
+                    <CollectionView ItemsSource="{Binding SmallCards}" x:Name="CardsCollection"
                                 RemainingItemsThreshold="5"
                                 RemainingItemsThresholdReachedCommand="{Binding RemainingItemsThresholdReachedCommand}">
-                    <CollectionView.Resources>
-                        <converters:CardTypeToStringConverter x:Key="CardTypeToStringConverter"/>
-                    </CollectionView.Resources>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="models:SmallCard">
-                            <SwipeView>
-                                <!-- Удаление элемента -->
-                                <SwipeView.LeftItems>
-                                    <SwipeItems Mode="Execute">
-                                        <SwipeItem IconImageSource="black_home.png"
+                        <CollectionView.Resources>
+                            <converters:CardTypeToStringConverter x:Key="CardTypeToStringConverter"/>
+                        </CollectionView.Resources>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:PreviewCard">
+                                <SwipeView>
+                                    <!-- Удаление элемента -->
+                                    <SwipeView.LeftItems>
+                                        <SwipeItems Mode="Execute">
+                                            <SwipeItem IconImageSource="black_home.png"
                                                Invoked="OnDeleteSwipeItemInvoked"
-                                               BackgroundColor="Red" /> 
-                                    </SwipeItems>
-                                </SwipeView.LeftItems>
-                                <!-- Архивация элементаВ элемента -->
-                                <SwipeView.RightItems>
-                                    <SwipeItems Mode="Execute">
-                                        <SwipeItem IconImageSource="black_home.png"
+                                               BackgroundColor="Red" />
+                                        </SwipeItems>
+                                    </SwipeView.LeftItems>
+                                    <!-- Архивация элементаВ элемента -->
+                                    <SwipeView.RightItems>
+                                        <SwipeItems Mode="Execute">
+                                            <SwipeItem IconImageSource="black_home.png"
                                                Invoked="OnArchiveSwipeItemInvoked"
                                                BackgroundColor="Blue" />
-                                    </SwipeItems>
-                                </SwipeView.RightItems>
-                                <SwipeView.Content>
-                                    <Border Padding="0" Margin="5,5,5,5" StrokeShape="Rectangle">
-                                        <Border.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding Path=BindingContext.ItemTappedCommand, 
+                                        </SwipeItems>
+                                    </SwipeView.RightItems>
+                                    <SwipeView.Content>
+                                        <Border Padding="0" Margin="5,5,5,5" StrokeShape="Rectangle">
+                                            <Border.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Path=BindingContext.ItemTappedCommand, 
                                                     Source={x:Reference CardsCollection}}"
                                                     CommandParameter="{Binding .}" NumberOfTapsRequired="1"/>
-                                        </Border.GestureRecognizers>
-                                        <Grid Padding="10">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                            </Grid.RowDefinitions>
-                                            <Label Text="{Binding Name}" 
+                                            </Border.GestureRecognizers>
+                                            <Grid Padding="10">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <Label Text="{Binding Name}" 
                                                    FontAttributes="Bold" 
                                                    Grid.Row="0" />
-                                            <Label Grid.Row="1">
-                                                <Label.FormattedText>
-                                                    <FormattedString>
-                                                        <Span Text="{Binding Date, StringFormat='{0:dd.MM.yyyy}'}" />
-                                                        <Span Text=" " />
-                                                        <Span Text="{Binding Type, Converter={StaticResource CardTypeToStringConverter}}" />
-                                                    </FormattedString>
-                                                </Label.FormattedText>
-                                            </Label>
-                                        </Grid>
-                                    </Border>
-                                </SwipeView.Content>
-                            </SwipeView>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                                                <Label Grid.Row="1">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="{Binding Date, StringFormat='{0:dd.MM.yyyy}'}" />
+                                                            <Span Text=" " />
+                                                            <Span Text="{Binding Type, Converter={StaticResource CardTypeToStringConverter}}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                            </Grid>
+                                        </Border>
+                                    </SwipeView.Content>
+                                </SwipeView>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </RefreshView>
             </ScrollView>
         </Border>
         
+        <!-- Кнопка создания карты -->
+        <Button Grid.Row="4" Margin="10,10,10,-15" HorizontalOptions="Fill"
+                Text="{x:Static properties:Resources.CreateCard}" Command="{Binding CreateCardCommand}"/>
+
 
     </Grid>
 </controls:MasterContentPage>

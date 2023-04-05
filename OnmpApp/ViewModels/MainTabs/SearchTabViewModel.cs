@@ -9,8 +9,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using OnmpApp.Services.MainTabs;
 using System.Windows.Input;
 using CommunityToolkit.Maui.Core.Extensions;
+using OnmpApp.Views.MainTabs;
 
 namespace OnmpApp.ViewModels.MainTabs;
 
@@ -24,7 +26,7 @@ public partial class SearchTabViewModel : ObservableObject
     string _searchText = "";
 
     [ObservableProperty]
-    ObservableCollection<SmallCard> _smallCards = new ObservableCollection<SmallCard>();
+    ObservableCollection<PreviewCard> _smallCards = new ObservableCollection<PreviewCard>();
 
     [ObservableProperty]
     bool _filtersShown = false;
@@ -51,29 +53,8 @@ public partial class SearchTabViewModel : ObservableObject
     void CheckArchive() => ArchiveChecked = !ArchiveChecked;
 
 
-    List<SmallCard> initCards = new List<SmallCard>
-    {
-        new SmallCard { Name="ОРВИ", Date = DateTime.Now, Type=CardType.Ready},
-        new SmallCard { Name="Грипп", Date = DateTime.Now, Type=CardType.Archive},
-        new SmallCard { Name="Ангина", Date = DateTime.Now, Type=CardType.Template},
-        new SmallCard { Name="Холера", Date = DateTime.Now, Type=CardType.Draft},
-        new SmallCard { Name="Инфекция", Date = DateTime.Now, Type=CardType.Ready},
-        new SmallCard { Name="Аллергия", Date = DateTime.Now, Type=CardType.Ready},
-        new SmallCard { Name="Астма", Date = DateTime.Now, Type=CardType.Ready},
-        new SmallCard { Name="Диабет", Date = DateTime.Now, Type=CardType.Ready},
-        new SmallCard { Name="Акне", Date = DateTime.Now, Type=CardType.Ready},
-        new SmallCard { Name="Гастрит", Date = DateTime.Now, Type=CardType.Ready},
-        new SmallCard { Name="ОРВИ", Date = DateTime.Now, Type=CardType.Ready},
-        new SmallCard { Name="Грипп", Date = DateTime.Now, Type=CardType.Archive},
-        new SmallCard { Name="Ангина", Date = DateTime.Now, Type=CardType.Template},
-        new SmallCard { Name="Холера", Date = DateTime.Now, Type=CardType.Draft},
-        new SmallCard { Name="Инфекция", Date = DateTime.Now, Type=CardType.Ready},
-        new SmallCard { Name="Аллергия", Date = DateTime.Now, Type=CardType.Ready},
-        new SmallCard { Name="Астма", Date = DateTime.Now, Type=CardType.Ready},
-        new SmallCard { Name="Диабет", Date = DateTime.Now, Type=CardType.Ready},
-        new SmallCard { Name="Акне", Date = DateTime.Now, Type=CardType.Ready},
-        new SmallCard { Name="Гастрит", Date = DateTime.Now, Type=CardType.Ready},
-    };
+    [ObservableProperty]
+    bool _isRefreshing = false;
 
     public SearchTabViewModel() {
         SearchTextChanged();
@@ -85,13 +66,21 @@ public partial class SearchTabViewModel : ObservableObject
         await Shell.Current.GoToAsync(nameof(SettingsPage));
     }
 
+    [RelayCommand]
+    void Refresh()
+    {
+        IsRefreshing = true;
+        SearchTextChanged();
+        IsRefreshing = false;
+    }
+
     [RelayCommand] // Нажатие на карту
-    async void ItemTapped(SmallCard selectedCard)
+    async void ItemTapped(PreviewCard selectedCard)
     {
         if (selectedCard == null)
             return;
 
-        await Microsoft.Maui.Controls.Application.Current.MainPage.DisplayAlert("Уведомление", "Вы нажали на поле", "OK");
+        await Shell.Current.GoToAsync($"{nameof(EditorPreviewCardTabPage)}?CardId={selectedCard.Id}");
     }
 
     [RelayCommand] // Переключение видимости фильтров
@@ -106,33 +95,34 @@ public partial class SearchTabViewModel : ObservableObject
         
     }
 
+    [RelayCommand] // Добавление элементов, которые не были показаны
+    async void CreateCard()
+    {
+        await Shell.Current.GoToAsync($"{nameof(EditorPreviewCardTabPage)}");
+    }
+
     // Поиск элемента при изменении запроса
     public void SearchTextChanged()
     {
         if (SearchText == null)
             return;
 
-        SmallCards = initCards.Where(el => el.Name.Contains(SearchText) &&
-                    ((DraftChecked ? el.Type == CardType.Draft : false) ||
-                    (ReadyChecked ? el.Type == CardType.Ready : false) ||
-                    (TemplateChecked ? el.Type == CardType.Template : false) ||
-                    (ArchiveChecked ? el.Type == CardType.Archive : false))
-                ).ToObservableCollection();
+        SmallCards = SearchService.SearchPreviewCards(SearchText, DraftChecked, ReadyChecked, TemplateChecked, ArchiveChecked);
     }
 
     // Удаление элемента
-    public void ItemDelete(SmallCard selectedCard)
+    public void ItemDelete(PreviewCard selectedCard)
     {
         if (selectedCard == null)
             return;
 
-        initCards.Remove(selectedCard);
+        SearchService.RemovePreviewCard(selectedCard);
         SmallCards.Remove(selectedCard);
 
     }
 
     // Архивация элемента
-    public void ItemArchive(SmallCard selectedCard)
+    public void ItemArchive(PreviewCard selectedCard)
     {
         if (selectedCard == null)
             return;

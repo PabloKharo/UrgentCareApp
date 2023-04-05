@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<controls:MasterContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="OnmpApp.Views.MainTabs.EditorPreviewCardTabPage"
+             xmlns:viewmodel="clr-namespace:OnmpApp.ViewModels.MainTabs"
+             x:DataType="viewmodel:EditorPreviewCardTabViewModel"
+             xmlns:controls="clr-namespace:OnmpApp.Controls"
+             xmlns:local="clr-namespace:OnmpApp"
+             xmlns:models="clr-namespace:OnmpApp.Models"
+             xmlns:converters="clr-namespace:OnmpApp.Converters"
+             xmlns:behaviors="clr-namespace:OnmpApp.Behaviors"                   
+                            
+             xmlns:triggers="clr-namespace:OnmpApp.Triggers"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:properties="clr-namespace:OnmpApp.Properties"
+                            
+             HeaderText="{x:Static properties:Resources.Card}"
+             BackButtonVisible="True" Appearing="MasterContentPage_Appearing">
+    <ScrollView>
+        <VerticalStackLayout HorizontalOptions="Fill" VerticalOptions="Start" Margin="10" Spacing="10">
+            <!-- Поле для названия карты -->
+            <VerticalStackLayout>
+                <Label Text="{x:Static properties:Resources.Title}" Margin="15,0,0,0"/>
+                <Border HorizontalOptions="Fill">
+                    <controls:EntryNoUnderline Margin="15,0,15,0" HorizontalOptions="Fill" VerticalOptions="Fill"
+                                           Text="{Binding Card.Name}"/>
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- Дата создания карты -->
+            <Label Text="{Binding Card.Date, StringFormat='{0:dd.MM.yyyy HH:mm}'}"/>
+
+            <!-- Поле выбора шаблона -->
+            <VerticalStackLayout>
+                <Label Text="{x:Static properties:Resources.Template}" Margin="15,0,0,0"/>
+                <Border>
+                    <controls:PickerNoUnderline Margin="15,0,15,0" HorizontalOptions="Fill" VerticalOptions="Fill" 
+                                        ItemsSource="{Binding Templates}" SelectedIndex="{Binding SelectedIndex}"/>
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- Поле для комментария -->
+            <VerticalStackLayout>
+                <Label Text="{x:Static properties:Resources.Comment}" Margin="15,0,0,0"/>
+                <Border>
+                    <Editor Margin="15,0,15,0" Text="{Binding Card.Comment}" AutoSize="TextChanges" VerticalOptions="StartAndExpand"/>
+                </Border>
+            </VerticalStackLayout>
+
+            <Grid ColumnDefinitions="*, *">
+                <!-- Кнопка для сохранения карты -->
+                <Button Grid.Column="0" Text="{x:Static properties:Resources.Save}" Command="{Binding SaveButtonCommand}"
+                        IsVisible="{Binding OldCard}" Margin="10"/>
+
+                <!-- Кнопка для просмотра карты -->
+                <Button Grid.Column="2" Text="{x:Static properties:Resources.Continue}" Command="{Binding ContinueButtonCommand}" 
+                        Margin="10"/>
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
+    
+</controls:MasterContentPage>
