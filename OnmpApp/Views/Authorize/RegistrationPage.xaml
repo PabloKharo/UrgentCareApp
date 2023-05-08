@@ -32,6 +32,12 @@
             <controls:PasswordControl LabelText="{x:Static properties:Resources.RepeatPassword}" EntryText="{Binding SecondPassword}"
                                               InvalidTriger="{Binding InvalidPasswordOccured}"/>
 
+            <controls:TextEntryControl LabelText="{x:Static properties:Resources.FirstName}" EntryText="{Binding FirstName}"
+                                              InvalidTriger="{Binding InvalidNameOccured}"/>
+
+            <controls:TextEntryControl LabelText="{x:Static properties:Resources.SecondName}" EntryText="{Binding SecondName}"
+                                              InvalidTriger="{Binding InvalidNameOccured}"/>
+
             <!-- Кнопка регистрации -->
             <Border HorizontalOptions="Center">
                 <Button Text="{x:Static properties:Resources.Register}" Padding="15,0,15,0" HorizontalOptions="Center" Command="{Binding RegisterCommand}"/>

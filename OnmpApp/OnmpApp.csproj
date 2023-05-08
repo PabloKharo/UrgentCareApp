@@ -128,6 +128,9 @@
 	  <MauiXaml Update="Controls\PasswordControl.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Controls\TextEntryControl.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Resources\Styles\Strings.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

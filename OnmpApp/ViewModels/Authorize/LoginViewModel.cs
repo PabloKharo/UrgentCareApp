@@ -4,6 +4,7 @@ using OnmpApp.Models;
 using OnmpApp.Helpers;
 using OnmpApp.Services.Authorize;
 using OnmpApp.Views.Authorize;
+using OnmpApp.Properties;
 
 namespace OnmpApp.ViewModels.Authorize;
 
@@ -13,7 +14,7 @@ public partial class LoginViewModel : ObservableObject
     string _email = new(Settings.Email);
 
     [ObservableProperty]
-    string _password = Settings.Password;
+    string _password = new(Settings.Password);
 
     [ObservableProperty]
     bool _savePassword = true;
@@ -33,7 +34,17 @@ public partial class LoginViewModel : ObservableObject
     {
         // Если ранее был успешный вход, попробовать войти со старыми данными
         if (Settings.WasAuthorized)
-            _ = Login();
+        {
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                _ = NavigateToMainPage();
+            }
+            else
+            {
+                _ = Login();
+            }
+
+        }
     }
 
     [RelayCommand]
@@ -55,6 +66,10 @@ public partial class LoginViewModel : ObservableObject
         await Shell.Current.GoToAsync(nameof(RegistrationPage));
     }
 
+    async Task NavigateToMainPage()
+    {
+        await Shell.Current.GoToAsync("//TabPage");
+    }
     [RelayCommand]
     async Task Login()
     {
@@ -69,11 +84,7 @@ public partial class LoginViewModel : ObservableObject
 
         IsLoginingIn = true;
 
-        // TODO: Убрать задержку
-        await Task.Delay(1000);
-
-        LoginService loginService = new();
-        bool logined = await loginService.AuthenticateUser(Email, Password);
+        bool logined = await LoginService.AuthenticateUser(Email, Password);
         if (!logined)
         {
             IsLoginingIn = false;
@@ -82,11 +93,11 @@ public partial class LoginViewModel : ObservableObject
         }
 
         Settings.Email = Email;
+        Settings.WasAuthorized = true;
+
         if (SavePassword)
             Settings.Password = Password;
-
-        Settings.WasAuthorized = true;
-        await Shell.Current.GoToAsync("//TabPage");
+        _ = NavigateToMainPage();
         IsLoginingIn = false;
     }
 }

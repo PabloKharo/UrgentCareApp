@@ -18,22 +18,13 @@ public static partial class Database
         return false;
     }
 
-    public static async Task<bool> UserCreate(string email, string password, DepartmentType type = 0)
+    public static async Task<bool> UserCreate(string email)
     {
         if (await UserEmailExists(email))
             return false;
 
-        _ = await db.InsertAsync(new User(email, password, type));
+        _ = await db.InsertAsync(new User(email));
         return true;
-    }
-
-    public static async Task<bool> UserDataValid(string email, string password)
-    {
-        var cnt = await db.Table<User>().Where(x => x.Email == email && x.Password == password).CountAsync();
-        if (cnt > 0)
-            return true;
-
-        return false;
     }
 
 }

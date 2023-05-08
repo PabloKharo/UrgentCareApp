@@ -9,25 +9,56 @@ using OnmpApp.Data;
 using OnmpApp.Helpers;
 using OnmpApp.Models;
 
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+using OnmpApp.Properties;
+
 namespace OnmpApp.Services.Authorize;
 
-public class LoginService
+public static class LoginService
 {
 
-    public LoginService() { }
-
-    public async Task<bool> AuthenticateUser(string email, string password)
+    public static async Task<bool> AuthenticateUser(string email, string password)
     {
         try
         {
-            return await Database.UserDataValid(email, password);
+            using (var client = new HttpClient())
+            {
+                var json = new
+                {
+                    email = email,
+                    password = password
+                };
+
+                var content = new StringContent(System.Text.Json.JsonSerializer.Serialize(json), Encoding.UTF8, "application/json");
+
+                var response = await client.PostAsync($"{Settings.ApiAddress}token/", content);
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var token = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(responseContent)["token"];
+                    Settings.Token = token;
+
+                    if (!await Database.UserEmailExists(email))
+                        await Database.UserCreate(email);
+
+                    return true;
+                }
+                else
+                {
+                    var error = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(responseContent)["error"];
+                    throw new Exception($"{error}");
+                }
+            }
         }
         catch (Exception ex)
         {
 #if DEBUG
-            Debug.WriteLine(@"\tERROR {0}", ex.Message);
+            Debug.WriteLine(@"Ошибка: {0}", ex.Message);
 #endif
-            ToastHelper.Show(Properties.Resources.Error);
+            ToastHelper.Show($"Ошибка: {ex.Message}");
         }
         
         return false;

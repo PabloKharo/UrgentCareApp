@@ -22,14 +22,24 @@ namespace OnmpApp.ViewModels.Authorize
         string _secondPassword;
 
         [ObservableProperty]
+        string _firstName;
+
+        [ObservableProperty]
+        string _secondName;
+
+        [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(InvalidUserDataOccured))]
         bool _invalidEmailOccured = false;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(InvalidUserDataOccured))]
         bool _invalidPasswordOccured = false;
-  
-        public bool InvalidUserDataOccured => InvalidEmailOccured || InvalidPasswordOccured;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(InvalidUserDataOccured))]
+        bool _invalidNameOccured = false;
+
+        public bool InvalidUserDataOccured => InvalidEmailOccured || InvalidPasswordOccured || InvalidNameOccured;
 
         [ObservableProperty]
         string _errorText = Properties.Resources.InvalidUserData;
@@ -58,8 +68,16 @@ namespace OnmpApp.ViewModels.Authorize
                 return;
             }
 
+            // Проверка, что введены имена
+            if (string.IsNullOrEmpty(FirstName) || string.IsNullOrEmpty(SecondName))
+            {
+                InvalidNameOccured = true;
+                ErrorText = Properties.Resources.InvalidNames;
+                return;
+            }
+
             RegistrationService service = new();
-            bool registered = await service.RegisterUser(Email, FirstPassword);
+            bool registered = await service.RegisterUser(Email, FirstPassword, FirstName, SecondName);
             if (!registered)
             {
                 InvalidEmailOccured = true;

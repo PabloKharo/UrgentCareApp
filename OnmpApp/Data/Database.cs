@@ -1,5 +1,6 @@
 ﻿using SQLite;
 using OnmpApp.Models;
+using OnmpApp.Properties;
 
 namespace OnmpApp.Data;
 

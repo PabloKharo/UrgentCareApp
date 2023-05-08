@@ -1,6 +1,6 @@
 ﻿using SQLite;
 
-namespace OnmpApp;
+namespace OnmpApp.Properties;
 
 public static class Settings
 {
@@ -19,11 +19,24 @@ public static class Settings
         set => Preferences.Set(nameof(Password), value);
     }
 
+    // Токен пользователя
+    public static string Token
+    {
+        get => Preferences.Get(nameof(Token), string.Empty);
+        set => Preferences.Set(nameof(Token), value);
+    }
+
     // Статус: был ли пользователь успешно авторизован в приложение
     public static bool WasAuthorized
     {
-        get => Preferences.Get(nameof(WasAuthorized), false); 
+        get => Preferences.Get(nameof(WasAuthorized), false);
         set => Preferences.Set(nameof(WasAuthorized), value);
+    }
+
+    // Адрес сервера
+    public static string ApiAddress
+    {
+        get => "http://188.225.78.148/api/v1/account/";
     }
 
     #endregion
@@ -31,7 +44,7 @@ public static class Settings
 
     #region Database
     // Название БД
-    public const string DatabaseFilename = "onmp.db3";
+    public const string DatabaseFilename = "onmpApp.db3";
 
     // Путь к БД
     public static string DatabasePath => GetPath();
