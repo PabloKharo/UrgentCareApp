@@ -5,6 +5,7 @@ using OnmpApp.Helpers;
 using OnmpApp.Services.Authorize;
 using OnmpApp.Views.Authorize;
 using OnmpApp.Properties;
+using OnmpApp.Data;
 
 namespace OnmpApp.ViewModels.Authorize;
 
@@ -93,10 +94,13 @@ public partial class LoginViewModel : ObservableObject
         }
 
         Settings.Email = Email;
-        Settings.WasAuthorized = true;
+        Settings.UserId = await Database.UserGetId(Email);
 
         if (SavePassword)
+        {
+            Settings.WasAuthorized = true;
             Settings.Password = Password;
+        }
         _ = NavigateToMainPage();
         IsLoginingIn = false;
     }

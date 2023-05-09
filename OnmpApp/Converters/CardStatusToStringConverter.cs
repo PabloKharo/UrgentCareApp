@@ -10,21 +10,21 @@ using OnmpApp.Models;
 namespace OnmpApp.Converters;
 
 // Конвертер для преобразования типа карты в текстовое поле
-public class CardTypeToStringConverter : IValueConverter
+public class CardStatusToStringConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (value is CardType cardType)
+        if (value is CardStatus cardStatus)
         {
-            switch (cardType)
+            switch (cardStatus)
             {
-                case CardType.Draft:
+                case CardStatus.Draft:
                     return Properties.Resources.Draft;
-                case CardType.Ready:
+                case CardStatus.Ready:
                     return Properties.Resources.Ready;
-                case CardType.Template:
+                case CardStatus.Template:
                     return Properties.Resources.Template;
-                case CardType.Archive:
+                case CardStatus.Archive:
                     return Properties.Resources.Archive;
                 default:
                     return Properties.Resources.UnknownType;

@@ -41,6 +41,7 @@ public class RegistrationService
                 }
                 else
                 {
+                    // TODO: исправить тут
                     var error = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(responseContent)["email"];
                     throw new Exception($"{error}");
                 }

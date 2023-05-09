@@ -26,7 +26,7 @@ public partial class SearchTabViewModel : ObservableObject
     string _searchText = "";
 
     [ObservableProperty]
-    ObservableCollection<PreviewCard> _smallCards = new ObservableCollection<PreviewCard>();
+    ObservableCollection<Card> _smallCards = new ObservableCollection<Card>();
 
     [ObservableProperty]
     bool _filtersShown = false;
@@ -67,7 +67,7 @@ public partial class SearchTabViewModel : ObservableObject
     }
 
     [RelayCommand]
-    void Refresh()
+    async void Refresh()
     {
         IsRefreshing = true;
         SearchTextChanged();
@@ -75,7 +75,7 @@ public partial class SearchTabViewModel : ObservableObject
     }
 
     [RelayCommand] // Нажатие на карту
-    async void ItemTapped(PreviewCard selectedCard)
+    async void ItemTapped(Card selectedCard)
     {
         if (selectedCard == null)
             return;
@@ -102,33 +102,34 @@ public partial class SearchTabViewModel : ObservableObject
     }
 
     // Поиск элемента при изменении запроса
-    public void SearchTextChanged()
+    public async void SearchTextChanged()
     {
         if (SearchText == null)
             return;
 
-        SmallCards = SearchService.SearchPreviewCards(SearchText, DraftChecked, ReadyChecked, TemplateChecked, ArchiveChecked);
+        var res = await SearchService.SearchCards(SearchText, DraftChecked, ReadyChecked, TemplateChecked, ArchiveChecked);
+        SmallCards = res.OrderByDescending(el => el.Date).ToObservableCollection();
     }
 
     // Удаление элемента
-    public void ItemDelete(PreviewCard selectedCard)
+    public async void ItemDelete(Card selectedCard)
     {
         if (selectedCard == null)
             return;
 
-        SearchService.RemovePreviewCard(selectedCard);
+        SearchService.RemoveCard(selectedCard);
         SmallCards.Remove(selectedCard);
 
     }
 
     // Архивация элемента
-    public void ItemArchive(PreviewCard selectedCard)
+    public void ItemArchive(Card selectedCard)
     {
         if (selectedCard == null)
             return;
 
-        SmallCards.Where(el => el == selectedCard).ToList().FirstOrDefault().Type = 
-                ((selectedCard.Type == CardType.Ready) ? CardType.Archive : CardType.Ready);
+        SmallCards.Where(el => el == selectedCard).ToList().FirstOrDefault().Status = 
+                ((selectedCard.Status == CardStatus.Ready) ? CardStatus.Archive : CardStatus.Ready);
     }
 
 }

@@ -1,13 +1,20 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Core.Extensions;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using OnmpApp.Data;
 using OnmpApp.Models;
+using OnmpApp.Properties;
 using OnmpApp.Services.MainTabs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+
+using OnmpApp.Helpers;
 
 namespace OnmpApp.ViewModels.MainTabs;
 
@@ -24,23 +31,35 @@ public partial class EditorPreviewCardTabViewModel : ObservableObject
     int _cardId = -1; // Id изменяемой карточки
 
     [ObservableProperty]
-    PreviewCard _card; // Карточка
+    Card _card; // Карточка
 
     [ObservableProperty]
     bool _oldCard = false; // Была ли уже создана карта
 
-    public EditorPreviewCardTabViewModel() {
-        Templates = new ObservableCollection<string>
+    public IList<string> CardStatuses { get; } = Enum.GetNames(typeof(CardStatus)).ToList();
+
+    private string _selectedStatus;
+    public string SelectedStatus
+    {
+        get => _selectedStatus;
+        set
         {
-            "Без шаблона",
-            "Дети",
-            "Взрослые",
-            "ОРВИ",
-            "Дети",
-            "Взрослые",
-            "ОРВИ",
-            
-        };
+            _selectedStatus = value;
+            if (Card != null)
+                Card._status = value;
+            OnPropertyChanged(nameof(SelectedStatus));
+        }
+    }
+
+    public EditorPreviewCardTabViewModel() {
+        GetTemplates();
+        SelectedStatus = CardStatuses[0];
+    }
+
+    public async void GetTemplates()
+    {
+        var res = await SearchService.SearchCards("", false, false, true, false);
+        Templates = res.Select(el => el.Name).ToObservableCollection();
     }
 
     [RelayCommand]
@@ -52,26 +71,27 @@ public partial class EditorPreviewCardTabViewModel : ObservableObject
     [RelayCommand]
     async void SaveButton()
     {
-        SearchService.AddCard(Card);
+        await SearchService.AddCard(Card);
         await Shell.Current.GoToAsync("..", animate: true);
     }
 
-    public void InitCard()
+    public async void InitCard()
     {
         if (CardId != -1)
         {
-            Card = SearchService.GetPreviewCard(CardId);
-
+            Card = await SearchService.GetCard(CardId);
+            SelectedStatus = Card.Status.ToString();
             OldCard = true;
         }
         else
         {
             Card = new()
             {
-                Type = CardType.Draft,
-                Id = SearchService.CreateNewId(),
-                Date = DateTime.Now
+                UserId = Settings.UserId,
+                Status = CardStatus.Draft,
+                Order = await Database.CardGetLastOrder()
             };
+            SelectedStatus = CardStatuses[0];
         }
     }
 }

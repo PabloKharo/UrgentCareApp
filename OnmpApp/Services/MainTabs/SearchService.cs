@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui.Core.Extensions;
+using OnmpApp.Data;
 using OnmpApp.Helpers;
 using OnmpApp.Models;
 using System;
@@ -13,32 +14,14 @@ namespace OnmpApp.Services.MainTabs;
 
 public static class SearchService
 {
-    static List<PreviewCard> initCards = new List<PreviewCard>
-    {
-        new PreviewCard { Id = 0, Name="ОРВИ", Date = DateTime.Now, Type=CardType.Ready},
-        new PreviewCard { Id = 1, Name="Грипп", Date = DateTime.Now, Type=CardType.Archive},
-        new PreviewCard { Id = 2, Name="Ангина", Date = DateTime.Now, Type=CardType.Template},
-        new PreviewCard { Id = 3, Name="Холера", Date = DateTime.Now, Type=CardType.Draft},
-        new PreviewCard { Id = 4, Name="Инфекция", Date = DateTime.Now, Type=CardType.Ready},
-        new PreviewCard { Id = 5, Name="Аллергия", Date = DateTime.Now, Type=CardType.Ready},
-        new PreviewCard { Id = 6, Name="Астма", Date = DateTime.Now, Type=CardType.Ready},
-        new PreviewCard { Id = 7, Name="Диабет", Date = DateTime.Now, Type=CardType.Ready},
-        new PreviewCard { Id = 8, Name="Акне", Date = DateTime.Now, Type=CardType.Ready},
-        new PreviewCard { Id = 9, Name="Гастрит", Date = DateTime.Now, Type=CardType.Ready},
-    };
-
     // Получение списка карточек
-    public static ObservableCollection<PreviewCard> SearchPreviewCards(string searchText, bool draftChecked, bool readyChecked, 
-                                        bool templateChecked, bool archiveChecked)
+    public async static Task<List<Card>> SearchCards(string searchText, bool draftChecked, bool readyChecked, 
+                                        bool templateChecked, bool archiveChecked, int skip = 0, int take = 20)
     {
         try
         {
-            return initCards.Where(el => el.Name.Contains(searchText) &&
-                    ((draftChecked ? el.Type == CardType.Draft : false) ||
-                    (readyChecked ? el.Type == CardType.Ready : false) ||
-                    (templateChecked ? el.Type == CardType.Template : false) ||
-                    (archiveChecked ? el.Type == CardType.Archive : false))
-                ).ToObservableCollection();
+            var res = await Database.CardsSearch(searchText, draftChecked, readyChecked, templateChecked, archiveChecked, skip, take);
+            return res;
         }
         catch (Exception ex)
         {
@@ -53,11 +36,11 @@ public static class SearchService
 
    
     // Удаление карточки
-    public static void RemovePreviewCard(PreviewCard card)
+    public async static void RemoveCard(Card card)
     {
         try
         {
-            initCards.Remove(card);
+            _ = await Database.CardRemove(card);
         }
         catch (Exception ex)
         {
@@ -71,11 +54,12 @@ public static class SearchService
 
 
     // Получение краткой информации карточки
-    public static PreviewCard GetPreviewCard(int id)
+    public async static Task<Card> GetCard(int id)
     {
         try
         {
-            return initCards.Where(el => el.Id == id).FirstOrDefault();
+            var res = await Database.CardGet(id);
+            return res;
         }
         catch (Exception ex)
         {
@@ -88,30 +72,12 @@ public static class SearchService
         return null;
     }
 
-    // Получение id для добавления в БД
-    public static int CreateNewId()
-    {
-        try
-        {
-            return initCards.Last().Id + 1;
-        }
-        catch (Exception ex)
-        {
-#if DEBUG
-            Debug.WriteLine(@"\tERROR {0}", ex.Message);
-#endif
-            ToastHelper.Show(Properties.Resources.Error);
-        }
-
-        return 0;
-    }
-
     // Добавление карточки
-    public static bool AddCard(PreviewCard card)
+    public async static Task<bool> AddCard(Card card)
     {
         try
         {
-            initCards.Add(card);
+            _ = await Database.CardCreate(card);
             return true;
         }
         catch (Exception ex)

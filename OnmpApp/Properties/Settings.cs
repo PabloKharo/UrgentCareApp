@@ -12,6 +12,13 @@ public static class Settings
         set => Preferences.Set(nameof(Email), value);
     }
 
+    // Id пользователя
+    public static int UserId
+    {
+        get => Preferences.Get(nameof(UserId), -1);
+        set => Preferences.Set(nameof(UserId), value);
+    }
+
     // Пароль пользователя
     public static string Password
     {
@@ -44,7 +51,7 @@ public static class Settings
 
     #region Database
     // Название БД
-    public const string DatabaseFilename = "onmpApp.db3";
+    public const string DatabaseFilename = "onmpAppDB.db3";
 
     // Путь к БД
     public static string DatabasePath => GetPath();

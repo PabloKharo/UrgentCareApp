@@ -124,10 +124,10 @@
                                 RemainingItemsThreshold="5"
                                 RemainingItemsThresholdReachedCommand="{Binding RemainingItemsThresholdReachedCommand}">
                         <CollectionView.Resources>
-                            <converters:CardTypeToStringConverter x:Key="CardTypeToStringConverter"/>
+                            <converters:CardStatusToStringConverter x:Key="CardStatusToStringConverter"/>
                         </CollectionView.Resources>
                         <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="models:PreviewCard">
+                            <DataTemplate x:DataType="models:Card">
                                 <SwipeView Threshold="100">
                                     <!-- Удаление элемента -->
                                     <SwipeView.LeftItems>
@@ -163,9 +163,9 @@
                                                 <Label Grid.Row="1">
                                                     <Label.FormattedText>
                                                         <FormattedString>
-                                                            <Span Text="{Binding Date, StringFormat='{0:dd.MM.yyyy}'}" />
+                                                            <Span Text="{Binding Status, Converter={StaticResource CardStatusToStringConverter}}" />
                                                             <Span Text=" " />
-                                                            <Span Text="{Binding Type, Converter={StaticResource CardTypeToStringConverter}}" />
+                                                            <Span Text="{Binding Date, StringFormat='{0:dd.MM.yyyy HH:mm}'}" FontAttributes="Italic" />
                                                         </FormattedString>
                                                     </Label.FormattedText>
                                                 </Label>

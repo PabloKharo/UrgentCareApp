@@ -23,19 +23,31 @@
                 <Label Text="{x:Static properties:Resources.Title}" Margin="15,0,0,0"/>
                 <Border HorizontalOptions="Fill">
                     <controls:EntryNoUnderline Margin="15,0,15,0" HorizontalOptions="Fill" VerticalOptions="Fill"
-                                           Text="{Binding Card.Name}"/>
+                                       Text="{Binding Card.Name}"/>
                 </Border>
             </VerticalStackLayout>
 
-            <!-- Дата создания карты -->
-            <Label Text="{Binding Card.Date, StringFormat='{0:dd.MM.yyyy HH:mm}'}"/>
-
-            <!-- Поле выбора шаблона -->
+            <!-- Поле для даты и времени создания карты -->
             <VerticalStackLayout>
-                <Label Text="{x:Static properties:Resources.Template}" Margin="15,0,0,0"/>
+                <Label Text="Дата и время" Margin="15,0,0,0"/>
+                <DatePicker Date="{Binding Card.Date, Mode=TwoWay}" Format="dd/MM/yyyy" Margin="15,0,15,0"/>
+            </VerticalStackLayout>
+
+            <!-- Поле для номера наряда -->
+            <VerticalStackLayout>
+                <Label Text="Номер наряда" Margin="15,0,0,0"/>
+                <Border HorizontalOptions="Fill">
+                    <controls:EntryNoUnderline Margin="15,0,15,0" HorizontalOptions="Fill" VerticalOptions="Fill"
+                                       Text="{Binding Card.Order}"/>
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- Поле для выбора статуса -->
+            <VerticalStackLayout>
+                <Label Text="Статус" Margin="15,0,0,0"/>
                 <Border>
                     <controls:PickerNoUnderline Margin="15,0,15,0" HorizontalOptions="Fill" VerticalOptions="Fill" 
-                                        ItemsSource="{Binding Templates}" SelectedIndex="{Binding SelectedIndex}"/>
+                                    ItemsSource="{Binding CardStatuses}" SelectedItem="{Binding SelectedStatus}"/>
                 </Border>
             </VerticalStackLayout>
 
@@ -50,13 +62,13 @@
             <Grid ColumnDefinitions="*, *">
                 <!-- Кнопка для сохранения карты -->
                 <Button Grid.Column="0" Text="{x:Static properties:Resources.Save}" Command="{Binding SaveButtonCommand}"
-                        IsVisible="{Binding OldCard}" Margin="10"/>
+                     Margin="10"/>
 
                 <!-- Кнопка для просмотра карты -->
-                <Button Grid.Column="2" Text="{x:Static properties:Resources.Continue}" Command="{Binding ContinueButtonCommand}" 
-                        Margin="10"/>
+                <Button Grid.Column="1" Text="{x:Static properties:Resources.Continue}" Command="{Binding ContinueButtonCommand}" 
+                    Margin="10"/>
             </Grid>
         </VerticalStackLayout>
     </ScrollView>
-    
+
 </controls:MasterContentPage>

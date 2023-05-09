@@ -23,7 +23,7 @@ public partial class SearchTabPage : MasterContentPage
 			return;
 
 		var swipeItemView = (SwipeItem)sender;
-		var smallCard = (PreviewCard)swipeItemView.BindingContext;
+		var smallCard = (Card)swipeItemView.BindingContext;
 
 		vm.ItemDelete(smallCard);
 	}
@@ -34,7 +34,7 @@ public partial class SearchTabPage : MasterContentPage
 			return;
 
 		var swipeItemView = (SwipeItem)sender;
-		var smallCard = (PreviewCard)swipeItemView.BindingContext;
+		var smallCard = (Card)swipeItemView.BindingContext;
 
 		vm.ItemArchive(smallCard);
 	}
