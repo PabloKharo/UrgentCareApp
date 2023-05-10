@@ -10,15 +10,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using OnmpApp.Services.MainTabs;
+using OnmpApp.ViewModels.CardFiller;
 using System.Windows.Input;
 using CommunityToolkit.Maui.Core.Extensions;
 using OnmpApp.Views.MainTabs;
+using OnmpApp.Views.CardFiller;
 
 namespace OnmpApp.ViewModels.MainTabs;
 
 public partial class SearchTabViewModel : ObservableObject
 {
-    // TODO: Добавить сортировку
     // TODO: Добавить фильтр для дат
 
     
@@ -26,7 +27,7 @@ public partial class SearchTabViewModel : ObservableObject
     string _searchText = "";
 
     [ObservableProperty]
-    ObservableCollection<Card> _smallCards = new ObservableCollection<Card>();
+    ObservableCollection<Card> _smallCards = new();
 
     [ObservableProperty]
     bool _filtersShown = false;
@@ -67,7 +68,7 @@ public partial class SearchTabViewModel : ObservableObject
     }
 
     [RelayCommand]
-    async void Refresh()
+    void Refresh()
     {
         IsRefreshing = true;
         SearchTextChanged();
@@ -80,11 +81,11 @@ public partial class SearchTabViewModel : ObservableObject
         if (selectedCard == null)
             return;
 
-        await Shell.Current.GoToAsync($"{nameof(EditorPreviewCardTabPage)}?CardId={selectedCard.Id}");
+        await Shell.Current.GoToAsync($"{nameof(EditorPreviewCardPage)}?CardId={selectedCard.Id}");
     }
 
     [RelayCommand] // Переключение видимости фильтров
-    async void ToggleFilters()
+    void ToggleFilters()
     {
         FiltersShown = !FiltersShown;
     }
@@ -98,7 +99,7 @@ public partial class SearchTabViewModel : ObservableObject
     [RelayCommand] // Добавление элементов, которые не были показаны
     async void CreateCard()
     {
-        await Shell.Current.GoToAsync($"{nameof(EditorPreviewCardTabPage)}");
+        await Shell.Current.GoToAsync($"{nameof(EditorPreviewCardPage)}");
     }
 
     // Поиск элемента при изменении запроса
@@ -108,7 +109,7 @@ public partial class SearchTabViewModel : ObservableObject
             return;
 
         var res = await SearchService.SearchCards(SearchText, DraftChecked, ReadyChecked, TemplateChecked, ArchiveChecked);
-        SmallCards = res.OrderByDescending(el => el.Date).ToObservableCollection();
+        SmallCards = res.OrderByDescending(el => el.Id).ToObservableCollection();
     }
 
     // Удаление элемента
@@ -117,7 +118,7 @@ public partial class SearchTabViewModel : ObservableObject
         if (selectedCard == null)
             return;
 
-        SearchService.RemoveCard(selectedCard);
+        await SearchService.RemoveCard(selectedCard);
         SmallCards.Remove(selectedCard);
 
     }

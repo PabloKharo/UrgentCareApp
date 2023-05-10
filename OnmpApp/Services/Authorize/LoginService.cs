@@ -5,14 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using OnmpApp.Data;
 using OnmpApp.Helpers;
 using OnmpApp.Models;
-
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
 using OnmpApp.Properties;
+
+using OnmpApp.Services.Database;
 
 namespace OnmpApp.Services.Authorize;
 
@@ -41,8 +38,8 @@ public static class LoginService
                     var token = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(responseContent)["token"];
                     Settings.Token = token;
 
-                    if (!await Database.UserEmailExists(email))
-                        await Database.UserCreate(email);
+                    if (!await DatabaseService.UserEmailExists(email))
+                        await DatabaseService.UserCreate(email);
 
                     return true;
                 }

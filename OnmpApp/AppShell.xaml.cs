@@ -1,5 +1,7 @@
 ﻿using OnmpApp.Views.Authorize;
 using OnmpApp.Views.MainTabs;
+using OnmpApp.Views.CardFiller;
+
 using OnmpApp.Views.UserSettings;
 
 namespace OnmpApp;
@@ -13,7 +15,7 @@ public partial class AppShell : Shell
 		Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
 		Routing.RegisterRoute($"{nameof(LoginPage)}/{nameof(RegistrationPage)}", typeof(RegistrationPage));
 		Routing.RegisterRoute($"{nameof(SearchTabPage)}/{nameof(SettingsPage)}", typeof(SettingsPage));
-        Routing.RegisterRoute($"{nameof(SearchTabPage)}/{nameof(EditorPreviewCardTabPage)}", typeof(EditorPreviewCardTabPage));
+        Routing.RegisterRoute($"{nameof(SearchTabPage)}/{nameof(EditorPreviewCardPage)}", typeof(EditorPreviewCardPage));
 
     }
 }

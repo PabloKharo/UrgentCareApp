@@ -2,7 +2,8 @@
 using OnmpApp.ViewModels;
 using OnmpApp.Views;
 using CommunityToolkit.Maui;
-using OnmpApp.Data;
+
+using OnmpApp.Services.Database;
 
 namespace OnmpApp;
 
@@ -25,7 +26,7 @@ public static class MauiProgram
 		builder.Logging.AddDebug();
 #endif
 
-		_ = Database.Init();
+		_ = DatabaseService.Init();
 
         return builder.Build();
 	}
@@ -36,7 +37,7 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddTransient<ViewModels.Authorize.RegistrationViewModel>();
 
         mauiAppBuilder.Services.AddTransient<ViewModels.MainTabs.SearchTabViewModel>();
-        mauiAppBuilder.Services.AddTransient<ViewModels.MainTabs.EditorPreviewCardTabViewModel>();
+        mauiAppBuilder.Services.AddTransient<ViewModels.CardFiller.EditorPreviewCardViewModel>();
 
         mauiAppBuilder.Services.AddTransient<ViewModels.UserSettings.SettingsViewModel>();
 
@@ -50,7 +51,7 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddTransient<Views.Authorize.RegistrationPage>();
 
         mauiAppBuilder.Services.AddTransient<Views.MainTabs.SearchTabPage>();
-        mauiAppBuilder.Services.AddTransient<Views.MainTabs.EditorPreviewCardTabPage>();
+        mauiAppBuilder.Services.AddTransient<Views.CardFiller.EditorPreviewCardPage>();
 
         mauiAppBuilder.Services.AddTransient<Views.UserSettings.SettingsPage>();
 

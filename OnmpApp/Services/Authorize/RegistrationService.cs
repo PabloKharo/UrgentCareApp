@@ -1,5 +1,4 @@
-﻿using OnmpApp.Data;
-using OnmpApp.Helpers;
+﻿using OnmpApp.Helpers;
 using OnmpApp.Properties;
 using System;
 using System.Collections.Generic;
@@ -7,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OnmpApp.Services.Database;
 
 namespace OnmpApp.Services.Authorize;
 
@@ -36,7 +36,7 @@ public class RegistrationService
 
                 if (response.IsSuccessStatusCode)
                 {
-                    _ = await Database.UserCreate(email);
+                    _ = await DatabaseService.UserCreate(email);
                     return true;
                 }
                 else

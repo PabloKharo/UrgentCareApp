@@ -5,7 +5,8 @@ using OnmpApp.Helpers;
 using OnmpApp.Services.Authorize;
 using OnmpApp.Views.Authorize;
 using OnmpApp.Properties;
-using OnmpApp.Data;
+
+using OnmpApp.Services.Database;
 
 namespace OnmpApp.ViewModels.Authorize;
 
@@ -94,7 +95,7 @@ public partial class LoginViewModel : ObservableObject
         }
 
         Settings.Email = Email;
-        Settings.UserId = await Database.UserGetId(Email);
+        Settings.UserId = await DatabaseService.UserGetId(Email);
 
         if (SavePassword)
         {

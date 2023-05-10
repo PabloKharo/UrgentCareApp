@@ -1,6 +1,6 @@
 ﻿using SQLite;
 
-namespace OnmpApp.Models;
+namespace OnmpApp.Models.Database;
 
 [Table("Users")]
 public class User

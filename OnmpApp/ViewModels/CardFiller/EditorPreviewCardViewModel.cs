@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Maui.Core.Extensions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using OnmpApp.Data;
 using OnmpApp.Models;
 using OnmpApp.Properties;
 using OnmpApp.Services.MainTabs;
@@ -16,16 +15,16 @@ using System.Threading.Tasks;
 
 using OnmpApp.Helpers;
 
-namespace OnmpApp.ViewModels.MainTabs;
+namespace OnmpApp.ViewModels.CardFiller;
 
 [QueryProperty(nameof(CardId), nameof(CardId))]
-public partial class EditorPreviewCardTabViewModel : ObservableObject
+public partial class EditorPreviewCardViewModel : ObservableObject
 {
     
     [ObservableProperty] // Список шаблонов
     ObservableCollection<string> _templates = new();
     [ObservableProperty] // Выбранный шаблон
-    int _selectedIndex = 0;
+    string _selectedTemplate;
 
     [ObservableProperty]
     int _cardId = -1; // Id изменяемой карточки
@@ -34,7 +33,10 @@ public partial class EditorPreviewCardTabViewModel : ObservableObject
     Card _card; // Карточка
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(NewCard))]
     bool _oldCard = false; // Была ли уже создана карта
+
+    public bool NewCard => !OldCard;
 
     public IList<string> CardStatuses { get; } = Enum.GetNames(typeof(CardStatus)).ToList();
 
@@ -51,15 +53,17 @@ public partial class EditorPreviewCardTabViewModel : ObservableObject
         }
     }
 
-    public EditorPreviewCardTabViewModel() {
-        GetTemplates();
+    public EditorPreviewCardViewModel() {
         SelectedStatus = CardStatuses[0];
     }
 
-    public async void GetTemplates()
+    public async Task<bool> GetTemplates()
     {
         var res = await SearchService.SearchCards("", false, false, true, false);
         Templates = res.Select(el => el.Name).ToObservableCollection();
+        Templates.Insert(0, "Без шаблона");
+        SelectedTemplate = Templates[0];
+        return true;
     }
 
     [RelayCommand]
@@ -71,7 +75,14 @@ public partial class EditorPreviewCardTabViewModel : ObservableObject
     [RelayCommand]
     async void SaveButton()
     {
-        await SearchService.AddCard(Card);
+        if (OldCard)
+        {
+            await SearchService.UpdateCard(Card);
+        }
+        else
+        {
+            await SearchService.AddCard(Card);
+        }
         await Shell.Current.GoToAsync("..", animate: true);
     }
 
@@ -79,19 +90,22 @@ public partial class EditorPreviewCardTabViewModel : ObservableObject
     {
         if (CardId != -1)
         {
+            OldCard = true;
             Card = await SearchService.GetCard(CardId);
             SelectedStatus = Card.Status.ToString();
-            OldCard = true;
         }
         else
         {
+            OldCard = false;
             Card = new()
             {
                 UserId = Settings.UserId,
                 Status = CardStatus.Draft,
-                Order = await Database.CardGetLastOrder()
+                Order = await SearchService.CardGetLastOrder()
             };
             SelectedStatus = CardStatuses[0];
+            _ = await GetTemplates();
+
         }
     }
 }

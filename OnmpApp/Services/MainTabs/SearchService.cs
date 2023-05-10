@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Maui.Core.Extensions;
-using OnmpApp.Data;
 using OnmpApp.Helpers;
 using OnmpApp.Models;
 using System;
@@ -9,6 +8,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OnmpApp.Services.Database;
+
 
 namespace OnmpApp.Services.MainTabs;
 
@@ -20,7 +21,7 @@ public static class SearchService
     {
         try
         {
-            var res = await Database.CardsSearch(searchText, draftChecked, readyChecked, templateChecked, archiveChecked, skip, take);
+            var res = await DatabaseService.CardsSearch(searchText, draftChecked, readyChecked, templateChecked, archiveChecked, skip, take);
             return res;
         }
         catch (Exception ex)
@@ -34,13 +35,38 @@ public static class SearchService
         return null;
     }
 
-   
-    // Удаление карточки
-    public async static void RemoveCard(Card card)
+    // Обновление карточки
+    public async static Task<bool> UpdateCard(Card card)
     {
         try
         {
-            _ = await Database.CardRemove(card);
+            _ = await DatabaseService.CardUpdate(card);
+            return true;
+        }
+        catch (Exception ex)
+        {
+#if DEBUG
+            Debug.WriteLine(@"\tERROR {0}", ex.Message);
+#endif
+            ToastHelper.Show(Properties.Resources.Error);
+        }
+        return false;
+
+    }
+
+    public static async Task<string> CardGetLastOrder()
+    {
+        return await DatabaseService.CardGetLastOrder();
+    }
+
+
+    // Удаление карточки
+    public async static Task<bool> RemoveCard(Card card)
+    {
+        try
+        {
+            _ = await DatabaseService.CardRemove(card);
+            return true;
         }
         catch (Exception ex)
         {
@@ -50,6 +76,8 @@ public static class SearchService
             ToastHelper.Show(Properties.Resources.Error);
         }
 
+        return false;
+
     }
 
 
@@ -58,7 +86,7 @@ public static class SearchService
     {
         try
         {
-            var res = await Database.CardGet(id);
+            var res = await DatabaseService.CardGet(id);
             return res;
         }
         catch (Exception ex)
@@ -77,7 +105,7 @@ public static class SearchService
     {
         try
         {
-            _ = await Database.CardCreate(card);
+            _ = await DatabaseService.CardCreate(card);
             return true;
         }
         catch (Exception ex)
@@ -90,4 +118,6 @@ public static class SearchService
 
         return false;
     }
+
+
 }

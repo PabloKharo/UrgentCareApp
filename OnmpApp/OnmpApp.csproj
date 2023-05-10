@@ -111,8 +111,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.Maui" Version="5.0.0" />
-		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="5.1.0" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 		<PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
 		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.4" />
@@ -140,7 +140,7 @@
 	  <MauiXaml Update="Views\Authorize\RegistrationPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\MainTabs\EditorPreviewCardTabPage.xaml">
+	  <MauiXaml Update="Views\CardFiller\EditorPreviewCardPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\MainTabs\SearchTabPage.xaml">
@@ -161,8 +161,8 @@
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>Resources.resx</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\MainTabs\EditorPreviewCardTabPage.xaml.cs">
-	    <DependentUpon>EditorPreviewCardTabPage.xaml</DependentUpon>
+	  <Compile Update="Views\CardFiller\EditorPreviewCardPage.xaml.cs">
+	    <DependentUpon>EditorPreviewCardPage.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 

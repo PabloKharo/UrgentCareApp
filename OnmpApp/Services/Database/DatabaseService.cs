@@ -5,10 +5,11 @@ using CommunityToolkit.Maui.Core.Extensions;
 using Microsoft.Maui.ApplicationModel.Communication;
 using System.Runtime.CompilerServices;
 using System.Diagnostics;
+using OnmpApp.Models.Database;
 
-namespace OnmpApp.Data;
+namespace OnmpApp.Services.Database;
 
-public static partial class Database
+public static partial class DatabaseService
 {
     private static SQLiteAsyncConnection db;
 
@@ -77,6 +78,11 @@ public static partial class Database
         _ = await db.InsertAsync(card);
         return true;
     }
+    public static async Task<bool> CardUpdate(Card card)
+    {
+        _ = await db.UpdateAsync(card);
+        return true;
+    }
 
     public static async Task<bool> CardRemove(Card card)
     {
@@ -106,3 +112,4 @@ public static partial class Database
 
     #endregion
 }
+
