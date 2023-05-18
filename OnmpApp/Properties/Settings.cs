@@ -79,4 +79,9 @@ public static class Settings
         SQLiteOpenFlags.SharedCache;
 
     #endregion
+
+
+    public const char FieldDelimeter = '\u2E2F';
+    public const char PropertyDelimeter = '\u2E2E';
+
 }

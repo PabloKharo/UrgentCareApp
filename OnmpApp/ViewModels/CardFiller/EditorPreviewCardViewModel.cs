@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using OnmpApp.Helpers;
+using OnmpApp.Views.CardFiller;
 
 namespace OnmpApp.ViewModels.CardFiller;
 
@@ -69,7 +70,7 @@ public partial class EditorPreviewCardViewModel : ObservableObject
     [RelayCommand]
     async void ContinueButton()
     {
-        
+        await Shell.Current.GoToAsync($"{nameof(EditorPreviewCardPage)}/{nameof(TemplateFillerPage)}?CardId={CardId}");
     }
 
     [RelayCommand]

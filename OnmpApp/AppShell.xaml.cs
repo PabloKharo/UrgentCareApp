@@ -16,6 +16,8 @@ public partial class AppShell : Shell
 		Routing.RegisterRoute($"{nameof(LoginPage)}/{nameof(RegistrationPage)}", typeof(RegistrationPage));
 		Routing.RegisterRoute($"{nameof(SearchTabPage)}/{nameof(SettingsPage)}", typeof(SettingsPage));
         Routing.RegisterRoute($"{nameof(SearchTabPage)}/{nameof(EditorPreviewCardPage)}", typeof(EditorPreviewCardPage));
+        Routing.RegisterRoute($"{nameof(SearchTabPage)}/{nameof(EditorPreviewCardPage)}/{nameof(TemplateFillerPage)}", typeof(TemplateFillerPage));
+
 
     }
 }
