@@ -91,7 +91,7 @@ public partial class SearchTabViewModel : ObservableObject
     }
 
     [RelayCommand] // Добавление элементов, которые не были показаны
-    async void RemainingItemsThresholdReached()
+    static async void RemainingItemsThresholdReached()
     {
         
     }

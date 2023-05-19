@@ -1,10 +1,5 @@
-﻿using Microsoft.VisualBasic;
+﻿using System.Text;
 using OnmpApp.Properties;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OnmpApp.Models;
 
@@ -19,13 +14,12 @@ public abstract class TestQuestion
 
     public abstract string GetValue();
     public abstract void SetValue(string val);
-
-
 }
 
 public class RadioButtonQuestion : TestQuestion
 {
     public int SelectedOptionIndex { get; set; } = -1;
+
     public override string GetValue()
     {
         if (SelectedOptionIndex == -1)
@@ -33,12 +27,11 @@ public class RadioButtonQuestion : TestQuestion
 
         return Options[SelectedOptionIndex];
     }
+
     public override void SetValue(string val)
     {
         SelectedOptionIndex = Options.IndexOf(val);
     }
-
-
 }
 
 public class RadioButtonWithTextQuestion : RadioButtonQuestion
@@ -47,8 +40,8 @@ public class RadioButtonWithTextQuestion : RadioButtonQuestion
 
     public override string GetValue()
     {
-        StringBuilder str = new StringBuilder();
-        if (AdditionalLabelText != null && AdditionalLabelText != "")
+        StringBuilder str = new();
+        if (!string.IsNullOrEmpty(AdditionalLabelText))
         {
             if (SelectedOptionIndex >= 0)
                 str.Append(Options[SelectedOptionIndex]);
@@ -56,7 +49,7 @@ public class RadioButtonWithTextQuestion : RadioButtonQuestion
             str.Append(Settings.FieldDelimeter + AdditionalLabelText + Settings.FieldDelimeter);
 
             AdditionalText = AdditionalText?.Trim();
-            if (AdditionalText != null && AdditionalText != "")
+            if (!string.IsNullOrEmpty(AdditionalText))
                 str.Append(AdditionalText);
 
             if (str.ToString() == Settings.FieldDelimeter + AdditionalLabelText + Settings.FieldDelimeter)
@@ -80,14 +73,14 @@ public class RadioButtonWithTextQuestion : RadioButtonQuestion
     {
         if (AdditionalLabelText != null && AdditionalLabelText != "")
         {
-            string[] splitStrings = val.Split(new[] { Settings.FieldDelimeter }, StringSplitOptions.None);
+            var splitStrings = val.Split(new[] { Settings.FieldDelimeter }, StringSplitOptions.None);
             SelectedOptionIndex = Options.IndexOf(splitStrings[0]);
             AdditionalLabelText = splitStrings[2];
         }
         else
         {
             SelectedOptionIndex = Options.IndexOf(val);
-            if(SelectedOptionIndex == -1)
+            if (SelectedOptionIndex == -1)
                 AdditionalText = val;
         }
     }
@@ -96,17 +89,16 @@ public class RadioButtonWithTextQuestion : RadioButtonQuestion
 public class CheckBoxQuestion : TestQuestion
 {
     public List<bool> SelectedOptions { get; set; }
+
     public override string GetValue()
     {
-        StringBuilder str = new StringBuilder();
-        for (int i = 0; i < Options.Count; i++)
-        {
+        StringBuilder str = new();
+        for (var i = 0; i < Options.Count; i++)
             if (SelectedOptions[i])
             {
                 str.Append(Options[i]);
                 str.Append(Settings.PropertyDelimeter);
             }
-        }
 
         if (str.Length > 0)
             str.Length -= 1;
@@ -116,13 +108,13 @@ public class CheckBoxQuestion : TestQuestion
 
     public override void SetValue(string val)
     {
-        string[] splitStrings = val.Split(new[] { Settings.PropertyDelimeter }, StringSplitOptions.None);
+        var splitStrings = val.Split(new[] { Settings.PropertyDelimeter }, StringSplitOptions.None);
 
-        for(int i = 0; i < splitStrings.Length; i++)
+        for (var i = 0; i < splitStrings.Length; i++)
         {
-            int ind = Options.IndexOf(splitStrings[i]);
-            if(ind != -1)
-                SelectedOptions[ind] = true; 
+            var ind = Options.IndexOf(splitStrings[i]);
+            if (ind != -1)
+                SelectedOptions[ind] = true;
         }
     }
 }
@@ -130,16 +122,15 @@ public class CheckBoxQuestion : TestQuestion
 public class CheckBoxWithTextQuestion : CheckBoxQuestion
 {
     public string AdditionalText { get; set; }
+
     public override string GetValue()
     {
         StringBuilder str = new();
         if (AdditionalLabelText != null && AdditionalLabelText != "")
         {
-            for (int i = 0; i < SelectedOptions.Count(); i++)
-            {
-                if (SelectedOptions[i] == true)
+            for (var i = 0; i < SelectedOptions.Count; i++)
+                if (SelectedOptions[i])
                     str.Append(Options[i] + Settings.PropertyDelimeter);
-            }
             if (str.Length > 0)
                 str.Length -= 1;
 
@@ -158,18 +149,14 @@ public class CheckBoxWithTextQuestion : CheckBoxQuestion
             if (AdditionalText != null && AdditionalText != "")
                 str.Append(AdditionalText);
             else
-            {
-                for (int i = 0; i < SelectedOptions.Count(); i++)
-                {
-                    if (SelectedOptions[i] == true)
+                for (var i = 0; i < SelectedOptions.Count; i++)
+                    if (SelectedOptions[i])
                         str.Append(Options[i] + Settings.PropertyDelimeter);
-                }
-            }
 
             if (str.ToString().Trim() == "")
                 return null;
-
         }
+
         return str.ToString();
     }
 
@@ -177,12 +164,12 @@ public class CheckBoxWithTextQuestion : CheckBoxQuestion
     {
         if (AdditionalLabelText != null && AdditionalLabelText != "")
         {
-            string[] splitStrings = val.Split(new[] { Settings.FieldDelimeter }, StringSplitOptions.None);
+            var splitStrings = val.Split(new[] { Settings.FieldDelimeter }, StringSplitOptions.None);
 
-            string[] splitCheckBoxes = splitStrings[0].Split(new[] { Settings.PropertyDelimeter }, StringSplitOptions.None);
-            for (int i = 0; i < splitCheckBoxes.Length; i++)
+            var splitCheckBoxes = splitStrings[0].Split(new[] { Settings.PropertyDelimeter }, StringSplitOptions.None);
+            for (var i = 0; i < splitCheckBoxes.Length; i++)
             {
-                int id = Options.IndexOf(splitCheckBoxes[i]);
+                var id = Options.IndexOf(splitCheckBoxes[i]);
                 if (id != -1)
                     SelectedOptions[id] = true;
             }
@@ -192,13 +179,13 @@ public class CheckBoxWithTextQuestion : CheckBoxQuestion
         }
         else
         {
-            if(val.Contains(Settings.PropertyDelimeter))
+            if (val.Contains(Settings.PropertyDelimeter))
             {
-                string[] splitCheckBoxes = val.Split(new[] { Settings.PropertyDelimeter }, StringSplitOptions.None);
-                for(int i = 0; i < splitCheckBoxes.Length; i++)
+                var splitCheckBoxes = val.Split(new[] { Settings.PropertyDelimeter }, StringSplitOptions.None);
+                for (var i = 0; i < splitCheckBoxes.Length; i++)
                 {
-                    int id = Options.IndexOf((string)splitCheckBoxes[i]);
-                    if(id != -1)
+                    var id = Options.IndexOf(splitCheckBoxes[i]);
+                    if (id != -1)
                         SelectedOptions[id] = true;
                 }
             }
@@ -213,6 +200,7 @@ public class CheckBoxWithTextQuestion : CheckBoxQuestion
 public class TextQuestion : TestQuestion
 {
     public string AnswerText { get; set; }
+
     public override string GetValue()
     {
         AnswerText = AnswerText?.Trim();
@@ -225,7 +213,6 @@ public class TextQuestion : TestQuestion
     {
         AnswerText = val;
     }
-
 }
 
 public class TestQuestionTemplateSelector : DataTemplateSelector

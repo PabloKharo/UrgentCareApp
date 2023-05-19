@@ -10,7 +10,7 @@ namespace OnmpApp.Controls;
 public class PickerNoUnderline : Picker
 {
     public static readonly BindableProperty NoUnderlineProperty =
-        BindableProperty.Create("NoUnderline", typeof(bool), typeof(PickerNoUnderline), false);
+        BindableProperty.Create(nameof(NoUnderline), typeof(bool), typeof(PickerNoUnderline), false);
 
     public bool NoUnderline
     {

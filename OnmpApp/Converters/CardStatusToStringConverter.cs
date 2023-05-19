@@ -16,19 +16,14 @@ public class CardStatusToStringConverter : IValueConverter
     {
         if (value is CardStatus cardStatus)
         {
-            switch (cardStatus)
+            return cardStatus switch
             {
-                case CardStatus.Draft:
-                    return Properties.Resources.Draft;
-                case CardStatus.Ready:
-                    return Properties.Resources.Ready;
-                case CardStatus.Template:
-                    return Properties.Resources.Template;
-                case CardStatus.Archive:
-                    return Properties.Resources.Archive;
-                default:
-                    return Properties.Resources.UnknownType;
-            }
+                CardStatus.Draft => Properties.Resources.Draft,
+                CardStatus.Ready => Properties.Resources.Ready,
+                CardStatus.Template => Properties.Resources.Template,
+                CardStatus.Archive => Properties.Resources.Archive,
+                _ => Properties.Resources.UnknownType,
+            };
         }
 
         return Properties.Resources.UnknownType;

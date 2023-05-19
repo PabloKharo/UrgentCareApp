@@ -39,7 +39,7 @@ public partial class LoginViewModel : ObservableObject
         {
             if (Connectivity.NetworkAccess != NetworkAccess.Internet)
             {
-                _ = NavigateToMainPage();
+                _ = LoginViewModel.NavigateToMainPage();
             }
             else
             {
@@ -50,7 +50,7 @@ public partial class LoginViewModel : ObservableObject
     }
 
     [RelayCommand]
-    async Task NavigateToInformationPage()
+    static void NavigateToInformationPage()
     {
         // TODO: Перейти на страницу информации приложения
     }
@@ -68,7 +68,7 @@ public partial class LoginViewModel : ObservableObject
         await Shell.Current.GoToAsync(nameof(RegistrationPage));
     }
 
-    async Task NavigateToMainPage()
+    static async Task NavigateToMainPage()
     {
         await Shell.Current.GoToAsync("//TabPage");
     }
@@ -102,7 +102,7 @@ public partial class LoginViewModel : ObservableObject
             Settings.WasAuthorized = true;
             Settings.Password = Password;
         }
-        _ = NavigateToMainPage();
+        _ = LoginViewModel.NavigateToMainPage();
         IsLoginingIn = false;
     }
 }

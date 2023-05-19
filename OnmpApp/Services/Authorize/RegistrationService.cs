@@ -14,37 +14,35 @@ public class RegistrationService
 {
     public RegistrationService() { }
 
-    public async Task<bool> RegisterUser(string email, string password, string firstName, string secondName)
+    public static async Task<bool> RegisterUser(string email, string password, string first_name, string last_name)
     {
         try
         {
-            using (var client = new HttpClient())
+            using var client = new HttpClient();
+            var json = new
             {
-                var json = new
-                {
-                    email = email,
-                    password = password,
-                    first_name = firstName,
-                    last_name = secondName
-                };
+                email,
+                password,
+                first_name,
+                last_name
+            };
 
 
-                var content = new StringContent(System.Text.Json.JsonSerializer.Serialize(json), Encoding.UTF8, "application/json");
+            var content = new StringContent(System.Text.Json.JsonSerializer.Serialize(json), Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync($"{Settings.ApiAddress}user_create/", content);
-                var responseContent = await response.Content.ReadAsStringAsync();
+            var response = await client.PostAsync($"{Settings.ApiAddress}user_create/", content);
+            var responseContent = await response.Content.ReadAsStringAsync();
 
-                if (response.IsSuccessStatusCode)
-                {
-                    _ = await DatabaseService.UserCreate(email);
-                    return true;
-                }
-                else
-                {
-                    // TODO: исправить тут
-                    var error = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(responseContent)["email"];
-                    throw new Exception($"{error}");
-                }
+            if (response.IsSuccessStatusCode)
+            {
+                _ = await DatabaseService.UserCreate(email);
+                return true;
+            }
+            else
+            {
+                // TODO: исправить тут
+                var error = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(responseContent)["email"];
+                throw new Exception($"{error}");
             }
         }
         catch (Exception ex)

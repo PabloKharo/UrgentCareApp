@@ -8,40 +8,38 @@ namespace OnmpApp.Views.MainTabs;
 public partial class SearchTabPage : MasterContentPage
 {
 	private CancellationTokenSource textChangedDelayCancellationTokenSource;
-	SearchTabViewModel vm;
 
 	public SearchTabPage(SearchTabViewModel _vm)
 	{
 		InitializeComponent();
 		BindingContext = _vm;
-		vm = _vm;
 	}
 
 	private void OnDeleteSwipeItemInvoked(object sender, EventArgs e)
 	{
-		if (vm == null)
+		if ((BindingContext as SearchTabViewModel) == null)
 			return;
 
 		var swipeItemView = (SwipeItem)sender;
 		var smallCard = (Card)swipeItemView.BindingContext;
 
-		vm.ItemDelete(smallCard);
+        (BindingContext as SearchTabViewModel).ItemDelete(smallCard);
 	}
 
 	private void OnArchiveSwipeItemInvoked(object sender, EventArgs e)
 	{
-		if (vm == null)
+		if ((BindingContext as SearchTabViewModel) == null)
 			return;
 
 		var swipeItemView = (SwipeItem)sender;
 		var smallCard = (Card)swipeItemView.BindingContext;
 
-		vm.ItemArchive(smallCard);
+        (BindingContext as SearchTabViewModel).ItemArchive(smallCard);
 	}
 
 	private async void SearchChanged()
 	{
-		if (vm == null)
+		if ((BindingContext as SearchTabViewModel) == null)
 			return;
 
 		textChangedDelayCancellationTokenSource?.Cancel();
@@ -50,7 +48,7 @@ public partial class SearchTabPage : MasterContentPage
 		try
 		{
 			await Task.Delay(1000, textChangedDelayCancellationTokenSource.Token);
-			vm.SearchTextChanged();
+			(BindingContext as SearchTabViewModel).SearchTextChanged();
 		}
 		catch (TaskCanceledException) { }
 	}

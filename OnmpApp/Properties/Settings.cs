@@ -4,7 +4,11 @@ namespace OnmpApp.Properties;
 
 public static class Settings
 {
+    public const char FieldDelimeter = '\u2E2F';
+    public const char PropertyDelimeter = '\u2E2E';
+
     #region App
+
     // Почта пользователя
     public static string Email
     {
@@ -41,17 +45,15 @@ public static class Settings
     }
 
     // Адрес сервера
-    public static string ApiAddress
-    {
-        get => "http://188.225.78.148/api/v1/account/";
-    }
+    public static string ApiAddress => "http://188.225.78.148/api/v1/account/";
 
     #endregion
 
 
     #region Database
+
     // Название БД
-    public const string DatabaseFilename = "onmpApp.db3";
+    private const string DatabaseFilename = "onmpApp.db3";
 
     // Путь к БД
     public static string DatabasePath => GetPath();
@@ -79,9 +81,4 @@ public static class Settings
         SQLiteOpenFlags.SharedCache;
 
     #endregion
-
-
-    public const char FieldDelimeter = '\u2E2F';
-    public const char PropertyDelimeter = '\u2E2E';
-
 }

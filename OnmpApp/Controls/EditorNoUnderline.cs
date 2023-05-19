@@ -9,7 +9,7 @@ namespace OnmpApp.Controls;
 public class EditorNoUnderline :Editor
 {
     public static readonly BindableProperty NoUnderlineProperty =
-        BindableProperty.Create("NoUnderline", typeof(bool), typeof(EditorNoUnderline), false);
+        BindableProperty.Create(nameof(NoUnderline), typeof(bool), typeof(EditorNoUnderline), false);
 
     public bool NoUnderline
     {

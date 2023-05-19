@@ -26,9 +26,7 @@ public class CheckBoxGroup : StackLayout
         set => SetValue(SelectedOptionsProperty, value);
     }
 
-    private bool _initialized = false;
-
-    private async void OnItemsSourceChanged(BindableObject bindable, object oldValue, object newValue)
+    private void OnItemsSourceChanged(BindableObject bindable, object _, object newValue)
     {
         if (newValue is IList<string> items)
         {
@@ -37,7 +35,7 @@ public class CheckBoxGroup : StackLayout
 
             for (int i = 0; i < items.Count; i++)
             {
-                var checkBox = new CheckBox {IsChecked = SelectedOptions[i] };
+                var checkBox = new CheckBox { IsChecked = SelectedOptions[i] };
                 var label = new Label { Text = items[i], VerticalOptions = LayoutOptions.Center, FontFamily = "Arial", FontSize = 18 };
 
                 checkBoxGroup.Children.Add(new StackLayout

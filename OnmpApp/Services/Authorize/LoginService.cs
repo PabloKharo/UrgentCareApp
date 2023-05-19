@@ -20,34 +20,32 @@ public static class LoginService
     {
         try
         {
-            using (var client = new HttpClient())
+            using var client = new HttpClient();
+            var json = new
             {
-                var json = new
-                {
-                    email = email,
-                    password = password
-                };
+                email,
+                password
+            };
 
-                var content = new StringContent(System.Text.Json.JsonSerializer.Serialize(json), Encoding.UTF8, "application/json");
+            var content = new StringContent(System.Text.Json.JsonSerializer.Serialize(json), Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync($"{Settings.ApiAddress}token/", content);
-                var responseContent = await response.Content.ReadAsStringAsync();
+            var response = await client.PostAsync($"{Settings.ApiAddress}token/", content);
+            var responseContent = await response.Content.ReadAsStringAsync();
 
-                if (response.IsSuccessStatusCode)
-                {
-                    var token = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(responseContent)["token"];
-                    Settings.Token = token;
+            if (response.IsSuccessStatusCode)
+            {
+                var token = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(responseContent)["token"];
+                Settings.Token = token;
 
-                    if (!await DatabaseService.UserEmailExists(email))
-                        await DatabaseService.UserCreate(email);
+                if (!await DatabaseService.UserEmailExists(email))
+                    await DatabaseService.UserCreate(email);
 
-                    return true;
-                }
-                else
-                {
-                    var error = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(responseContent)["error"];
-                    throw new Exception($"{error}");
-                }
+                return true;
+            }
+            else
+            {
+                var error = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(responseContent)["error"];
+                throw new Exception($"{error}");
             }
         }
         catch (Exception ex)

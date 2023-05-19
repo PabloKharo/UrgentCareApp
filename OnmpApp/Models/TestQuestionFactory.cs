@@ -11,7 +11,6 @@ public static class TestQuestionsFactory
 {
     public static List<TestQuestion> CreateFromAttributes<T>(T card) where T : new()
     {
-        var testInstance = new T();
         var testQuestions = new List<TestQuestion>();
 
         var properties = typeof(T).GetProperties();

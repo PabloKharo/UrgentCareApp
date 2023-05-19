@@ -10,8 +10,7 @@ public class LoginServiceTests
     // Тестирование аутентификации с неверными данными
     public async Task AuthenticateUser_False(string email, string pass)
     {
-        LoginService loginService = new LoginService();
-        Assert.False(await loginService.AuthenticateUser(email, pass));
+        Assert.False(await LoginService.AuthenticateUser(email, pass));
     }
 
     [Theory]
@@ -23,8 +22,6 @@ public class LoginServiceTests
     public async Task AuthenticateUser_True(string email, string pass)
     {
         // Для работы теста создать пользователя
-
-        LoginService loginService = new LoginService();
-        Assert.True(await loginService.AuthenticateUser(email, pass));
+        Assert.True(await LoginService.AuthenticateUser(email, pass));
     }
 }

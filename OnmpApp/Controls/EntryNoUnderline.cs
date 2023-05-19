@@ -4,7 +4,7 @@
 public class EntryNoUnderline :Entry
 {
     public static readonly BindableProperty NoUnderlineProperty =
-        BindableProperty.Create("NoUnderline", typeof(bool), typeof(EntryNoUnderline), false);
+        BindableProperty.Create(nameof(NoUnderline), typeof(bool), typeof(EntryNoUnderline), false);
 
     public bool NoUnderline
     {

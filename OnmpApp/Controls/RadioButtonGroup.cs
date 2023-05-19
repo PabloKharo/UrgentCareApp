@@ -15,7 +15,6 @@ public class RadioButtonGroup : StackLayout
         Orientation = StackOrientation.Vertical;
     }
 
-    private bool _initialized = false;
     protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
     {
         base.OnPropertyChanged(propertyName);
@@ -104,7 +103,7 @@ public class RadioButtonGroup : StackLayout
             }
 
             // Если найден CarouselView, прокрутите к следующему элементу
-            if (BindingContext is RadioButtonQuestion que && BindingContext is not RadioButtonWithTextQuestion)
+            if (BindingContext is RadioButtonQuestion && BindingContext is not RadioButtonWithTextQuestion)
             {
                 if (ParentCarouselView != null)
                 {

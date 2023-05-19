@@ -10,7 +10,7 @@ public static class ToastHelper
         ToastDuration duration = ToastDuration.Short, 
         double fontSize = 14)
     {
-        CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+        CancellationTokenSource cancellationTokenSource = new();
         var toast = Toast.Make(message, duration, fontSize);
         await toast.Show(cancellationTokenSource.Token);
     }

@@ -17,7 +17,7 @@ namespace OnmpApp.ViewModels.CardFiller;
 public partial class TemplateFillerViewModel : ObservableObject
 {
     [ObservableProperty]
-    ObservableCollection<TestQuestion> _questions = new ObservableCollection<TestQuestion>();
+    ObservableCollection<TestQuestion> _questions = new();
 
     [ObservableProperty]
     bool _isFinishButtonVisible = false;

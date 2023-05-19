@@ -76,8 +76,7 @@ namespace OnmpApp.ViewModels.Authorize
                 return;
             }
 
-            RegistrationService service = new();
-            bool registered = await service.RegisterUser(Email, FirstPassword, FirstName, SecondName);
+            bool registered = await RegistrationService.RegisterUser(Email, FirstPassword, FirstName, SecondName);
             if (!registered)
             {
                 InvalidEmailOccured = true;

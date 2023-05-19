@@ -1,5 +1,4 @@
-﻿using Android.Graphics.Drawables;
-using Microsoft.Maui.Controls.Platform;
+﻿using Microsoft.Maui.Controls.Platform;
 using OnmpApp.Controls;
 
 namespace OnmpApp;
@@ -17,7 +16,7 @@ public partial class App : Application
 
 	}
 
-	void ModifyEntryWithoutUnderline()
+	static void ModifyEntryWithoutUnderline()
 	{
 		Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping("NoUnderline", (h, v) =>
 		{
@@ -34,21 +33,21 @@ public partial class App : Application
 		});
 	}
 
-	void ModifyPickerWithoutUnderline()
+    static void ModifyPickerWithoutUnderline()
 	{
 		Microsoft.Maui.Handlers.PickerHandler.Mapper.AppendToMapping("NoUnderline", (h, v) =>
 		{
 			if (v is PickerNoUnderline)
 			{
 #if ANDROID
-				GradientDrawable gd = new GradientDrawable();  
+                Android.Graphics.Drawables.GradientDrawable gd = new();  
 				gd.SetColor(global::Android.Graphics.Color.Transparent);  
 				h.PlatformView.SetBackground(gd);  
 #endif
 			}
 		});
 	}
-	void ModifyEditorWithoutUnderline()
+    static void ModifyEditorWithoutUnderline()
 	{
 		/*Microsoft.Maui.Handlers.EditorHandler.Mapper.AppendToMapping("NoUnderline", (h, v) =>
 		{

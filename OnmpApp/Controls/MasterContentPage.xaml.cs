@@ -12,7 +12,7 @@ public partial class MasterContentPage : ContentPage, INotifyPropertyChanged
 	}
 
 	[RelayCommand]
-	async Task GoBack()
+	async static Task GoBack()
 	{
 		await Shell.Current.GoToAsync("..", animate: true);
 	}

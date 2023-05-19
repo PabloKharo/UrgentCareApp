@@ -21,9 +21,9 @@ public static partial class DatabaseService
         db = new SQLiteAsyncConnection(Settings.DatabasePath, Settings.DatabaseFlags);
 
         // Создание таблиц, если они не существуют
-        var user = await db.CreateTableAsync<User>();
-        var card = await db.CreateTableAsync<Card>();
-        var fullCard = await db.CreateTableAsync<FullCard>();
+        _ = await db.CreateTableAsync<User>();
+        _ = await db.CreateTableAsync<Card>();
+        _ = await db.CreateTableAsync<FullCard>();
 
 
     }
@@ -68,10 +68,10 @@ public static partial class DatabaseService
         string av = CardStatus.Archive.ToString();
 
         var res = await db.Table<Card>().Where(el => el.UserId == Settings.UserId && el.Name.Contains(searchText)).ToListAsync();
-        res = res.Where(el => (draftChecked ? el._status == df : false) ||
-                    (readyChecked ? el._status == rd : false) ||
-                    (templateChecked ? el._status == tm : false) ||
-                    (archiveChecked ? el._status == av : false)).ToList();
+        res = res.Where(el => (draftChecked && el._status == df) ||
+                    (readyChecked && el._status == rd) ||
+                    (templateChecked && el._status == tm) ||
+                    (archiveChecked && el._status == av)).ToList();
         return res;
     }
 
@@ -135,10 +135,12 @@ public static partial class DatabaseService
             var card = await db.GetAsync<FullCard>(id);
             return card;
         }
-        catch (Exception _)
+        catch (Exception)
         {
-            var card = new FullCard();
-            card.Id = id;
+            FullCard card = new()
+            {
+                Id = id
+            };
             await db.InsertAsync(card);
             return card;
         }
