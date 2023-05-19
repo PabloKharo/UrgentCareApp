@@ -11,6 +11,8 @@ public abstract class TestQuestionAttribute : Attribute
     public string QuestionText { get; set; }
     public string[] Options { get; set; }
     public string AdditionalLabelText { get; set; }
+    public Type ResultType { get; set; }
+
 }
 
 public interface ITextField
@@ -24,15 +26,15 @@ public class RadioButtonQuestionAttribute : TestQuestionAttribute
     {
         QuestionText = questionText;
         Options = options;
+        AdditionalLabelText = additional;
     }
 }
 
 public class RadioButtonWithTextQuestionAttribute : RadioButtonQuestionAttribute, ITextField
 {
-    public Type ResultType { get; set; }
 
     public RadioButtonWithTextQuestionAttribute(string questionText, string[] options, string additional = "", Type resultType = null)
-        : base(questionText, options)
+        : base(questionText, options, additional)
     {
         ResultType = resultType ?? typeof(string);
     }
@@ -44,15 +46,15 @@ public class CheckBoxQuestionAttribute : TestQuestionAttribute
     {
         QuestionText = questionText;
         Options = options;
+        AdditionalLabelText = additional;
     }
 }
 
 public class CheckBoxWithTextQuestionAttribute : CheckBoxQuestionAttribute, ITextField
 {
-    public Type ResultType { get; set; }
 
     public CheckBoxWithTextQuestionAttribute(string questionText, string[] options, string additional = "", Type resultType = null)
-        : base(questionText, options)
+        : base(questionText, options, additional)
     {
         ResultType = resultType ?? typeof(string);
     }
@@ -60,7 +62,6 @@ public class CheckBoxWithTextQuestionAttribute : CheckBoxQuestionAttribute, ITex
 
 public class TextQuestionAttribute : TestQuestionAttribute, ITextField
 {
-    public Type ResultType { get; set; }
 
     public TextQuestionAttribute(string questionText, Type resultType = null)
     {

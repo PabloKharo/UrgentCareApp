@@ -34,7 +34,7 @@ public class Card
     public int UserId { get; set; }
 
     // Название карты 
-    [NotNull, MaxLength(64)]
+    [NotNull, MaxLength(64), Indexed(Name = "name_idx", Order = 1)]
     public string Name { get; set; }
 
     // Дата вызова

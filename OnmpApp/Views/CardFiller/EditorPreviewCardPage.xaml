@@ -33,7 +33,7 @@
                 <Border HorizontalOptions="Start">
                     <HorizontalStackLayout>
                         <DatePicker Date="{Binding Card.Date, Mode=TwoWay}" Format="dd/MM/yyyy" Margin="15,0,15,0"/>
-                        <TimePicker Time="{Binding Card.Date.TimeOfDay, Mode=TwoWay}" Format="HH:mm" Margin="15,0,15,0"/>
+                        <TimePicker Time="{Binding Time, Mode=TwoWay}" Format="HH:mm" Margin="15,0,15,0"/>
                     </HorizontalStackLayout>
                 </Border>
             </VerticalStackLayout>
@@ -61,7 +61,8 @@
                 <Label Text="{x:Static properties:Resources.Template}" Margin="15,0,0,0"/>
                 <Border>
                     <controls:PickerNoUnderline Margin="15,0,15,0" HorizontalOptions="Fill" VerticalOptions="Fill" 
-                                        ItemsSource="{Binding Templates}" SelectedItem="{Binding SelectedTemplate}"/>
+                                        ItemsSource="{Binding Templates}" SelectedItem="{Binding SelectedTemplate}" ItemDisplayBinding="{Binding Name}">
+                    </controls:PickerNoUnderline>
                 </Border>
             </VerticalStackLayout>
 

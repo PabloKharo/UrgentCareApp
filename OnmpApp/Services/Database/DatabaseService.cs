@@ -23,6 +23,8 @@ public static partial class DatabaseService
         // Создание таблиц, если они не существуют
         var user = await db.CreateTableAsync<User>();
         var card = await db.CreateTableAsync<Card>();
+        var fullCard = await db.CreateTableAsync<FullCard>();
+
 
     }
 
@@ -107,8 +109,40 @@ public static partial class DatabaseService
     #endregion
 
 
-    #region Template
+    #region FullCard
 
+    public static async Task<bool> FullCardCreate(FullCard card)
+    {
+        _ = await db.InsertAsync(card);
+        return true;
+    }
+    public static async Task<bool> FullCardUpdate(FullCard card)
+    {
+        _ = await db.UpdateAsync(card);
+        return true;
+    }
+
+    public static async Task<bool> FullCardRemove(FullCard card)
+    {
+        _ = await db.DeleteAsync<FullCard>(card.Id);
+        return true;
+    }
+
+    public static async Task<FullCard> FullCardGet(int id)
+    {
+        try
+        {
+            var card = await db.GetAsync<FullCard>(id);
+            return card;
+        }
+        catch (Exception _)
+        {
+            var card = new FullCard();
+            card.Id = id;
+            await db.InsertAsync(card);
+            return card;
+        }
+    }
 
     #endregion
 }

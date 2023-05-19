@@ -135,7 +135,7 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Resources\Styles\Templates.xaml">
-	    <Generator>MSBuild:Compile</Generator>
+	    <Generator></Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Authorize\LoginPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
@@ -178,5 +178,7 @@
 	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
 	  </EmbeddedResource>
 	</ItemGroup>
+
+	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionOnmpAppHideInfoBar="True" /></VisualStudio></ProjectExtensions>
 
 </Project>

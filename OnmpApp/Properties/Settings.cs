@@ -51,7 +51,7 @@ public static class Settings
 
     #region Database
     // Название БД
-    public const string DatabaseFilename = "onmpAppDB.db3";
+    public const string DatabaseFilename = "onmpApp.db3";
 
     // Путь к БД
     public static string DatabasePath => GetPath();

@@ -14,6 +14,8 @@ public abstract class TestQuestion
     public int QuestionNumber { get; set; }
     public List<string> Options { get; set; }
     public string AdditionalLabelText { get; set; } = "";
+    public Type ResultType { get; set; } = typeof(string);
+
 
     public abstract string GetValue();
     public abstract void SetValue(string val);
@@ -42,7 +44,6 @@ public class RadioButtonQuestion : TestQuestion
 public class RadioButtonWithTextQuestion : RadioButtonQuestion
 {
     public string AdditionalText { get; set; }
-    public Type ResultType { get; set; }
 
     public override string GetValue()
     {
@@ -129,7 +130,6 @@ public class CheckBoxQuestion : TestQuestion
 public class CheckBoxWithTextQuestion : CheckBoxQuestion
 {
     public string AdditionalText { get; set; }
-    public Type ResultType { get; set; }
     public override string GetValue()
     {
         StringBuilder str = new();
@@ -213,7 +213,6 @@ public class CheckBoxWithTextQuestion : CheckBoxQuestion
 public class TextQuestion : TestQuestion
 {
     public string AnswerText { get; set; }
-    public Type ResultType { get; set; }
     public override string GetValue()
     {
         AnswerText = AnswerText?.Trim();

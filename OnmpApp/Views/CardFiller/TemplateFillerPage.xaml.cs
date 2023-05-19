@@ -15,11 +15,8 @@ public partial class TemplateFillerPage : MasterContentPage
         vm = _vm;
     }
 
-    private void QuestionsCarouselView_CurrentItemChanged(object sender, CurrentItemChangedEventArgs e)
+    private void MasterContentPage_Appearing(object sender, EventArgs e)
     {
-        var carouselView = sender as CarouselView;
-        var currentItemIndex = carouselView.ItemsSource.Cast<TestQuestion>().ToList().IndexOf(e.CurrentItem as TestQuestion);
-
-        vm.IsFinishButtonVisible = currentItemIndex == vm.Questions.Count - 1;
+        (BindingContext as TemplateFillerViewModel).InitCard();
     }
 }

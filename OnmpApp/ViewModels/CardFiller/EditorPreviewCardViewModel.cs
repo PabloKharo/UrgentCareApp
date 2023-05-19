@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 
 using OnmpApp.Helpers;
 using OnmpApp.Views.CardFiller;
+using OnmpApp.Models.Database;
 
 namespace OnmpApp.ViewModels.CardFiller;
 
@@ -23,9 +24,9 @@ public partial class EditorPreviewCardViewModel : ObservableObject
 {
     
     [ObservableProperty] // Список шаблонов
-    ObservableCollection<string> _templates = new();
+    ObservableCollection<Card> _templates = new();
     [ObservableProperty] // Выбранный шаблон
-    string _selectedTemplate;
+    Card _selectedTemplate;
 
     [ObservableProperty]
     int _cardId = -1; // Id изменяемой карточки
@@ -34,12 +35,18 @@ public partial class EditorPreviewCardViewModel : ObservableObject
     Card _card; // Карточка
 
     [ObservableProperty]
+    TimeSpan _time;
+
+    [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(NewCard))]
     bool _oldCard = false; // Была ли уже создана карта
 
     public bool NewCard => !OldCard;
 
-    public IList<string> CardStatuses { get; } = Enum.GetNames(typeof(CardStatus)).ToList();
+    public IList<string> CardStatuses { get; } = Enum.GetValues(typeof(CardStatus))
+                                                    .Cast<CardStatus>()
+                                                    .Select(e => e.GetDescription())
+                                                    .ToList();
 
     private string _selectedStatus;
     public string SelectedStatus
@@ -49,7 +56,7 @@ public partial class EditorPreviewCardViewModel : ObservableObject
         {
             _selectedStatus = value;
             if (Card != null)
-                Card._status = value;
+                Card.Status = StringHelper.GetEnumFromDescription(value);
             OnPropertyChanged(nameof(SelectedStatus));
         }
     }
@@ -61,21 +68,15 @@ public partial class EditorPreviewCardViewModel : ObservableObject
     public async Task<bool> GetTemplates()
     {
         var res = await SearchService.SearchCards("", false, false, true, false);
-        Templates = res.Select(el => el.Name).ToObservableCollection();
-        Templates.Insert(0, "Без шаблона");
+        Templates = res.ToObservableCollection();
+        Templates.Insert(0, new Card { Id = -1, Name = "Без шаблона"});
         SelectedTemplate = Templates[0];
         return true;
     }
 
-    [RelayCommand]
-    async void ContinueButton()
+    async Task Save()
     {
-        await Shell.Current.GoToAsync($"{nameof(EditorPreviewCardPage)}/{nameof(TemplateFillerPage)}?CardId={CardId}");
-    }
-
-    [RelayCommand]
-    async void SaveButton()
-    {
+        Card.Date += Time;
         if (OldCard)
         {
             await SearchService.UpdateCard(Card);
@@ -84,6 +85,28 @@ public partial class EditorPreviewCardViewModel : ObservableObject
         {
             await SearchService.AddCard(Card);
         }
+    }
+
+    [RelayCommand]
+    async void ContinueButton()
+    {
+        await Save();
+        if (!OldCard && SelectedTemplate.Id != -1)
+        {
+            
+            await Shell.Current.GoToAsync($"{nameof(EditorPreviewCardPage)}/{nameof(TemplateFillerPage)}?CardId={Card.Id}&TemplateId={SelectedTemplate.Id}");
+        }
+        else 
+        {
+            await Shell.Current.GoToAsync($"{nameof(EditorPreviewCardPage)}/{nameof(TemplateFillerPage)}?CardId={Card.Id}");
+
+        }
+    }
+
+    [RelayCommand]
+    async void SaveButton()
+    {
+        await Save();
         await Shell.Current.GoToAsync("..", animate: true);
     }
 
@@ -92,21 +115,27 @@ public partial class EditorPreviewCardViewModel : ObservableObject
         if (CardId != -1)
         {
             OldCard = true;
-            Card = await SearchService.GetCard(CardId);
-            SelectedStatus = Card.Status.ToString();
+            var card = await SearchService.GetCard(CardId);
+            Time = card.Date.TimeOfDay;
+            Card = card;
+            SelectedStatus = Card.Status.GetDescription();
         }
         else
         {
             OldCard = false;
-            Card = new()
+            var card = new Card()
             {
                 UserId = Settings.UserId,
                 Status = CardStatus.Draft,
-                Order = await SearchService.CardGetLastOrder()
+                Order = await SearchService.CardGetLastOrder(),
             };
+
+            Time = card.Date.TimeOfDay;
+            Card = card;
             SelectedStatus = CardStatuses[0];
             _ = await GetTemplates();
 
         }
+
     }
 }

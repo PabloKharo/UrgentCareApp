@@ -12,96 +12,18 @@
              xmlns:converters="clr-namespace:OnmpApp.Converters"
                             
              HeaderText="{x:Static properties:Resources.Card}"
-             BackButtonVisible="True">
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <Style TargetType="Label">
-                <Setter Property="FontFamily" Value="Arial" />
-                <Setter Property="FontSize" Value="18" />
-            </Style>
-            <Style x:Key="QuestionTextLabel" TargetType="Label">
-                <Setter Property="FontAttributes" Value="Bold" />
-                <Setter Property="FontSize" Value="20" />
-                <Setter Property="Margin" Value="0, 0, 0, 0" />
-            </Style>
-            <Style TargetType="Frame">
-                <Setter Property="BorderColor" Value="DarkGray" />
-                <Setter Property="CornerRadius" Value="5" />
-                <Setter Property="Padding" Value="10" />
-                <Setter Property="Margin" Value="0, 10" />
-            </Style>
-
-            <DataTemplate x:Key="RadioButtonQuestionTemplate" x:DataType="models:RadioButtonQuestion">
-                <Frame HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                    <ScrollView>
-                        <StackLayout>
-                            <Label Text="{Binding QuestionText}" />
-                            <controls:RadioButtonGroup x:Name="OptionGroup"  SelectedIndex="{Binding SelectedOptionIndex, Mode=TwoWay}" ItemsSource="{Binding Options}"/>
-                        </StackLayout>
-                    </ScrollView>
-                </Frame>
-            </DataTemplate>
-            <DataTemplate x:Key="RadioButtonWithTextQuestionTemplate"  x:DataType="models:RadioButtonWithTextQuestion">
-                <Frame HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                    <ScrollView>
-                        <StackLayout>
-                            <Label Text="{Binding QuestionText}" />
-                            <controls:RadioButtonGroup x:Name="OptionGroup"  SelectedIndex="{Binding SelectedOptionIndex, Mode=TwoWay}" ItemsSource="{Binding Options}" />
-                            <Entry Text="{Binding AdditionalText, Mode=TwoWay}" Keyboard="{Binding ResultType, Converter={StaticResource TypeToKeyboardConverter}}" />
-                        </StackLayout>
-                    </ScrollView>
-                </Frame>
-            </DataTemplate>
-
-            <DataTemplate x:Key="CheckBoxQuestionTemplate" x:DataType="models:CheckBoxQuestion">
-                <Frame HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                    <ScrollView>
-                        <StackLayout>
-                            <Label Text="{Binding QuestionText}" />
-                            <controls:CheckBoxGroup  SelectedOptions="{Binding SelectedOptions, Mode=TwoWay}" ItemsSource="{Binding Options}"/>
-                        </StackLayout>
-                    </ScrollView>
-                </Frame>
-            </DataTemplate>
-            <DataTemplate x:Key="CheckBoxWithTextQuestionTemplate" x:DataType="models:CheckBoxWithTextQuestion">
-                <Frame HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                    <ScrollView>
-                        <StackLayout>
-                            <Label Text="{Binding QuestionText}" />
-                            <controls:CheckBoxGroup SelectedOptions="{Binding SelectedOptions, Mode=TwoWay}" ItemsSource="{Binding Options}"/>
-                            <Editor Text="{Binding AdditionalText, Mode=TwoWay}" />
-                        </StackLayout>
-                    </ScrollView>
-                </Frame>
-            </DataTemplate>
-            <DataTemplate x:Key="TextQuestionTemplate" x:DataType="models:TextQuestion">
-                <Frame HorizontalOptions="Fill" VerticalOptions="Fill">
-                    <ScrollView>
-                        <StackLayout>
-                            <Label Text="{Binding QuestionText}" />
-                            <Entry Text="{Binding AnswerText, Mode=TwoWay}" Keyboard="{Binding ResultType, Converter={StaticResource TypeToKeyboardConverter}}" />
-                        </StackLayout>
-                    </ScrollView>
-                </Frame>
-            </DataTemplate>
-
-            <models:TestQuestionTemplateSelector x:Key="TestQuestionTemplateSelector"
-                                                RadioButtonQuestionTemplate="{StaticResource RadioButtonQuestionTemplate}"
-                                                RadioButtonWithTextQuestionTemplate="{StaticResource RadioButtonWithTextQuestionTemplate}"
-                                                CheckBoxQuestionTemplate="{StaticResource CheckBoxQuestionTemplate}"
-                                                CheckBoxWithTextQuestionTemplate="{StaticResource CheckBoxWithTextQuestionTemplate}"
-                                                TextQuestionTemplate="{StaticResource TextQuestionTemplate}"/>
-
-            <converters:TypeToKeyboardConverter x:Key="TypeToKeyboardConverter"/>
-        </ResourceDictionary>
-    </ContentPage.Resources>
+             BackButtonVisible="True"
+                            
+             Appearing="MasterContentPage_Appearing">
 
     <ContentPage.Content>
         <StackLayout>
-            <CollectionView ItemsSource="{Binding Questions}" ItemTemplate="{StaticResource TestQuestionTemplateSelector}" 
-                              Margin="10" ItemsLayout="VerticalList" RemainingItemsThreshold="100"
-                           HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
-
+            <CollectionView ItemsSource="{Binding Questions}" ItemTemplate="{StaticResource TestQuestionTemplateSelector}" VerticalScrollBarVisibility="Always"
+                            Margin="10" RemainingItemsThreshold="300" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+                </CollectionView.ItemsLayout>
+            </CollectionView>
 
             <Button Text="Сохранить" Command="{Binding ButtonPressedCommand}"/>
         </StackLayout>
