@@ -13,8 +13,8 @@
         ContentTemplate="{DataTemplate authorize:LoginPage}"/>
 
     <TabBar Route="TabPage" CurrentItem="{x:Reference searchItem}">
-        <Tab Title="Справочник" Icon="dark_catalog.png" Route="SearchTabPage1">
-            <ShellContent ContentTemplate="{DataTemplate tabs:SearchTabPage}"/>
+        <Tab Title="Справочник" Icon="dark_catalog.png" Route="CatalogTabPage">
+            <ShellContent ContentTemplate="{DataTemplate tabs:CatalogTabPage}"/>
         </Tab>
         <Tab x:Name="searchItem" Title="Карта" Icon="black_home.png" Route="SearchTabPage">
             <ShellContent ContentTemplate="{DataTemplate tabs:SearchTabPage}"/>

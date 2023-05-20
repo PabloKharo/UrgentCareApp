@@ -126,6 +126,9 @@
   <data name="Card" xml:space="preserve">
     <value>Карта</value>
   </data>
+  <data name="Catalog" xml:space="preserve">
+    <value>Справочник</value>
+  </data>
   <data name="Comment" xml:space="preserve">
     <value>Комментарий</value>
   </data>

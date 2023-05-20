@@ -24,8 +24,23 @@ public static partial class DatabaseService
         _ = await db.CreateTableAsync<User>();
         _ = await db.CreateTableAsync<Card>();
         _ = await db.CreateTableAsync<FullCard>();
+        _ = await db.CreateTableAsync<Catalog>();
 
 
+        if (await db.Table<Catalog>().CountAsync() == 0)
+        {
+            List<Catalog> l = new List<Catalog>
+            {
+                new Catalog() { Id = 0, Name = "Дыхание Чейна-Стокса", Text = "1" },
+                new Catalog() { Id = 0, Name = "Дыхание Биотта", Text = "2" },
+                new Catalog() { Id = 0, Name = "Дыхание Куссмауля", Text = "3" },
+                new Catalog() { Id = 0, Name = "Положительные симптомы Ровзинга", Text = "4" },
+                new Catalog() { Id = 0, Name = "Нистагм", Text = "5" },
+
+            };
+
+            await db.InsertAllAsync(l);
+        }
     }
 
     #region UserTable
@@ -62,16 +77,11 @@ public static partial class DatabaseService
     public static async Task<List<Card>> CardsSearch(string searchText, bool draftChecked, bool readyChecked,
                                         bool templateChecked, bool archiveChecked, int skip, int take)
     {
-        string rd = CardStatus.Ready.ToString();
-        string tm = CardStatus.Template.ToString();
-        string df = CardStatus.Draft.ToString();
-        string av = CardStatus.Archive.ToString();
-
         var res = await db.Table<Card>().Where(el => el.UserId == Settings.UserId && el.Name.Contains(searchText)).ToListAsync();
-        res = res.Where(el => (draftChecked && el._status == df) ||
-                    (readyChecked && el._status == rd) ||
-                    (templateChecked && el._status == tm) ||
-                    (archiveChecked && el._status == av)).ToList();
+        res = res.Where(el => (draftChecked && el.Status == CardStatus.Draft) ||
+                    (readyChecked && el.Status == CardStatus.Ready) ||
+                    (templateChecked && el.Status == CardStatus.Template) ||
+                    (archiveChecked && el.Status == CardStatus.Archive)).ToList();
         return res;
     }
 
@@ -108,7 +118,6 @@ public static partial class DatabaseService
 
     #endregion
 
-
     #region FullCard
 
     public static async Task<bool> FullCardCreate(FullCard card)
@@ -143,6 +152,41 @@ public static partial class DatabaseService
             };
             await db.InsertAsync(card);
             return card;
+        }
+    }
+
+    #endregion
+
+
+    #region Catalog
+
+    public static async Task<List<string>> CatalogSearch(string search, int skip = 0, int take = 0)
+    {
+
+        try
+        {
+            string query = "SELECT Name FROM Catalogs WHERE Name LIKE ?";
+            var res = await db.QueryAsync<CatalogName>(query, $"%{search}%");
+            return res.Select(x => x.Name).ToList();
+        }
+        catch (Exception)
+        {
+
+            return null;
+        }
+    }
+
+    public static async Task<Catalog> CatalogGet(string name)
+    {
+        try
+        {
+            var card = await db.Table<Catalog>().Where(el => el.Name == name).FirstOrDefaultAsync();
+            return card;
+        }
+        catch (Exception)
+        {
+            
+            return null;
         }
     }
 

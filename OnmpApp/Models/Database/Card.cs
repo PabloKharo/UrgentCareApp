@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 using SQLite;
 
-namespace OnmpApp.Models;
+namespace OnmpApp.Models.Database;
 
 // Возможные типы медицинских карт
 public enum CardStatus
@@ -34,7 +34,7 @@ public class Card
     public int UserId { get; set; }
 
     // Название карты 
-    [NotNull, MaxLength(64), Indexed(Name = "name_idx", Order = 1)]
+    [NotNull, MaxLength(64)]
     public string Name { get; set; }
 
     // Дата вызова
@@ -45,19 +45,11 @@ public class Card
     [NotNull, MaxLength(64)]
     public string Order { get; set; }
 
-    // Статус карты 
-    [NotNull, MaxLength(8), Column("Status")]
-    public string _status { get; set; }
-
-    [Ignore]
-    public CardStatus Status
-    {
-        get => (CardStatus)Enum.Parse(typeof(CardStatus), _status);
-        set => _status = value.ToString();
-    }
+    [NotNull, Indexed(Name = "status_idx", Order = 1)]
+    public CardStatus Status { get; set; }
 
     // Комментарий 
-    [MaxLength(45)]
+    [MaxLength(64)]
     public string Comment { get; set; }
 }
 

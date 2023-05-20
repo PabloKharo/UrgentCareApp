@@ -23,8 +23,8 @@ public static class LoginService
             using var client = new HttpClient();
             var json = new
             {
-                email,
-                password
+                email = email,
+                password = password
             };
 
             var content = new StringContent(System.Text.Json.JsonSerializer.Serialize(json), Encoding.UTF8, "application/json");

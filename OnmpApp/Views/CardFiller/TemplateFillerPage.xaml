@@ -25,7 +25,7 @@
                 </CollectionView.ItemsLayout>
             </CollectionView>
 
-            <Button Text="Сохранить" Command="{Binding ButtonPressedCommand}"/>
+            <Button Text="{x:Static properties:Resources.Save}" Command="{Binding ButtonPressedCommand}"/>
         </StackLayout>
     </ContentPage.Content>
 </controls:MasterContentPage>

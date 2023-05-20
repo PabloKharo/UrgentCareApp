@@ -13,7 +13,8 @@
 			 xmlns:triggers="clr-namespace:OnmpApp.Triggers"
 			 xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
 			 xmlns:properties="clr-namespace:OnmpApp.Properties"
-							
+			 xmlns:database="clr-namespace:OnmpApp.Models.Database"
+
 			 HeaderText="{x:Static properties:Settings.Email}"
 			 RightButtonVisible="True"
 			 RightButtonSource="{AppThemeBinding Light=user.png, Dark=user.png}"
@@ -127,7 +128,7 @@
 							<converters:CardStatusToStringConverter x:Key="CardStatusToStringConverter"/>
 						</CollectionView.Resources>
 						<CollectionView.ItemTemplate>
-							<DataTemplate x:DataType="models:Card">
+							<DataTemplate x:DataType="database:Card">
 								<SwipeView Threshold="100">
 									<!-- Удаление элемента -->
 									<SwipeView.LeftItems>

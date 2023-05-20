@@ -88,6 +88,15 @@ namespace OnmpApp.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Справочник.
+        /// </summary>
+        public static string Catalog {
+            get {
+                return ResourceManager.GetString("Catalog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Комментарий.
         /// </summary>
         public static string Comment {

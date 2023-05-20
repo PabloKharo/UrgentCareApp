@@ -13,6 +13,7 @@ using OnmpApp.Services.MainTabs;
 using OnmpApp.ViewModels.CardFiller;
 using System.Windows.Input;
 using CommunityToolkit.Maui.Core.Extensions;
+using OnmpApp.Models.Database;
 using OnmpApp.Views.MainTabs;
 using OnmpApp.Views.CardFiller;
 
@@ -68,10 +69,10 @@ public partial class SearchTabViewModel : ObservableObject
     }
 
     [RelayCommand]
-    void Refresh()
+    async void Refresh()
     {
         IsRefreshing = true;
-        SearchTextChanged();
+        await SearchTextChanged();
         IsRefreshing = false;
     }
 
@@ -103,7 +104,7 @@ public partial class SearchTabViewModel : ObservableObject
     }
 
     // Поиск элемента при изменении запроса
-    public async void SearchTextChanged()
+    public async Task SearchTextChanged()
     {
         if (SearchText == null)
             return;
