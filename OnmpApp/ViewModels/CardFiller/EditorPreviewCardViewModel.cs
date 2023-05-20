@@ -3,7 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using OnmpApp.Models;
 using OnmpApp.Properties;
-using OnmpApp.Services.MainTabs;
+using OnmpApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -55,8 +55,7 @@ public partial class EditorPreviewCardViewModel : ObservableObject
         set
         {
             _selectedStatus = value;
-            if (Card != null)
-                Card.Status = StringHelper.GetEnumFromDescription(value);
+            Card.Status = StringHelper.GetEnumFromDescription(value);
             OnPropertyChanged(nameof(SelectedStatus));
         }
     }
@@ -67,7 +66,7 @@ public partial class EditorPreviewCardViewModel : ObservableObject
 
     public async Task<bool> GetTemplates()
     {
-        var res = await SearchService.SearchCards("", false, false, true, false);
+        var res = await CardService.Search("", false, false, true, false);
         Templates = res.ToObservableCollection();
         Templates.Insert(0, new Card { Id = -1, Name = "Без шаблона"});
         SelectedTemplate = Templates[0];
@@ -79,11 +78,11 @@ public partial class EditorPreviewCardViewModel : ObservableObject
         Card.Date += Time;
         if (OldCard)
         {
-            await SearchService.UpdateCard(Card);
+            await CardService.Update(Card);
         }
         else
         {
-            await SearchService.AddCard(Card);
+            await CardService.Insert(Card);
         }
     }
 
@@ -115,7 +114,7 @@ public partial class EditorPreviewCardViewModel : ObservableObject
         if (CardId != -1)
         {
             OldCard = true;
-            var card = await SearchService.GetCard(CardId);
+            var card = await CardService.Get(CardId);
             Time = card.Date.TimeOfDay;
             Card = card;
             SelectedStatus = Card.Status.GetDescription();
@@ -127,7 +126,7 @@ public partial class EditorPreviewCardViewModel : ObservableObject
             {
                 UserId = Settings.UserId,
                 Status = CardStatus.Draft,
-                Order = await SearchService.CardGetLastOrder(),
+                Order = await CardService.GetLastOrder(),
             };
 
             Time = card.Date.TimeOfDay;

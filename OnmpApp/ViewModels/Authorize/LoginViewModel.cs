@@ -1,12 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using OnmpApp.Database;
 using OnmpApp.Models;
 using OnmpApp.Helpers;
-using OnmpApp.Services.Authorize;
+using OnmpApp.Services;
 using OnmpApp.Views.Authorize;
 using OnmpApp.Properties;
 
-using OnmpApp.Services.Database;
 
 namespace OnmpApp.ViewModels.Authorize;
 
@@ -35,18 +35,13 @@ public partial class LoginViewModel : ObservableObject
     public LoginViewModel()
     {
         // Если ранее был успешный вход, попробовать войти со старыми данными
-        if (Settings.WasAuthorized)
-        {
-            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
-            {
-                _ = LoginViewModel.NavigateToMainPage();
-            }
-            else
-            {
-                _ = Login();
-            }
+        if (!Settings.WasAuthorized) 
+            return;
 
-        }
+        if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+            _ = LoginViewModel.NavigateToMainPage();
+        else
+            _ = Login();
     }
 
     [RelayCommand]
@@ -86,8 +81,7 @@ public partial class LoginViewModel : ObservableObject
 
         IsLoginingIn = true;
 
-        bool logined = await LoginService.AuthenticateUser(Email, Password);
-        if (!logined)
+        if (!await UserService.AuthenticateUser(Email, Password))
         {
             IsLoginingIn = false;
             InvalidUserDataOccured = true;
@@ -95,7 +89,7 @@ public partial class LoginViewModel : ObservableObject
         }
 
         Settings.Email = Email;
-        Settings.UserId = await DatabaseService.UserGetId(Email);
+        Settings.UserId = await UserService.GetId(Email);
 
         if (SavePassword)
         {

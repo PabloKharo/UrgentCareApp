@@ -18,17 +18,6 @@ public partial class SettingsViewModel : ObservableObject
     [RelayCommand] // Выход из программы
     async Task LogOut()
     {
-
-/* Необъединенное слияние из проекта "OnmpApp (net7.0-windows10.0.19041.0)"
-До:
-        OnmpApp.Settings.WasAuthorized = false;
-        OnmpApp.Settings.Password = "";
-        OnmpApp.Settings.Token = "";
-После:
-        Settings.WasAuthorized = false;
-        Settings.Password = "";
-        Settings.Token = "";
-*/
         Properties.Settings.WasAuthorized = false;
         Properties.Settings.Password = "";
         Properties.Settings.Token = "";

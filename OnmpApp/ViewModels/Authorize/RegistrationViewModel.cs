@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using OnmpApp.Helpers;
-using OnmpApp.Services.Authorize;
+using OnmpApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -76,11 +76,10 @@ namespace OnmpApp.ViewModels.Authorize
                 return;
             }
 
-            bool registered = await RegistrationService.RegisterUser(Email, FirstPassword, FirstName, SecondName);
-            if (!registered)
+            if (!await UserService.RegisterUser(Email, FirstPassword, FirstName, SecondName))
             {
                 InvalidEmailOccured = true;
-                ErrorText = Properties.Resources.EmailAlreadyExists;
+                ErrorText = Properties.Resources.Error;
                 return;
             }
 

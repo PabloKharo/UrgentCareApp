@@ -2,13 +2,14 @@
 using CommunityToolkit.Mvvm.Input;
 using OnmpApp.Models;
 using OnmpApp.Models.Database;
-using OnmpApp.Services.Database;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OnmpApp.Database;
+using OnmpApp.Services;
 
 namespace OnmpApp.ViewModels.CardFiller;
 
@@ -29,31 +30,25 @@ public partial class TemplateFillerViewModel : ObservableObject
     int _templateId = -1;
 
     [ObservableProperty]
-    FullCard card = null;
-
-
-    public TemplateFillerViewModel()
-    {
-        
-    }
+    FullCard _card = null;
 
     public async void InitCard()
     {
-        Card = await DatabaseService.FullCardGet(CardId);
+        Card = await FullCardService.Get(CardId);
 
         if(TemplateId > 0)
         {
-            var card = await DatabaseService.FullCardGet(TemplateId);
+            var card = await FullCardService.Get(TemplateId);
             card.Id = CardId;
             Card = card;
         }
 
         var tmp = TestQuestionsFactory.CreateFromAttributes(Card);
         Questions = new ObservableCollection<TestQuestion>(tmp);
-        await DatabaseService.FullCardUpdate(Card);
+        await FullCardService.Update(Card);
     }
 
-    public void SaveTestResults(FullCard fullCard)
+    private void SaveTestResults(FullCard fullCard)
     {
         if (fullCard == null) throw new ArgumentNullException(nameof(fullCard));
 
@@ -85,7 +80,7 @@ public partial class TemplateFillerViewModel : ObservableObject
     async void ButtonPressed()
     {
         SaveTestResults(Card);
-        await DatabaseService.FullCardUpdate(Card);
+        await FullCardService.Update(Card);
         await Shell.Current.GoToAsync("../..", animate: true);
     }
 

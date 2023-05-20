@@ -2,8 +2,7 @@
 using OnmpApp.ViewModels;
 using OnmpApp.Views;
 using CommunityToolkit.Maui;
-
-using OnmpApp.Services.Database;
+using OnmpApp.Database;
 
 namespace OnmpApp;
 
@@ -26,7 +25,7 @@ public static class MauiProgram
 		builder.Logging.AddDebug();
 #endif
 
-		_ = DatabaseService.Init();
+		_ = BaseDatabase.Init();
 
         return builder.Build();
 	}

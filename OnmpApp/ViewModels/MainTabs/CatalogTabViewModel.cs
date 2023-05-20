@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 using CommunityToolkit.Maui.Core.Extensions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using OnmpApp.Services.Database;
+using OnmpApp.Database;
+using OnmpApp.Services;
 using OnmpApp.ViewModels.Catalog;
 using OnmpApp.Views.Catalog;
 
@@ -25,7 +26,7 @@ public partial class CatalogTabViewModel : ObservableObject
 
     public CatalogTabViewModel()
     {
-        SearchTextChanged();
+        _ = SearchTextChanged();
     }
 
     [RelayCommand]
@@ -54,10 +55,7 @@ public partial class CatalogTabViewModel : ObservableObject
     // Поиск элемента при изменении запроса
     public async Task SearchTextChanged()
     {
-        if (SearchText == null)
-            return;
-
-        var res = await DatabaseService.CatalogSearch(SearchText);
+        var res = await CatalogService.Search(SearchText);
         CatalogElements = res.ToObservableCollection();
     }
 

@@ -6,7 +6,6 @@ namespace OnmpApp.Models;
 public abstract class TestQuestion
 {
     public string QuestionText { get; set; }
-    public int QuestionNumber { get; set; }
     public List<string> Options { get; set; }
     public string AdditionalLabelText { get; set; } = "";
     public Type ResultType { get; set; } = typeof(string);
@@ -22,10 +21,7 @@ public class RadioButtonQuestion : TestQuestion
 
     public override string GetValue()
     {
-        if (SelectedOptionIndex == -1)
-            return null;
-
-        return Options[SelectedOptionIndex];
+        return SelectedOptionIndex == -1 ? null : Options[SelectedOptionIndex];
     }
 
     public override void SetValue(string val)
@@ -71,7 +67,7 @@ public class RadioButtonWithTextQuestion : RadioButtonQuestion
 
     public override void SetValue(string val)
     {
-        if (AdditionalLabelText != null && AdditionalLabelText != "")
+        if (!string.IsNullOrEmpty(AdditionalLabelText))
         {
             var splitStrings = val.Split(new[] { Settings.FieldDelimeter }, StringSplitOptions.None);
             SelectedOptionIndex = Options.IndexOf(splitStrings[0]);
@@ -126,7 +122,7 @@ public class CheckBoxWithTextQuestion : CheckBoxQuestion
     public override string GetValue()
     {
         StringBuilder str = new();
-        if (AdditionalLabelText != null && AdditionalLabelText != "")
+        if (!string.IsNullOrEmpty(AdditionalLabelText))
         {
             for (var i = 0; i < SelectedOptions.Count; i++)
                 if (SelectedOptions[i])
@@ -137,7 +133,7 @@ public class CheckBoxWithTextQuestion : CheckBoxQuestion
             str.Append(Settings.FieldDelimeter + AdditionalLabelText + Settings.FieldDelimeter);
 
             AdditionalText = AdditionalText?.Trim();
-            if (AdditionalText != null && AdditionalText != "")
+            if (!string.IsNullOrEmpty(AdditionalText))
                 str.Append(AdditionalText);
 
             if (str.ToString() == Settings.FieldDelimeter + AdditionalLabelText + Settings.FieldDelimeter)
@@ -146,7 +142,7 @@ public class CheckBoxWithTextQuestion : CheckBoxQuestion
         else
         {
             AdditionalText = AdditionalText?.Trim();
-            if (AdditionalText != null && AdditionalText != "")
+            if (!string.IsNullOrEmpty(AdditionalText))
                 str.Append(AdditionalText);
             else
                 for (var i = 0; i < SelectedOptions.Count; i++)
@@ -162,7 +158,7 @@ public class CheckBoxWithTextQuestion : CheckBoxQuestion
 
     public override void SetValue(string val)
     {
-        if (AdditionalLabelText != null && AdditionalLabelText != "")
+        if (!string.IsNullOrEmpty(AdditionalLabelText))
         {
             var splitStrings = val.Split(new[] { Settings.FieldDelimeter }, StringSplitOptions.None);
 
@@ -204,7 +200,7 @@ public class TextQuestion : TestQuestion
     public override string GetValue()
     {
         AnswerText = AnswerText?.Trim();
-        if (AnswerText == null || AnswerText == "")
+        if (string.IsNullOrEmpty(AnswerText))
             return null;
         return AnswerText;
     }

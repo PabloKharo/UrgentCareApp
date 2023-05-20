@@ -27,15 +27,13 @@ public static class StringHelper
 
     public static CardStatus GetEnumFromDescription(string description)
     {
-        if (description == "Черновик")
-            return CardStatus.Draft;
-        else if (description == "Готовый")
-            return CardStatus.Ready;
-        else if (description == "Шаблон")
-            return CardStatus.Template;
-        else if (description == "Архив")
-            return CardStatus.Archive;
-
-        throw new ArgumentException("Не найдено соответствующее значение для описания.");
+        return description switch
+        {
+            "Черновик" => CardStatus.Draft,
+            "Готовый" => CardStatus.Ready,
+            "Шаблон" => CardStatus.Template,
+            "Архив" => CardStatus.Archive,
+            _ => throw new ArgumentException("Не найдено соответствующее значение для описания.")
+        };
     }
 }

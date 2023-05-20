@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
-using OnmpApp.Services.MainTabs;
+using OnmpApp.Services;
 using OnmpApp.ViewModels.CardFiller;
 using System.Windows.Input;
 using CommunityToolkit.Maui.Core.Extensions;
@@ -106,10 +106,7 @@ public partial class SearchTabViewModel : ObservableObject
     // Поиск элемента при изменении запроса
     public async Task SearchTextChanged()
     {
-        if (SearchText == null)
-            return;
-
-        var res = await SearchService.SearchCards(SearchText, DraftChecked, ReadyChecked, TemplateChecked, ArchiveChecked);
+        var res = await CardService.Search(SearchText, DraftChecked, ReadyChecked, TemplateChecked, ArchiveChecked);
         SmallCards = res.OrderByDescending(el => el.Id).ToObservableCollection();
     }
 
@@ -119,7 +116,7 @@ public partial class SearchTabViewModel : ObservableObject
         if (selectedCard == null)
             return;
 
-        await SearchService.RemoveCard(selectedCard);
+        await CardService.Remove(selectedCard.Id);
         SmallCards.Remove(selectedCard);
 
     }
@@ -130,7 +127,7 @@ public partial class SearchTabViewModel : ObservableObject
         if (selectedCard == null)
             return;
 
-        SmallCards.Where(el => el == selectedCard).ToList().FirstOrDefault().Status = 
+        SmallCards.Where(el => el == selectedCard).ToList().FirstOrDefault()!.Status = 
                 ((selectedCard.Status == CardStatus.Ready) ? CardStatus.Archive : CardStatus.Ready);
     }
 

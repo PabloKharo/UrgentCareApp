@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
-using OnmpApp.Services.Database;
+using OnmpApp.Database;
+using OnmpApp.Services;
 
 namespace OnmpApp.ViewModels.Catalog;
 
@@ -20,7 +21,7 @@ public partial class CatalogTextViewModel : ObservableObject
 
     public async void InitPage()
     {
-        CatalogElement = await DatabaseService.CatalogGet(Name);
+        CatalogElement = await CatalogService.Get(Name);
     }
 
 }

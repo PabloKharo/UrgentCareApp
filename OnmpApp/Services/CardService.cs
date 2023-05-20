@@ -1,29 +1,25 @@
-﻿using CommunityToolkit.Maui.Core.Extensions;
-using OnmpApp.Helpers;
-using OnmpApp.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OnmpApp.Database;
+using OnmpApp.Helpers;
 using OnmpApp.Models.Database;
-using OnmpApp.Services.Database;
 
+namespace OnmpApp.Services;
 
-namespace OnmpApp.Services.MainTabs;
-
-public static class SearchService
+public static class CardService
 {
+
     // Получение списка карточек
-    public async static Task<List<Card>> SearchCards(string searchText, bool draftChecked, bool readyChecked, 
+    public static async Task<List<Card>> Search(string searchText, bool draftChecked, bool readyChecked,
                                         bool templateChecked, bool archiveChecked, int skip = 0, int take = 20)
     {
         try
         {
-            var res = await DatabaseService.CardsSearch(searchText, draftChecked, readyChecked, templateChecked, archiveChecked, skip, take);
-            return res;
+            return await CardTable.Search(searchText, draftChecked, readyChecked, templateChecked, archiveChecked, skip, take);
         }
         catch (Exception ex)
         {
@@ -37,12 +33,11 @@ public static class SearchService
     }
 
     // Обновление карточки
-    public async static Task<bool> UpdateCard(Card card)
+    public static async Task<bool> Update(Card card)
     {
         try
         {
-            _ = await DatabaseService.CardUpdate(card);
-            return true;
+            return await CardTable.Update(card);
         }
         catch (Exception ex)
         {
@@ -55,18 +50,30 @@ public static class SearchService
 
     }
 
-    public static async Task<string> CardGetLastOrder()
+    public static async Task<string> GetLastOrder()
     {
-        return await DatabaseService.CardGetLastOrder();
+        try
+        {
+            return await CardTable.GetLastOrder();
+        }
+        catch (Exception ex)
+        {
+#if DEBUG
+            Debug.WriteLine(@"\tERROR {0}", ex.Message);
+#endif
+            ToastHelper.Show(Properties.Resources.Error);
+        }
+        return "";
     }
 
 
     // Удаление карточки
-    public async static Task<bool> RemoveCard(Card card)
+    public static async Task<bool> Remove(int id)
     {
         try
         {
-            _ = await DatabaseService.CardRemove(card);
+            await CardTable.Remove(id);
+            await FullCardTable.Remove(id);
             return true;
         }
         catch (Exception ex)
@@ -83,12 +90,11 @@ public static class SearchService
 
 
     // Получение краткой информации карточки
-    public async static Task<Card> GetCard(int id)
+    public static async Task<Card> Get(int id)
     {
         try
         {
-            var res = await DatabaseService.CardGet(id);
-            return res;
+            return await CardTable.Get(id);
         }
         catch (Exception ex)
         {
@@ -102,12 +108,11 @@ public static class SearchService
     }
 
     // Добавление карточки
-    public async static Task<bool> AddCard(Card card)
+    public static async Task<bool> Insert(Card card)
     {
         try
         {
-            _ = await DatabaseService.CardCreate(card);
-            return true;
+            return await CardTable.Insert(card);
         }
         catch (Exception ex)
         {
@@ -119,6 +124,4 @@ public static class SearchService
 
         return false;
     }
-
-
 }
