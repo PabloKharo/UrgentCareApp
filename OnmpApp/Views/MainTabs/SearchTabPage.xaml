@@ -19,6 +19,7 @@
 			 RightButtonVisible="True"
 			 RightButtonSource="{AppThemeBinding Light=user.png, Dark=user.png}"
 			 RightButtonCommand="{Binding NavigateToSettingsPageCommand}"
+				Appearing="MasterContentPage_Appearing"
 			 >
 
 	<Grid Padding="30" VerticalOptions="Center">
@@ -110,11 +111,6 @@
 
 		<!-- Карточки -->
 		<Border Grid.Row="3" StrokeShape="Rectangle">
-			<Border.Shadow>
-				<Shadow Brush="Black"
-				Offset="0,0"
-				Opacity="0.8" />
-			</Border.Shadow>
 
 			<Border.Behaviors>
 				<behaviors:VisibilityAnimationBehavior TranslateAnimation="True" />
@@ -129,21 +125,21 @@
 						</CollectionView.Resources>
 						<CollectionView.ItemTemplate>
 							<DataTemplate x:DataType="database:Card">
-								<SwipeView Threshold="100">
-									<!-- Удаление элемента -->
+								<SwipeView Threshold="150">
+									<!-- Архивация элемента -->
 									<SwipeView.LeftItems>
 										<SwipeItems Mode="Execute">
-											<SwipeItem IconImageSource="black_home.png"
-											   Invoked="OnDeleteSwipeItemInvoked"
-											   BackgroundColor="Red" />
-										</SwipeItems>
-									</SwipeView.LeftItems>
-									<!-- Архивация элементаВ элемента -->
-									<SwipeView.RightItems>
-										<SwipeItems Mode="Execute">
-											<SwipeItem IconImageSource="black_home.png"
+											<SwipeItem IconImageSource="archive.png"
 											   Invoked="OnArchiveSwipeItemInvoked"
 											   BackgroundColor="Blue" />
+										</SwipeItems>
+									</SwipeView.LeftItems>
+									<!-- Удаление элемента -->
+									<SwipeView.RightItems>
+										<SwipeItems Mode="Execute">
+											<SwipeItem IconImageSource="trash.png"
+											   Invoked="OnDeleteSwipeItemInvoked"
+											   BackgroundColor="Red" />
 										</SwipeItems>
 									</SwipeView.RightItems>
 									<SwipeView.Content>
@@ -172,11 +168,11 @@
 				</RefreshView>
 			</ScrollView>
 		</Border>
-		
-		<!-- Кнопка создания карты -->
-		<Button Grid.Row="4" Margin="10,10,10,-15" HorizontalOptions="Fill"
-				Text="{x:Static properties:Resources.CreateCard}" Command="{Binding CreateCardCommand}"/>
 
+        <Border Grid.Row="4" Margin="10,10,10,-15" HorizontalOptions="Fill">
+		    <!-- Кнопка создания карты -->
+		    <Button Text="{x:Static properties:Resources.CreateCard}" Command="{Binding CreateCardCommand}"/>
+        </Border>
 
 	</Grid>
 </controls:MasterContentPage>

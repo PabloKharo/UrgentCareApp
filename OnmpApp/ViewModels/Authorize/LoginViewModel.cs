@@ -38,7 +38,7 @@ public partial class LoginViewModel : ObservableObject
         if (!Settings.WasAuthorized) 
             return;
 
-        if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+        if (Connectivity.NetworkAccess != NetworkAccess.Internet || (DateTime.Now - Settings.AuthorizedDate).TotalDays <= 1)
             _ = LoginViewModel.NavigateToMainPage();
         else
             _ = Login();
@@ -81,7 +81,7 @@ public partial class LoginViewModel : ObservableObject
 
         IsLoginingIn = true;
 
-        if (!await UserService.AuthenticateUser(Email, Password))
+        if (!await UserService.Authenticate(Email, Password))
         {
             IsLoginingIn = false;
             InvalidUserDataOccured = true;
@@ -90,6 +90,7 @@ public partial class LoginViewModel : ObservableObject
 
         Settings.Email = Email;
         Settings.UserId = await UserService.GetId(Email);
+        Settings.AuthorizedDate = DateTime.Now;
 
         if (SavePassword)
         {

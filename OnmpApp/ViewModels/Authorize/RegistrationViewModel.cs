@@ -76,7 +76,7 @@ namespace OnmpApp.ViewModels.Authorize
                 return;
             }
 
-            if (!await UserService.RegisterUser(Email, FirstPassword, FirstName, SecondName))
+            if (!await UserService.Register(Email, FirstPassword, FirstName, SecondName))
             {
                 InvalidEmailOccured = true;
                 ErrorText = Properties.Resources.Error;

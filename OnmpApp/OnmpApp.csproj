@@ -33,11 +33,14 @@
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-android|AnyCPU'">
 	  <ApplicationTitle>OnmpApp</ApplicationTitle>
 	  <ApplicationId>com.companyname.onmpapp</ApplicationId>
+	  <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
+	  <DebugSymbols>True</DebugSymbols>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android|AnyCPU'">
 	  <ApplicationTitle>OnmpApp</ApplicationTitle>
 	  <ApplicationId>com.companyname.onmpapp</ApplicationId>
+	  <AndroidPackageFormat>apk</AndroidPackageFormat>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
@@ -101,12 +104,14 @@
 	  <None Remove=".gitattributes" />
 	  <None Remove=".gitignore" />
 	  <None Remove="README.md" />
+	  <None Remove="Resources\Images\archive.png" />
 	  <None Remove="Resources\Images\black_home.png" />
 	  <None Remove="Resources\Images\dark_catalog.png" />
 	  <None Remove="Resources\Images\dark_go_back.png" />
 	  <None Remove="Resources\Images\dark_info.png" />
 	  <None Remove="Resources\Images\light_go_back.png" />
 	  <None Remove="Resources\Images\light_info.png" />
+	  <None Remove="Resources\Images\trash.png" />
 	  <None Remove="Resources\Images\user.png" />
 	</ItemGroup>
 

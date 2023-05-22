@@ -122,13 +122,25 @@ public partial class SearchTabViewModel : ObservableObject
     }
 
     // Архивация элемента
-    public void ItemArchive(Card selectedCard)
+    public async void ItemArchive(Card selectedCard)
     {
         if (selectedCard == null)
             return;
 
-        SmallCards.Where(el => el == selectedCard).ToList().FirstOrDefault()!.Status = 
-                ((selectedCard.Status == CardStatus.Ready) ? CardStatus.Archive : CardStatus.Ready);
+        if (selectedCard.Status != CardStatus.Archive)
+            selectedCard.Status = CardStatus.Archive;
+        else
+            selectedCard.Status = CardStatus.Ready;
+
+        await CardService.Update(selectedCard);
+
+        if(selectedCard.Status == CardStatus.Archive && !ArchiveChecked)
+        {
+            SmallCards.Remove(selectedCard);
+            return;
+        }
+
+        SmallCards[SmallCards.IndexOf(selectedCard)] = selectedCard;
     }
 
 }

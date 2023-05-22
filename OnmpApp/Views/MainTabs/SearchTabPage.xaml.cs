@@ -49,7 +49,7 @@ public partial class SearchTabPage : MasterContentPage
 		try
 		{
 			await Task.Delay(1000, textChangedDelayCancellationTokenSource.Token);
-			(BindingContext as SearchTabViewModel).SearchTextChanged();
+			await (BindingContext as SearchTabViewModel).SearchTextChanged();
 		}
 		catch (TaskCanceledException) { }
 	}
@@ -63,4 +63,12 @@ public partial class SearchTabPage : MasterContentPage
 	{
 		SearchChanged();
 	}
+
+    private async void MasterContentPage_Appearing(object sender, EventArgs e)
+    {
+        if ((BindingContext as SearchTabViewModel) == null)
+            return;
+
+        await (BindingContext as SearchTabViewModel).SearchTextChanged();
+    }
 }

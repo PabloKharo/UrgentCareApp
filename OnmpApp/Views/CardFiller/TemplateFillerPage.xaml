@@ -21,11 +21,13 @@
             <CollectionView ItemsSource="{Binding Questions}" ItemTemplate="{StaticResource TestQuestionTemplateSelector}" VerticalScrollBarVisibility="Always"
                             Margin="10" RemainingItemsThreshold="300" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                 <CollectionView.ItemsLayout>
-                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+                    <GridItemsLayout Orientation="Vertical" Span="{OnIdiom Phone=1, Tablet=2}" />
                 </CollectionView.ItemsLayout>
             </CollectionView>
 
-            <Button Text="{x:Static properties:Resources.Save}" Command="{Binding ButtonPressedCommand}"/>
+            <Border>
+                <Button Text="{x:Static properties:Resources.Save}" Command="{Binding ButtonPressedCommand}"/>
+            </Border>
         </StackLayout>
     </ContentPage.Content>
 </controls:MasterContentPage>

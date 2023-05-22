@@ -7,7 +7,7 @@
              xmlns:converters="clr-namespace:OnmpApp.Converters">
     
     <DataTemplate x:Key="RadioButtonQuestionTemplate" x:DataType="models:RadioButtonQuestion">
-        <Border HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="10">
+        <Border HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="10" Margin="5">
             <StackLayout>
                 <Label Text="{Binding QuestionText}" FontFamily="Arial" FontSize="20" Margin="0" />
                 <controls:RadioButtonGroup x:Name="OptionGroup"  SelectedIndex="{Binding SelectedOptionIndex, Mode=TwoWay}" ItemsSource="{Binding Options}"/>
@@ -15,7 +15,7 @@
         </Border>
     </DataTemplate>
     <DataTemplate x:Key="RadioButtonWithTextQuestionTemplate"  x:DataType="models:RadioButtonWithTextQuestion">
-        <Border HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="10">
+        <Border HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="10" Margin="5">
             <StackLayout>
                 <Label Text="{Binding QuestionText}" FontFamily="Arial" FontSize="20" Margin="0"/>
                 <controls:RadioButtonGroup x:Name="OptionGroup"  SelectedIndex="{Binding SelectedOptionIndex, Mode=TwoWay}" ItemsSource="{Binding Options}" />
@@ -26,7 +26,7 @@
     </DataTemplate>
 
     <DataTemplate x:Key="CheckBoxQuestionTemplate" x:DataType="models:CheckBoxQuestion">
-        <Border HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="10">
+        <Border HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="10" Margin="5">
             <StackLayout>
                 <Label Text="{Binding QuestionText}" FontFamily="Arial" FontSize="20" Margin="0"/>
                 <controls:CheckBoxGroup  SelectedOptions="{Binding SelectedOptions, Mode=TwoWay}" ItemsSource="{Binding Options}"/>
@@ -34,7 +34,7 @@
         </Border>
     </DataTemplate>
     <DataTemplate x:Key="CheckBoxWithTextQuestionTemplate" x:DataType="models:CheckBoxWithTextQuestion">
-        <Border HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="10">
+        <Border HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="10" Margin="5">
             <StackLayout>
                 <Label Text="{Binding QuestionText}" FontFamily="Arial" FontSize="20" Margin="0"/>
                 <controls:CheckBoxGroup SelectedOptions="{Binding SelectedOptions, Mode=TwoWay}" ItemsSource="{Binding Options}"/>
@@ -45,7 +45,7 @@
         </Border>
     </DataTemplate>
     <DataTemplate x:Key="TextQuestionTemplate" x:DataType="models:TextQuestion">
-        <Border HorizontalOptions="Fill" VerticalOptions="Fill" Padding="10">
+        <Border HorizontalOptions="Fill" VerticalOptions="Fill" Padding="10" Margin="5">
             <StackLayout>
                 <Label Text="{Binding QuestionText}" FontFamily="Arial" FontSize="20" Margin="0"/>
                 <Entry Text="{Binding AnswerText, Mode=TwoWay}" Keyboard="{Binding ResultType, Converter={StaticResource TypeToKeyboardConverter}}" />

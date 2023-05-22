@@ -44,6 +44,13 @@ public static class Settings
         set => Preferences.Set(nameof(WasAuthorized), value);
     }
 
+    // Дата авторизации
+    public static DateTime AuthorizedDate
+    {
+        get => Preferences.Get(nameof(AuthorizedDate), DateTime.Now);
+        set => Preferences.Set(nameof(AuthorizedDate), value);
+    }
+
     // Адрес сервера
     public static string ApiAddress => "http://188.225.78.148/api/v1/account/";
 

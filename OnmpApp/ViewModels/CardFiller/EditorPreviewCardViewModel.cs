@@ -32,7 +32,7 @@ public partial class EditorPreviewCardViewModel : ObservableObject
     int _cardId = -1; // Id изменяемой карточки
 
     [ObservableProperty]
-    Card _card; // Карточка
+    Card _card = new(); // Карточка
 
     [ObservableProperty]
     TimeSpan _time;
@@ -73,8 +73,20 @@ public partial class EditorPreviewCardViewModel : ObservableObject
         return true;
     }
 
-    async Task Save()
+    async Task<bool> Save()
     {
+        if (string.IsNullOrWhiteSpace(Card.Name))
+        {
+            ToastHelper.Show("Имя не должно быть пустым");
+            return false;
+        }
+
+        if (string.IsNullOrWhiteSpace(Card.Order))
+        {
+            ToastHelper.Show("Номер наряда не должен быть пустым");
+            return false;
+        }
+
         Card.Date += Time;
         if (OldCard)
         {
@@ -84,12 +96,16 @@ public partial class EditorPreviewCardViewModel : ObservableObject
         {
             await CardService.Insert(Card);
         }
+
+        return true;
     }
 
     [RelayCommand]
     async void ContinueButton()
     {
-        await Save();
+        if (!await Save())
+            return;
+
         if (!OldCard && SelectedTemplate.Id != -1)
         {
             
@@ -105,7 +121,9 @@ public partial class EditorPreviewCardViewModel : ObservableObject
     [RelayCommand]
     async void SaveButton()
     {
-        await Save();
+        if (!await Save())
+            return;
+
         await Shell.Current.GoToAsync("..", animate: true);
     }
 

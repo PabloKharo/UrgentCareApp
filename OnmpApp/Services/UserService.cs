@@ -12,7 +12,7 @@ namespace OnmpApp.Services;
 
 public static class UserService
 {
-    public static async Task<bool> AuthenticateUser(string email, string password)
+    public static async Task<bool> Authenticate(string email, string password)
     {
         try
         {
@@ -52,7 +52,7 @@ public static class UserService
         return false;
     }
 
-    public static async Task<bool> RegisterUser(string email, string password, string first_name, string last_name)
+    public static async Task<bool> Register(string email, string password, string first_name, string last_name)
     {
         try
         {

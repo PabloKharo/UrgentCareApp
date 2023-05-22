@@ -76,12 +76,14 @@
 
             <Grid ColumnDefinitions="*, *">
                 <!-- Кнопка для сохранения карты -->
-                <Button Grid.Column="0" Text="{x:Static properties:Resources.Save}" Command="{Binding SaveButtonCommand}"
-                     Margin="10"/>
+                <Border Grid.Column="0" Margin="10">
+                    <Button Text="{x:Static properties:Resources.Save}" Command="{Binding SaveButtonCommand}"/>
+                </Border>
 
                 <!-- Кнопка для просмотра карты -->
-                <Button Grid.Column="1" Text="{x:Static properties:Resources.Continue}" Command="{Binding ContinueButtonCommand}" 
-                    Margin="10"/>
+                <Border Grid.Column="1" Margin="10">
+                    <Button  Text="{x:Static properties:Resources.Continue}" Command="{Binding ContinueButtonCommand}" />
+                </Border>
             </Grid>
         </VerticalStackLayout>
     </ScrollView>
