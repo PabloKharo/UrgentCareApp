@@ -6,6 +6,8 @@
 # SecretSettings
 OnmpApp/Properties/SecretSettings.cs
 
+*.apk
+
 
 # User-specific files
 *.rsuser

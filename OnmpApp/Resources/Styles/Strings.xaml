@@ -2,8 +2,6 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <x:String x:Key="DownArrow">&#x25BC;</x:String>
-    <x:String x:Key="UpArrow">&#x25B2;</x:String>
 
 
 </ResourceDictionary>

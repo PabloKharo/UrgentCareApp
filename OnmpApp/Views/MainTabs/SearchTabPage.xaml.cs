@@ -8,8 +8,6 @@ namespace OnmpApp.Views.MainTabs;
 
 public partial class SearchTabPage : MasterContentPage
 {
-	private CancellationTokenSource textChangedDelayCancellationTokenSource;
-
 	public SearchTabPage(SearchTabViewModel _vm)
 	{
 		InitializeComponent();
@@ -38,37 +36,23 @@ public partial class SearchTabPage : MasterContentPage
         (BindingContext as SearchTabViewModel).ItemArchive(smallCard);
 	}
 
-	private async void SearchChanged()
+    bool searching = false;
+
+    private async void SearchChanged(object sender, EventArgs e)
 	{
 		if ((BindingContext as SearchTabViewModel) == null)
 			return;
 
-		textChangedDelayCancellationTokenSource?.Cancel();
-		textChangedDelayCancellationTokenSource = new CancellationTokenSource();
+		if (searching)
+			return;
 
-		try
-		{
-			await Task.Delay(1000, textChangedDelayCancellationTokenSource.Token);
-			await (BindingContext as SearchTabViewModel).SearchTextChanged();
-		}
-		catch (TaskCanceledException) { }
-	}
+		searching = true;
 
-	private void EntryNoUnderline_TextChanged(object sender, TextChangedEventArgs e)
-	{
-		SearchChanged();
-	}
+        (BindingContext as SearchTabViewModel).SearchNewItems();
 
-	private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
-	{
-		SearchChanged();
-	}
+        await Task.Delay(3000);
 
-    private async void MasterContentPage_Appearing(object sender, EventArgs e)
-    {
-        if ((BindingContext as SearchTabViewModel) == null)
-            return;
+        searching = false;
 
-        await (BindingContext as SearchTabViewModel).SearchTextChanged();
     }
 }

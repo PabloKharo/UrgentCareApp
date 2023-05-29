@@ -8,6 +8,7 @@ using CommunityToolkit.Maui.Core.Extensions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using OnmpApp.Database;
+using OnmpApp.Models.Database;
 using OnmpApp.Services;
 using OnmpApp.ViewModels.Catalog;
 using OnmpApp.Views.Catalog;
@@ -18,7 +19,8 @@ public partial class CatalogTabViewModel : ObservableObject
     [ObservableProperty]
     string _searchText = "";
 
-    [ObservableProperty] private ObservableCollection<string> _catalogElements;
+    [ObservableProperty]
+    ObservableCollection<CatalogShort> _catalogElements = new();
 
 
     [ObservableProperty]
@@ -26,37 +28,33 @@ public partial class CatalogTabViewModel : ObservableObject
 
     public CatalogTabViewModel()
     {
-        _ = SearchTextChanged();
+        SearchItems();
     }
 
     [RelayCommand]
-    async void Refresh()
+    async void SearchItems()
     {
         IsRefreshing = true;
-        await SearchTextChanged();
+
+        var res = await CatalogService.Search(SearchText);
+        CatalogElements = res.OrderBy(el => el.Name).ToObservableCollection();
+
         IsRefreshing = false;
     }
 
     [RelayCommand] // Нажатие на карту
-    async void ItemTapped(string selectedCatalog)
+    async void ItemTapped(CatalogShort selectedCatalog)
     {
         if (selectedCatalog == null)
             return;
 
-        await Shell.Current.GoToAsync($"{nameof(CatalogTextPage)}?Name={selectedCatalog}");
+        await Shell.Current.GoToAsync($"{nameof(CatalogTextPage)}?Name={selectedCatalog.Name}");
     }
 
     [RelayCommand] // Добавление элементов, которые не были показаны
     static async void RemainingItemsThresholdReached()
     {
 
-    }
-
-    // Поиск элемента при изменении запроса
-    public async Task SearchTextChanged()
-    {
-        var res = await CatalogService.Search(SearchText);
-        CatalogElements = res.ToObservableCollection();
     }
 
 }

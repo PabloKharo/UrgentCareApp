@@ -1,9 +1,10 @@
 ﻿using System.Text;
+using CommunityToolkit.Mvvm.ComponentModel;
 using OnmpApp.Properties;
 
 namespace OnmpApp.Models;
 
-public abstract class TestQuestion
+public abstract class TestQuestion : ObservableObject
 {
     public string QuestionText { get; set; }
     public List<string> Options { get; set; }
@@ -13,11 +14,14 @@ public abstract class TestQuestion
 
     public abstract string GetValue();
     public abstract void SetValue(string val);
+    public abstract void CopyValue(TestQuestion question);
+
 }
 
-public class RadioButtonQuestion : TestQuestion
+public partial class RadioButtonQuestion : TestQuestion
 {
-    public int SelectedOptionIndex { get; set; } = -1;
+    [ObservableProperty]
+    int selectedOptionIndex = -1;
 
     public override string GetValue()
     {
@@ -28,11 +32,17 @@ public class RadioButtonQuestion : TestQuestion
     {
         SelectedOptionIndex = Options.IndexOf(val);
     }
+
+    public override void CopyValue(TestQuestion question)
+    {
+        SelectedOptionIndex = ((RadioButtonQuestion)question).SelectedOptionIndex;
+    }
 }
 
-public class RadioButtonWithTextQuestion : RadioButtonQuestion
+public partial class RadioButtonWithTextQuestion : RadioButtonQuestion
 {
-    public string AdditionalText { get; set; }
+    [ObservableProperty]
+    string additionalText;
 
     public override string GetValue()
     {
@@ -80,11 +90,18 @@ public class RadioButtonWithTextQuestion : RadioButtonQuestion
                 AdditionalText = val;
         }
     }
+
+    public override void CopyValue(TestQuestion question)
+    {
+        SelectedOptionIndex = ((RadioButtonWithTextQuestion)question).SelectedOptionIndex;
+        AdditionalText = ((RadioButtonWithTextQuestion)question).AdditionalText;
+    }
 }
 
-public class CheckBoxQuestion : TestQuestion
+public partial class CheckBoxQuestion : TestQuestion
 {
-    public List<bool> SelectedOptions { get; set; }
+    [ObservableProperty]
+    List<bool> selectedOptions;
 
     public override string GetValue()
     {
@@ -113,11 +130,17 @@ public class CheckBoxQuestion : TestQuestion
                 SelectedOptions[ind] = true;
         }
     }
+
+    public override void CopyValue(TestQuestion question)
+    {
+        SelectedOptions = ((CheckBoxQuestion)question).SelectedOptions;
+    }
 }
 
-public class CheckBoxWithTextQuestion : CheckBoxQuestion
+public partial class CheckBoxWithTextQuestion : CheckBoxQuestion
 {
-    public string AdditionalText { get; set; }
+    [ObservableProperty]
+    string additionalText;
 
     public override string GetValue()
     {
@@ -191,11 +214,18 @@ public class CheckBoxWithTextQuestion : CheckBoxQuestion
             }
         }
     }
+
+    public override void CopyValue(TestQuestion question)
+    {
+        SelectedOptions = ((CheckBoxWithTextQuestion)question).SelectedOptions;
+        AdditionalText = ((CheckBoxWithTextQuestion)question).AdditionalText;
+    }
 }
 
-public class TextQuestion : TestQuestion
+public partial class TextQuestion : TestQuestion
 {
-    public string AnswerText { get; set; }
+    [ObservableProperty]
+    string answerText;
 
     public override string GetValue()
     {
@@ -208,6 +238,11 @@ public class TextQuestion : TestQuestion
     public override void SetValue(string val)
     {
         AnswerText = val;
+    }
+
+    public override void CopyValue(TestQuestion question)
+    {
+        AnswerText = ((TextQuestion)question).AnswerText;
     }
 }
 

@@ -24,43 +24,37 @@
 
         <!-- Поле для поиска -->
         <Border Grid.Row="0">
-            <controls:EntryNoUnderline Margin="15,0,15,0" HorizontalOptions="Fill" VerticalOptions="Center"
-									   Placeholder="{x:Static properties:Resources.Search}" Text="{Binding SearchText}" TextChanged="EntryNoUnderline_TextChanged"/>
+            <SearchBar HorizontalOptions="Fill" VerticalOptions="Center" Placeholder="{x:Static properties:Resources.Search}"
+							Text="{Binding SearchText}" SearchCommand="{Binding SearchItemsCommand}"/>
         </Border>
 
         <Label Grid.Row="1" Text=" " IsVisible="True"/>
         <!-- Карточки -->
         <Border Grid.Row="2" StrokeShape="Rectangle">
-            <Border.Shadow>
-                <Shadow Brush="Black" Offset="0,0" Opacity="0.8" />
-            </Border.Shadow>
-
-            <Border.Behaviors>
-                <behaviors:VisibilityAnimationBehavior TranslateAnimation="True" />
-            </Border.Behaviors>
-            <ScrollView>
-                <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
-                    <CollectionView ItemsSource="{Binding CatalogElements}" x:Name="CatalogCollection"
-								RemainingItemsThreshold="5"
+            <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding SearchItemsCommand}">
+                <CollectionView ItemsSource="{Binding CatalogElements}" x:Name="CatalogCollection"
+								RemainingItemsThreshold="10"
 								RemainingItemsThresholdReachedCommand="{Binding RemainingItemsThresholdReachedCommand}">
-                        <CollectionView.Resources>
-                            <converters:CardStatusToStringConverter x:Key="CardStatusToStringConverter"/>
-                        </CollectionView.Resources>
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="database:Catalog">
-                                <Border Padding="0" Margin="5,5,5,5" StrokeShape="Rectangle">
-                                    <Border.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding Path=BindingContext.ItemTappedCommand, 
+                    <CollectionView.Resources>
+                        <converters:CatalogStatusToStringConverter x:Key="CatalogStatusToStringConverter"/>
+                    </CollectionView.Resources>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="database:CatalogShort">
+                            <Border Padding="0" Margin="5,5,5,5" StrokeShape="Rectangle">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.ItemTappedCommand, 
 											Source={x:Reference CatalogCollection}}"
 											CommandParameter="{Binding .}" NumberOfTapsRequired="1"/>
-                                    </Border.GestureRecognizers>
-                                    <Label Text="{Binding .}" FontAttributes="Bold" Padding="10"/>
-                                </Border>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </RefreshView>
-            </ScrollView>
+                                </Border.GestureRecognizers>
+                                <StackLayout Padding="10">
+                                    <Label Text="{Binding Name}" FontAttributes="Bold"/>
+                                    <Label Text="{Binding ElType, Converter={StaticResource CatalogStatusToStringConverter}}" FontAttributes="Italic" FontSize="Small"/>
+                                </StackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
         </Border>
 
 

@@ -9,11 +9,11 @@ namespace OnmpApp.Database;
 
 public static class CatalogTable
 {
-    public static async Task<List<string>> Search(string search, int skip = 0, int take = 0)
+    public static async Task<List<CatalogShort>> Search(string search, int skip = 0, int take = 0)
     {
-        string query = "SELECT Name FROM Catalogs WHERE Name LIKE ?";
-        var res = await BaseDatabase.DB.QueryAsync<CatalogName>(query, $"%{search}%");
-        return res.Select(x => x.Name).ToList();
+        string query = "SELECT Name, ElType FROM Catalogs WHERE Name LIKE ?";
+        var res = await BaseDatabase.DB.QueryAsync<CatalogShort>(query, $"%{search}%");
+        return res.ToList();
     }
 
     public static async Task<Catalog> Get(string name)

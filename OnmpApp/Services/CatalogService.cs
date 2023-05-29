@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 using OnmpApp.Database;
 using OnmpApp.Helpers;
 using OnmpApp.Models.Database;
@@ -12,7 +14,7 @@ namespace OnmpApp.Services;
 
 public static class CatalogService
 {
-    public static async Task<List<string>> Search(string search, int skip = 0, int take = 0)
+    public static async Task<List<CatalogShort>> Search(string search, int skip = 0, int take = 0)
     {
         try
         {
@@ -47,4 +49,7 @@ public static class CatalogService
         return null;
 
     }
+
+
+    
 }

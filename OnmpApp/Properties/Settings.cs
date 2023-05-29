@@ -52,7 +52,7 @@ public static class Settings
     }
 
     // Адрес сервера
-    public static string ApiAddress => "http://188.225.78.148/api/v1/account/";
+    public static string ApiAddress => "https://apu-hd.fun/api/v1";
 
     #endregion
 

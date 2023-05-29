@@ -19,7 +19,7 @@
 			 RightButtonVisible="True"
 			 RightButtonSource="{AppThemeBinding Light=user.png, Dark=user.png}"
 			 RightButtonCommand="{Binding NavigateToSettingsPageCommand}"
-				Appearing="MasterContentPage_Appearing"
+			 Appearing="SearchChanged"
 			 >
 
 	<Grid Padding="30" VerticalOptions="Center">
@@ -34,8 +34,8 @@
 		
 		<!-- Поле для поиска -->
 		<Border Grid.Row="0">
-			<controls:EntryNoUnderline Margin="15,0,15,0" HorizontalOptions="Fill" VerticalOptions="Center"
-									   Placeholder="{x:Static properties:Resources.Search}" Text="{Binding SearchText}" TextChanged="EntryNoUnderline_TextChanged"/>
+            <SearchBar HorizontalOptions="Fill" VerticalOptions="Center" Placeholder="{x:Static properties:Resources.Search}"
+						 Text="{Binding SearchText}" SearchButtonPressed="SearchChanged"/>
 		</Border>
 
 		<!-- Текст для раскрытия фильтров -->
@@ -45,10 +45,10 @@
 			</HorizontalStackLayout.GestureRecognizers>
 
 			<Label Text="{x:Static properties:Resources.Filters}"/>
-			<Label Text="{x:StaticResource DownArrow}">
+			<Label Text="&#x25BC;">
 				<Label.Triggers>
 					<DataTrigger TargetType="Label" Binding="{Binding FiltersShown}" Value="True">
-						<Setter Property="Text" Value="{x:StaticResource UpArrow}"/>
+						<Setter Property="Text" Value="&#x25B2;"/>
 					</DataTrigger>
 				</Label.Triggers>
 			</Label>
@@ -72,7 +72,7 @@
 					</Grid.ColumnDefinitions>
 
 					<HorizontalStackLayout Grid.Row="0" Grid.Column="0">
-						<CheckBox VerticalOptions="Center" IsChecked="{Binding DraftChecked}" CheckedChanged="CheckBox_CheckedChanged"/>
+                        <CheckBox VerticalOptions="Center" IsChecked="{Binding DraftChecked}" CheckedChanged="SearchChanged"/>
 						<Label Text="{x:Static properties:Resources.Draft}" VerticalOptions="Center">
 							<Label.GestureRecognizers>
 								<TapGestureRecognizer Command="{Binding CheckDraftCommand}" NumberOfTapsRequired="1"/>
@@ -80,7 +80,7 @@
 						</Label>
 					</HorizontalStackLayout>
 					<HorizontalStackLayout Grid.Row="0" Grid.Column="1">
-						<CheckBox VerticalOptions="Center" IsChecked="{Binding ReadyChecked}" CheckedChanged="CheckBox_CheckedChanged"/>
+                        <CheckBox VerticalOptions="Center" IsChecked="{Binding ReadyChecked}" CheckedChanged="SearchChanged"/>
 						<Label Text="{x:Static properties:Resources.Ready}" VerticalOptions="Center">
 							<Label.GestureRecognizers>
 								<TapGestureRecognizer Command="{Binding CheckReadyCommand}" NumberOfTapsRequired="1"/>
@@ -88,7 +88,7 @@
 						</Label>
 					</HorizontalStackLayout>
 					<HorizontalStackLayout Grid.Row="1" Grid.Column="0">
-						<CheckBox VerticalOptions="Center" IsChecked="{Binding ArchiveChecked}" CheckedChanged="CheckBox_CheckedChanged"/>
+                        <CheckBox VerticalOptions="Center" IsChecked="{Binding ArchiveChecked}" CheckedChanged="SearchChanged"/>
 						<Label Text="{x:Static properties:Resources.Archive}" VerticalOptions="Center">
 							<Label.GestureRecognizers>
 								<TapGestureRecognizer Command="{Binding CheckArchiveCommand}" NumberOfTapsRequired="1"/>
@@ -96,7 +96,7 @@
 						</Label>
 					</HorizontalStackLayout>
 					<HorizontalStackLayout Grid.Row="1" Grid.Column="1">
-						<CheckBox VerticalOptions="Center" IsChecked="{Binding TemplateChecked}" CheckedChanged="CheckBox_CheckedChanged"/>
+                        <CheckBox VerticalOptions="Center" IsChecked="{Binding TemplateChecked}" CheckedChanged="SearchChanged"/>
 						<Label Text="{x:Static properties:Resources.Template}" VerticalOptions="Center">
 							<Label.GestureRecognizers>
 								<TapGestureRecognizer Command="{Binding CheckTemplateCommand}" NumberOfTapsRequired="1"/>
@@ -110,64 +110,59 @@
 		
 
 		<!-- Карточки -->
-		<Border Grid.Row="3" StrokeShape="Rectangle">
-
-			<Border.Behaviors>
-				<behaviors:VisibilityAnimationBehavior TranslateAnimation="True" />
-			</Border.Behaviors>
-			<ScrollView>
-				<RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
-					<CollectionView ItemsSource="{Binding SmallCards}" x:Name="CardsCollection"
-								RemainingItemsThreshold="5"
+        <Border Grid.Row="3" StrokeShape="Rectangle">
+            <RefreshView IsRefreshing="{Binding IsRefreshing}" Refreshing="SearchChanged">
+                    <CollectionView ItemsSource="{Binding SmallCards}" x:Name="CardsCollection"
+								RemainingItemsThreshold="10"
 								RemainingItemsThresholdReachedCommand="{Binding RemainingItemsThresholdReachedCommand}">
-						<CollectionView.Resources>
-							<converters:CardStatusToStringConverter x:Key="CardStatusToStringConverter"/>
-						</CollectionView.Resources>
-						<CollectionView.ItemTemplate>
-							<DataTemplate x:DataType="database:Card">
-								<SwipeView Threshold="150">
-									<!-- Архивация элемента -->
-									<SwipeView.LeftItems>
-										<SwipeItems Mode="Execute">
-											<SwipeItem IconImageSource="archive.png"
+                    <CollectionView.Resources>
+                        <converters:CardStatusToStringConverter x:Key="CardStatusToStringConverter"/>
+                    </CollectionView.Resources>
+                    <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="database:Card">
+                                <SwipeView Threshold="150">
+                                    <!-- Архивация элемента -->
+                                    <SwipeView.LeftItems>
+                                        <SwipeItems Mode="Execute">
+                                            <SwipeItem IconImageSource="archive.png"
 											   Invoked="OnArchiveSwipeItemInvoked"
 											   BackgroundColor="Blue" />
-										</SwipeItems>
-									</SwipeView.LeftItems>
-									<!-- Удаление элемента -->
-									<SwipeView.RightItems>
-										<SwipeItems Mode="Execute">
-											<SwipeItem IconImageSource="trash.png"
+                                        </SwipeItems>
+                                    </SwipeView.LeftItems>
+                                    <!-- Удаление элемента -->
+                                    <SwipeView.RightItems>
+                                        <SwipeItems Mode="Execute">
+                                            <SwipeItem IconImageSource="trash.png"
 											   Invoked="OnDeleteSwipeItemInvoked"
 											   BackgroundColor="Red" />
-										</SwipeItems>
-									</SwipeView.RightItems>
-									<SwipeView.Content>
-										<Border Padding="0" Margin="5,5,5,5" StrokeShape="Rectangle">
-											<Border.GestureRecognizers>
-												<TapGestureRecognizer Command="{Binding Path=BindingContext.ItemTappedCommand, 
+                                        </SwipeItems>
+                                    </SwipeView.RightItems>
+                                    <SwipeView.Content>
+                                        <Border Padding="0" Margin="5,5,5,5" StrokeShape="Rectangle">
+                                            <Border.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Path=BindingContext.ItemTappedCommand, 
 													Source={x:Reference CardsCollection}}"
 													CommandParameter="{Binding .}" NumberOfTapsRequired="1"/>
-											</Border.GestureRecognizers>
-											<StackLayout Padding="10">
-												
-												<Label Text="{Binding Name}" FontAttributes="Bold" />
-												<HorizontalStackLayout>
-													<Label Text="{Binding Status, Converter={StaticResource CardStatusToStringConverter}}"/>
-													<Label Text=" " FontAttributes="Italic"/>
+                                            </Border.GestureRecognizers>
+                                            <StackLayout Padding="10">
+
+                                                <Label Text="{Binding Name}" FontAttributes="Bold" />
+                                                <HorizontalStackLayout>
+                                                    <Label Text="{Binding Status, Converter={StaticResource CardStatusToStringConverter}}"/>
+                                                    <Label Text=" " FontAttributes="Italic"/>
 													<Label Text="{Binding Date, StringFormat='{0:dd.MM.yyyy HH:mm}'}" FontAttributes="Italic"/>
-												</HorizontalStackLayout>
-												
-											</StackLayout>
-										</Border>
-									</SwipeView.Content>
-								</SwipeView>
-							</DataTemplate>
-						</CollectionView.ItemTemplate>
-					</CollectionView>
-				</RefreshView>
-			</ScrollView>
-		</Border>
+
+                                            </HorizontalStackLayout>
+
+                                            </StackLayout>
+                                        </Border>
+                                    </SwipeView.Content>
+                                </SwipeView>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </RefreshView>
+        </Border>
 
         <Border Grid.Row="4" Margin="10,10,10,-15" HorizontalOptions="Fill">
 		    <!-- Кнопка создания карты -->

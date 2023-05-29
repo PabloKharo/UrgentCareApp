@@ -1,5 +1,6 @@
 ﻿using Microsoft.Maui.Controls.Platform;
 using OnmpApp.Controls;
+using System.Globalization;
 
 namespace OnmpApp;
 
@@ -9,7 +10,7 @@ public partial class App : Application
 	{
 		InitializeComponent();
 
-		MainPage = new AppShell();
+        MainPage = new AppShell();
 		ModifyEntryWithoutUnderline();
 		ModifyPickerWithoutUnderline();
 		ModifyEditorWithoutUnderline();

@@ -138,6 +138,12 @@
   <data name="CreateCard" xml:space="preserve">
     <value>Создание карты</value>
   </data>
+  <data name="Diagnose" xml:space="preserve">
+    <value>Диагноз</value>
+  </data>
+  <data name="Disease" xml:space="preserve">
+    <value>Заболевание</value>
+  </data>
   <data name="Draft" xml:space="preserve">
     <value>Черновик</value>
   </data>
@@ -177,6 +183,9 @@
   <data name="LogOut" xml:space="preserve">
     <value>Выйти из аккаунта</value>
   </data>
+  <data name="Medicine" xml:space="preserve">
+    <value>Лекарство</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Пароль</value>
   </data>
@@ -211,7 +220,7 @@
     <value>Настройки</value>
   </data>
   <data name="SuccessRegistration" xml:space="preserve">
-    <value>Вы успешно зарегистрировались!</value>
+    <value>Для окончания регистрации подтвердите почту. Если Вы не видите письмо во входящих, то проверьте папку "Спам"</value>
   </data>
   <data name="Template" xml:space="preserve">
     <value>Шаблон</value>

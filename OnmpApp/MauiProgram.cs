@@ -35,8 +35,8 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddTransient<ViewModels.Authorize.LoginViewModel>();
         mauiAppBuilder.Services.AddTransient<ViewModels.Authorize.RegistrationViewModel>();
 
-        mauiAppBuilder.Services.AddTransient<ViewModels.MainTabs.SearchTabViewModel>();
-        mauiAppBuilder.Services.AddTransient<ViewModels.MainTabs.CatalogTabViewModel>();
+        mauiAppBuilder.Services.AddSingleton<ViewModels.MainTabs.SearchTabViewModel>();
+        mauiAppBuilder.Services.AddSingleton<ViewModels.MainTabs.CatalogTabViewModel>();
         mauiAppBuilder.Services.AddTransient<ViewModels.Catalog.CatalogTextViewModel>();
 
 
@@ -44,7 +44,7 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddTransient<ViewModels.CardFiller.TemplateFillerViewModel>();
 
 
-        mauiAppBuilder.Services.AddTransient<ViewModels.UserSettings.SettingsViewModel>();
+        mauiAppBuilder.Services.AddSingleton<ViewModels.UserSettings.SettingsViewModel>();
 
 
         return mauiAppBuilder;
@@ -55,8 +55,8 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddTransient<Views.Authorize.LoginPage>();
         mauiAppBuilder.Services.AddTransient<Views.Authorize.RegistrationPage>();
 
-        mauiAppBuilder.Services.AddTransient<Views.MainTabs.SearchTabPage>();
-        mauiAppBuilder.Services.AddTransient<Views.MainTabs.CatalogTabPage>();
+        mauiAppBuilder.Services.AddSingleton<Views.MainTabs.SearchTabPage>();
+        mauiAppBuilder.Services.AddSingleton<Views.MainTabs.CatalogTabPage>();
         mauiAppBuilder.Services.AddTransient<Views.Catalog.CatalogTextPage>();
 
 
@@ -64,7 +64,7 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddTransient<Views.CardFiller.TemplateFillerPage>();
 
 
-        mauiAppBuilder.Services.AddTransient<Views.UserSettings.SettingsPage>();
+        mauiAppBuilder.Services.AddSingleton<Views.UserSettings.SettingsPage>();
 
         return mauiAppBuilder;
     }

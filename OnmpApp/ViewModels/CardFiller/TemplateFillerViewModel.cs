@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OnmpApp.Database;
 using OnmpApp.Services;
+using CommunityToolkit.Maui.Core.Extensions;
 
 namespace OnmpApp.ViewModels.CardFiller;
 
@@ -18,7 +19,7 @@ namespace OnmpApp.ViewModels.CardFiller;
 public partial class TemplateFillerViewModel : ObservableObject
 {
     [ObservableProperty]
-    ObservableCollection<TestQuestion> _questions = new();
+    ObservableCollection<TestQuestion> _questions = null;
 
     [ObservableProperty]
     bool _isFinishButtonVisible = false;
@@ -30,7 +31,12 @@ public partial class TemplateFillerViewModel : ObservableObject
     int _templateId = -1;
 
     [ObservableProperty]
-    FullCard _card = null;
+    FullCard _card = new FullCard();
+
+    public TemplateFillerViewModel()
+    {
+        
+    }
 
     public async void InitCard()
     {
@@ -41,11 +47,10 @@ public partial class TemplateFillerViewModel : ObservableObject
             var card = await FullCardService.Get(TemplateId);
             card.Id = CardId;
             Card = card;
+            await FullCardService.Update(Card);
         }
 
-        var tmp = TestQuestionsFactory.CreateFromAttributes(Card);
-        Questions = new ObservableCollection<TestQuestion>(tmp);
-        await FullCardService.Update(Card);
+        Questions = TestQuestionsFactory.CreateFromAttributes(Card).ToObservableCollection();
     }
 
     private void SaveTestResults(FullCard fullCard)

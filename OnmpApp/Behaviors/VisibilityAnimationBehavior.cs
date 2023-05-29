@@ -44,8 +44,6 @@ public class VisibilityAnimationBehavior : Behavior<View>
 
     private async Task ShowViewAsync()
     {
-        _associatedObject.HeightRequest = -1;
-        _associatedObject.Opacity = 0;
         await Task.WhenAll(
             _associatedObject.FadeTo(1),
             TranslateAnimation ? _associatedObject.TranslateTo(0, 0) : Task.CompletedTask
@@ -58,6 +56,5 @@ public class VisibilityAnimationBehavior : Behavior<View>
             _associatedObject.FadeTo(0),
             TranslateAnimation ? _associatedObject.TranslateTo(0, -20) : Task.CompletedTask
         );
-        _associatedObject.HeightRequest = 0;
     }
 }

@@ -13,11 +13,12 @@ public static class CardTable
     public static async Task<List<Card>> Search(string searchText, bool draftChecked, bool readyChecked,
         bool templateChecked, bool archiveChecked, int skip, int take)
     {
-        var res = await BaseDatabase.DB.Table<Card>().Where(el => el.UserId == Settings.UserId && el.Name.Contains(searchText)).ToListAsync();
-        res = res.Where(el => (draftChecked && el.Status == CardStatus.Draft) ||
+        var res = await BaseDatabase.DB.Table<Card>().Where(el => el.UserId == Settings.UserId && el.Name.Contains(searchText)
+                           && ((draftChecked && el.Status == CardStatus.Draft) ||
                               (readyChecked && el.Status == CardStatus.Ready) ||
                               (templateChecked && el.Status == CardStatus.Template) ||
-                              (archiveChecked && el.Status == CardStatus.Archive)).ToList();
+                              (archiveChecked && el.Status == CardStatus.Archive))).ToListAsync();
+
         return res;
     }
 
@@ -46,7 +47,7 @@ public static class CardTable
 
     public static async Task<string> GetLastOrder()
     {
-        var card = await BaseDatabase.DB.Table<Card>().Where(el => el.UserId == Settings.UserId).OrderByDescending(el => el.Date).FirstOrDefaultAsync();
+        var card = await BaseDatabase.DB.Table<Card>().Where(el => el.UserId == Settings.UserId).OrderByDescending(el => el.Id).FirstOrDefaultAsync();
         return card == null ? "" : card.Order;
     }
 }

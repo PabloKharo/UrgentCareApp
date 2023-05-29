@@ -19,6 +19,7 @@ using OnmpApp.Views.CardFiller;
 
 namespace OnmpApp.ViewModels.MainTabs;
 
+
 public partial class SearchTabViewModel : ObservableObject
 {
     // TODO: Добавить фильтр для дат
@@ -56,10 +57,12 @@ public partial class SearchTabViewModel : ObservableObject
 
 
     [ObservableProperty]
+    Card navigatedCard = null;
+
+    [ObservableProperty]
     bool _isRefreshing = false;
 
     public SearchTabViewModel() {
-        SearchTextChanged();
     }
 
     [RelayCommand]
@@ -68,20 +71,13 @@ public partial class SearchTabViewModel : ObservableObject
         await Shell.Current.GoToAsync(nameof(SettingsPage));
     }
 
-    [RelayCommand]
-    async void Refresh()
-    {
-        IsRefreshing = true;
-        await SearchTextChanged();
-        IsRefreshing = false;
-    }
-
     [RelayCommand] // Нажатие на карту
     async void ItemTapped(Card selectedCard)
     {
         if (selectedCard == null)
             return;
 
+        NavigatedCard = selectedCard;
         await Shell.Current.GoToAsync($"{nameof(EditorPreviewCardPage)}?CardId={selectedCard.Id}");
     }
 
@@ -94,7 +90,7 @@ public partial class SearchTabViewModel : ObservableObject
     [RelayCommand] // Добавление элементов, которые не были показаны
     static async void RemainingItemsThresholdReached()
     {
-        
+       
     }
 
     [RelayCommand] // Добавление элементов, которые не были показаны
@@ -103,11 +99,28 @@ public partial class SearchTabViewModel : ObservableObject
         await Shell.Current.GoToAsync($"{nameof(EditorPreviewCardPage)}");
     }
 
-    // Поиск элемента при изменении запроса
-    public async Task SearchTextChanged()
+    [RelayCommand]
+    async void SearchItems()
     {
+        SearchNewItems();
+    }
+
+    // Поиск элемента при изменении запроса
+    public async void SearchNewItems()
+    {
+        if(NavigatedCard != null)
+        {
+            SmallCards[SmallCards.IndexOf(NavigatedCard)] = await CardService.Get(NavigatedCard.Id);
+            NavigatedCard = null;
+            return;
+        }
+
+        IsRefreshing = true;
         var res = await CardService.Search(SearchText, DraftChecked, ReadyChecked, TemplateChecked, ArchiveChecked);
         SmallCards = res.OrderByDescending(el => el.Id).ToObservableCollection();
+        IsRefreshing = false;
+
+
     }
 
     // Удаление элемента

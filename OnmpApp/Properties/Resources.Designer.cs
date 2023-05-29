@@ -124,6 +124,24 @@ namespace OnmpApp.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Диагноз.
+        /// </summary>
+        public static string Diagnose {
+            get {
+                return ResourceManager.GetString("Diagnose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Заболевание.
+        /// </summary>
+        public static string Disease {
+            get {
+                return ResourceManager.GetString("Disease", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Черновик.
         /// </summary>
         public static string Draft {
@@ -241,6 +259,15 @@ namespace OnmpApp.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Лекарство.
+        /// </summary>
+        public static string Medicine {
+            get {
+                return ResourceManager.GetString("Medicine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Пароль.
         /// </summary>
         public static string Password {
@@ -340,7 +367,7 @@ namespace OnmpApp.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Вы успешно зарегистрировались!.
+        ///   Ищет локализованную строку, похожую на Для окончания регистрации подтвердите почту. Если Вы не видите письмо во входящих, то проверьте папку &quot;Спам&quot;.
         /// </summary>
         public static string SuccessRegistration {
             get {

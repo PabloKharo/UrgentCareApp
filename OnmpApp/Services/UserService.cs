@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using OnmpApp.Database;
 using OnmpApp.Helpers;
 using OnmpApp.Properties;
@@ -17,20 +19,20 @@ public static class UserService
         try
         {
             using var client = new HttpClient();
-            var json = new
+            var json = new JObject
             {
-                email = email,
-                password = password
+                ["email"] = email,
+                ["password"] = password,
             };
 
-            var content = new StringContent(System.Text.Json.JsonSerializer.Serialize(json), Encoding.UTF8, "application/json");
+            var content = new StringContent(json.ToString(), Encoding.UTF8, "application/json");
 
-            var response = await client.PostAsync($"{Settings.ApiAddress}token/", content);
+            var response = await client.PostAsync($"{Settings.ApiAddress}/account/token/", content);
             var responseContent = await response.Content.ReadAsStringAsync();
 
             if (response.IsSuccessStatusCode)
             {
-                var token = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(responseContent)["token"];
+                var token = JObject.Parse(responseContent)["token"].ToString();
                 Settings.Token = token;
 
                 await UserTable.Insert(email);
@@ -38,7 +40,7 @@ public static class UserService
                 return true;
             }
 
-            var error = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(responseContent)["error"];
+            var error = JObject.Parse(responseContent)["error"].ToString();
             throw new Exception($"{error}");
         }
         catch (Exception ex)
@@ -57,18 +59,17 @@ public static class UserService
         try
         {
             using var client = new HttpClient();
-            var json = new
+            var json = new JObject
             {
-                email = email,
-                password = password,
-                first_name = first_name,
-                last_name = last_name
+                ["email"] = email,
+                ["password"] = password,
+                ["first_name"] = first_name,
+                ["last_name"] = last_name
             };
 
+            var content = new StringContent(json.ToString(), Encoding.UTF8, "application/json");
 
-            var content = new StringContent(System.Text.Json.JsonSerializer.Serialize(json), Encoding.UTF8, "application/json");
-
-            var response = await client.PostAsync($"{Settings.ApiAddress}user_create/", content);
+            var response = await client.PostAsync($"{Settings.ApiAddress}/account/user_create/", content);
             var responseContent = await response.Content.ReadAsStringAsync();
 
             if (response.IsSuccessStatusCode)
@@ -77,7 +78,7 @@ public static class UserService
                 return true;
             }
 
-            var errorContent = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<string>>>(responseContent);
+            var errorContent = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(responseContent);
             if (errorContent.TryGetValue("email", out var value))
             {
                 var emailErrors = string.Join(", ", value);
@@ -87,7 +88,6 @@ public static class UserService
             {
                 var passwordErrors = string.Join(", ", value1);
                 throw new Exception($"{passwordErrors}");
-
             }
         }
         catch (Exception ex)
