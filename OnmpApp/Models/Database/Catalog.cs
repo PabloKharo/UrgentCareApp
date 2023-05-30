@@ -319,4 +319,6 @@ public class CatalogShort
 {
     public string Name { get; set; }
     public CatalogType ElType { get; set; }
+
+    public bool Loaded { get; set; }
 }

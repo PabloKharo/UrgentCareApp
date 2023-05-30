@@ -27,11 +27,15 @@ public partial class TemplateFillerViewModel : ObservableObject
     [ObservableProperty]
     int _cardId = -1;
 
+    int _prevCardId = -1;
+
     [ObservableProperty]
     int _templateId = -1;
 
     [ObservableProperty]
     FullCard _card = new FullCard();
+
+
 
     public TemplateFillerViewModel()
     {
@@ -40,6 +44,8 @@ public partial class TemplateFillerViewModel : ObservableObject
 
     public async void InitCard()
     {
+        if(_prevCardId == CardId) return;
+
         Card = await FullCardService.Get(CardId);
 
         if(TemplateId > 0)
@@ -51,6 +57,7 @@ public partial class TemplateFillerViewModel : ObservableObject
         }
 
         Questions = TestQuestionsFactory.CreateFromAttributes(Card).ToObservableCollection();
+        _prevCardId = CardId;
     }
 
     private void SaveTestResults(FullCard fullCard)

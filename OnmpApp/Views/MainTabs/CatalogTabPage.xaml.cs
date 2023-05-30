@@ -11,4 +11,27 @@ public partial class CatalogTabPage : MasterContentPage
 		InitializeComponent();
         BindingContext = vm;
     }
+
+    bool searching = false;
+
+    private async void SearchChanged(object sender, EventArgs e)
+    {
+        if ((BindingContext as CatalogTabViewModel) == null)
+            return;
+
+        (BindingContext as CatalogTabViewModel).IsRefreshing = false;
+
+
+        if (searching)
+            return;
+
+        searching = true;
+
+        (BindingContext as CatalogTabViewModel).SearchItems();
+
+        await Task.Delay(300);
+
+        searching = false;
+
+    }
 }

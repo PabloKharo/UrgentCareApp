@@ -39,7 +39,7 @@ public partial class LoginViewModel : ObservableObject
             return;
 
         if (Connectivity.NetworkAccess != NetworkAccess.Internet || (DateTime.Now - Settings.AuthorizedDate).TotalDays <= 1)
-            _ = LoginViewModel.NavigateToMainPage();
+            _ = NavigateToMainPage();
         else
             _ = Login();
     }
@@ -97,7 +97,14 @@ public partial class LoginViewModel : ObservableObject
             Settings.WasAuthorized = true;
             Settings.Password = Password;
         }
-        _ = LoginViewModel.NavigateToMainPage();
+
+        _ = NavigateToMainPage();
+
+        if ((DateTime.Now - Settings.CatalogSyncDate).TotalSeconds < 3 || (DateTime.Now - Settings.CatalogSyncDate).TotalDays >= 7)
+        {
+            InitService.LoadCatalogNames();
+            Settings.CatalogSyncDate = DateTime.Now;
+        }
         IsLoginingIn = false;
     }
 }

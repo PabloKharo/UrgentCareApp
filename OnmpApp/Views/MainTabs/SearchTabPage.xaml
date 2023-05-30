@@ -114,7 +114,8 @@
             <RefreshView IsRefreshing="{Binding IsRefreshing}" Refreshing="SearchChanged">
                     <CollectionView ItemsSource="{Binding SmallCards}" x:Name="CardsCollection"
 								RemainingItemsThreshold="10"
-								RemainingItemsThresholdReachedCommand="{Binding RemainingItemsThresholdReachedCommand}">
+								RemainingItemsThresholdReachedCommand="{Binding RemainingItemsThresholdReachedCommand}"
+                                    EmptyView="Нет результатов, удовлетворяющих поиску">
                     <CollectionView.Resources>
                         <converters:CardStatusToStringConverter x:Key="CardStatusToStringConverter"/>
                     </CollectionView.Resources>
@@ -126,7 +127,7 @@
                                         <SwipeItems Mode="Execute">
                                             <SwipeItem IconImageSource="archive.png"
 											   Invoked="OnArchiveSwipeItemInvoked"
-											   BackgroundColor="Blue" />
+											   BackgroundColor="LightBlue" />
                                         </SwipeItems>
                                     </SwipeView.LeftItems>
                                     <!-- Удаление элемента -->
@@ -134,7 +135,7 @@
                                         <SwipeItems Mode="Execute">
                                             <SwipeItem IconImageSource="trash.png"
 											   Invoked="OnDeleteSwipeItemInvoked"
-											   BackgroundColor="Red" />
+											   BackgroundColor="IndianRed" />
                                         </SwipeItems>
                                     </SwipeView.RightItems>
                                     <SwipeView.Content>

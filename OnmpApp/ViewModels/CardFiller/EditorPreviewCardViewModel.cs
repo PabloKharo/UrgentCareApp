@@ -87,15 +87,11 @@ public partial class EditorPreviewCardViewModel : ObservableObject
             return false;
         }
 
-        Card.Date += Time;
+        Card.Date = Card.Date.Date + Time;
         if (OldCard)
-        {
             await CardService.Update(Card);
-        }
         else
-        {
             await CardService.Insert(Card);
-        }
 
         return true;
     }
@@ -107,15 +103,9 @@ public partial class EditorPreviewCardViewModel : ObservableObject
             return;
 
         if (!OldCard && SelectedTemplate.Id != -1)
-        {
-            
             await Shell.Current.GoToAsync($"{nameof(EditorPreviewCardPage)}/{nameof(TemplateFillerPage)}?CardId={Card.Id}&TemplateId={SelectedTemplate.Id}");
-        }
         else 
-        {
             await Shell.Current.GoToAsync($"{nameof(EditorPreviewCardPage)}/{nameof(TemplateFillerPage)}?CardId={Card.Id}");
-
-        }
     }
 
     [RelayCommand]

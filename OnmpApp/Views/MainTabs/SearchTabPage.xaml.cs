@@ -43,14 +43,17 @@ public partial class SearchTabPage : MasterContentPage
 		if ((BindingContext as SearchTabViewModel) == null)
 			return;
 
-		if (searching)
+        (BindingContext as SearchTabViewModel).IsRefreshing = false;
+
+
+        if (searching)
 			return;
 
 		searching = true;
 
         (BindingContext as SearchTabViewModel).SearchNewItems();
 
-        await Task.Delay(3000);
+        await Task.Delay(300);
 
         searching = false;
 

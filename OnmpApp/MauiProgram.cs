@@ -41,7 +41,7 @@ public static class MauiProgram
 
 
         mauiAppBuilder.Services.AddTransient<ViewModels.CardFiller.EditorPreviewCardViewModel>();
-        mauiAppBuilder.Services.AddTransient<ViewModels.CardFiller.TemplateFillerViewModel>();
+        mauiAppBuilder.Services.AddSingleton<ViewModels.CardFiller.TemplateFillerViewModel>();
 
 
         mauiAppBuilder.Services.AddSingleton<ViewModels.UserSettings.SettingsViewModel>();
@@ -61,7 +61,7 @@ public static class MauiProgram
 
 
         mauiAppBuilder.Services.AddTransient<Views.CardFiller.EditorPreviewCardPage>();
-        mauiAppBuilder.Services.AddTransient<Views.CardFiller.TemplateFillerPage>();
+        mauiAppBuilder.Services.AddSingleton<Views.CardFiller.TemplateFillerPage>();
 
 
         mauiAppBuilder.Services.AddSingleton<Views.UserSettings.SettingsPage>();

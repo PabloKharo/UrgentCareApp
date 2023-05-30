@@ -28,12 +28,17 @@ public partial class CatalogTabViewModel : ObservableObject
 
     public CatalogTabViewModel()
     {
-        SearchItems();
+
     }
 
-    [RelayCommand]
-    async void SearchItems()
+    public async void SearchItems()
     {
+        if (string.IsNullOrWhiteSpace(SearchText))
+        {
+            IsRefreshing = false;
+            return;
+        }
+
         IsRefreshing = true;
 
         var res = await CatalogService.Search(SearchText);

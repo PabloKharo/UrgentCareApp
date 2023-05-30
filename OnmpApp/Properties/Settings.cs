@@ -1,4 +1,5 @@
-﻿using SQLite;
+﻿using OnmpApp.Models.Database;
+using SQLite;
 
 namespace OnmpApp.Properties;
 
@@ -86,6 +87,13 @@ public static class Settings
         SQLiteOpenFlags.Create |
         // Включить мультипоточный доступ к БД
         SQLiteOpenFlags.SharedCache;
+
+    // Дата синхронизации справочников
+    public static DateTime CatalogSyncDate
+    {
+        get => Preferences.Get(nameof(CatalogSyncDate), DateTime.Now);
+        set => Preferences.Set(nameof(CatalogSyncDate), value);
+    }
 
     #endregion
 }

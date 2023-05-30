@@ -25,16 +25,17 @@
         <!-- Поле для поиска -->
         <Border Grid.Row="0">
             <SearchBar HorizontalOptions="Fill" VerticalOptions="Center" Placeholder="{x:Static properties:Resources.Search}"
-							Text="{Binding SearchText}" SearchCommand="{Binding SearchItemsCommand}"/>
+							Text="{Binding SearchText}" SearchButtonPressed="SearchChanged"/>
         </Border>
 
         <Label Grid.Row="1" Text=" " IsVisible="True"/>
         <!-- Карточки -->
         <Border Grid.Row="2" StrokeShape="Rectangle">
-            <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding SearchItemsCommand}">
+            <RefreshView IsRefreshing="{Binding IsRefreshing}" Refreshing="SearchChanged">
                 <CollectionView ItemsSource="{Binding CatalogElements}" x:Name="CatalogCollection"
 								RemainingItemsThreshold="10"
-								RemainingItemsThresholdReachedCommand="{Binding RemainingItemsThresholdReachedCommand}">
+								RemainingItemsThresholdReachedCommand="{Binding RemainingItemsThresholdReachedCommand}"
+                                EmptyView="Нет результатов, удовлетворяющих поиску">
                     <CollectionView.Resources>
                         <converters:CatalogStatusToStringConverter x:Key="CatalogStatusToStringConverter"/>
                     </CollectionView.Resources>
@@ -46,9 +47,12 @@
 											Source={x:Reference CatalogCollection}}"
 											CommandParameter="{Binding .}" NumberOfTapsRequired="1"/>
                                 </Border.GestureRecognizers>
-                                <StackLayout Padding="10">
-                                    <Label Text="{Binding Name}" FontAttributes="Bold"/>
-                                    <Label Text="{Binding ElType, Converter={StaticResource CatalogStatusToStringConverter}}" FontAttributes="Italic" FontSize="Small"/>
+                                <StackLayout Padding="10" HorizontalOptions="FillAndExpand">
+                                        <Label Text="{Binding Name}" FontAttributes="Bold"/>
+                                    <Grid ColumnDefinitions="*, Auto" HorizontalOptions="FillAndExpand">
+                                        <Label Grid.Column="0" Text="{Binding ElType, Converter={StaticResource CatalogStatusToStringConverter}}" FontAttributes="Italic" FontSize="Small" VerticalOptions="Center"/>
+                                        <Image Grid.Column="0" HeightRequest="16" Source="{AppThemeBinding Light=light_save.png, Dark=dark_save.png}" IsVisible="{Binding Loaded}" Aspect="AspectFit" VerticalOptions="Center" HorizontalOptions="End"/>
+                                    </Grid>
                                 </StackLayout>
                             </Border>
                         </DataTemplate>
