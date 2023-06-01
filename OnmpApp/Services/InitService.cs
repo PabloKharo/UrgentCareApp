@@ -15,7 +15,7 @@ namespace OnmpApp.Services;
 
 public static class InitService
 {
-    public static async void LoadCatalogNames()
+    public static async Task LoadCatalogNames()
     {
         try
         {

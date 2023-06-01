@@ -67,6 +67,7 @@ public partial class LoginViewModel : ObservableObject
     {
         await Shell.Current.GoToAsync("//TabPage");
     }
+
     [RelayCommand]
     async Task Login()
     {
@@ -102,7 +103,7 @@ public partial class LoginViewModel : ObservableObject
 
         if ((DateTime.Now - Settings.CatalogSyncDate).TotalSeconds < 3 || (DateTime.Now - Settings.CatalogSyncDate).TotalDays >= 7)
         {
-            InitService.LoadCatalogNames();
+            await InitService.LoadCatalogNames();
             Settings.CatalogSyncDate = DateTime.Now;
         }
         IsLoginingIn = false;

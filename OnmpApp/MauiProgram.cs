@@ -3,6 +3,7 @@ using OnmpApp.ViewModels;
 using OnmpApp.Views;
 using CommunityToolkit.Maui;
 using OnmpApp.Database;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace OnmpApp;
 
@@ -44,7 +45,7 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddSingleton<ViewModels.CardFiller.TemplateFillerViewModel>();
 
 
-        mauiAppBuilder.Services.AddSingleton<ViewModels.UserSettings.SettingsViewModel>();
+        mauiAppBuilder.Services.AddTransient<ViewModels.UserSettings.SettingsViewModel>();
 
 
         return mauiAppBuilder;
@@ -64,7 +65,7 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddSingleton<Views.CardFiller.TemplateFillerPage>();
 
 
-        mauiAppBuilder.Services.AddSingleton<Views.UserSettings.SettingsPage>();
+        mauiAppBuilder.Services.AddTransient<Views.UserSettings.SettingsPage>();
 
         return mauiAppBuilder;
     }

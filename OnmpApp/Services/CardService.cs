@@ -15,7 +15,7 @@ public static class CardService
 
     // Получение списка карточек
     public static async Task<List<Card>> Search(string searchText, bool draftChecked, bool readyChecked,
-                                        bool templateChecked, bool archiveChecked, int skip = 0, int take = 20)
+                                        bool templateChecked, bool archiveChecked, int skip = 0, int take = 15)
     {
         try
         {

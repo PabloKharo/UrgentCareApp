@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Maui.ApplicationModel.Communication;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using OnmpApp.Database;
@@ -37,6 +38,54 @@ public static class UserService
 
                 await UserTable.Insert(email);
 
+                return true;
+            }
+
+            var error = JObject.Parse(responseContent)["error"].ToString();
+            if(error == "Подтвердите email")
+            {
+                bool answer = await Application.Current.MainPage.DisplayAlert("Ошибка", "У Вас неподтвержденный почтовый адрес. Отправить письмо для подтверждения снова?", "Да", "Нет");
+                if (answer)
+                {
+                    if(await ResendEmail(email))
+                    {
+                        ToastHelper.Show("Подтверждение отправлено на почту");
+                    }
+                }
+
+                return false;
+
+            }
+            throw new Exception($"{error}");
+        }
+        catch (Exception ex)
+        {
+#if DEBUG
+            Debug.WriteLine(@"Ошибка: {0}", ex.Message);
+#endif
+            ToastHelper.Show($"Ошибка: {ex.Message}");
+        }
+
+        return false;
+    }
+
+    public static async Task<bool> ResendEmail(string email)
+    {
+        try
+        {
+            using var client = new HttpClient();
+            var json = new JObject
+            {
+                ["email"] = email,
+            };
+
+            var content = new StringContent(json.ToString(), Encoding.UTF8, "application/json");
+
+            var response = await client.PostAsync($"{Settings.ApiAddress}/account/resend_mail/", content);
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode)
+            {
                 return true;
             }
 

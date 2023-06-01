@@ -46,9 +46,14 @@ namespace OnmpApp.ViewModels.Authorize
 
         public RegistrationViewModel() { }
 
+        [ObservableProperty]
+        bool _registering = false;
         [RelayCommand]
         async Task Register()
         {
+            if(Registering) return;
+
+            Registering = true;
             InvalidEmailOccured = false;
             InvalidPasswordOccured = false;
 
@@ -57,6 +62,7 @@ namespace OnmpApp.ViewModels.Authorize
             {
                 InvalidEmailOccured = true;
                 ErrorText = Properties.Resources.InvalidEmailFormat;
+                Registering = false;
                 return;
             }
 
@@ -65,6 +71,7 @@ namespace OnmpApp.ViewModels.Authorize
             {
                 InvalidPasswordOccured = true;
                 ErrorText = Properties.Resources.PasswordsDontMatch;
+                Registering = false;
                 return;
             }
 
@@ -73,6 +80,7 @@ namespace OnmpApp.ViewModels.Authorize
             {
                 InvalidNameOccured = true;
                 ErrorText = Properties.Resources.InvalidNames;
+                Registering = false;
                 return;
             }
 
@@ -80,11 +88,14 @@ namespace OnmpApp.ViewModels.Authorize
             {
                 InvalidEmailOccured = true;
                 ErrorText = Properties.Resources.Error;
+                Registering = false;
                 return;
             }
 
             ToastHelper.Show(Properties.Resources.SuccessRegistration);
             await Shell.Current.GoToAsync("..");
+
+            Registering = false;
         }
 
     }

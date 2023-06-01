@@ -30,6 +30,7 @@ public partial class EditorPreviewCardViewModel : ObservableObject
 
     [ObservableProperty]
     int _cardId = -1; // Id изменяемой карточки
+    int _prevCardId = -1;
 
     [ObservableProperty]
     Card _card = new(); // Карточка
@@ -66,8 +67,8 @@ public partial class EditorPreviewCardViewModel : ObservableObject
 
     public async Task<bool> GetTemplates()
     {
-        var res = await CardService.Search("", false, false, true, false);
-        Templates = res.ToObservableCollection();
+        var res = await CardService.Search("", false, false, true, false, -1, -1);
+        Templates = res.OrderBy(el => el.Name).ToObservableCollection();
         Templates.Insert(0, new Card { Id = -1, Name = "Без шаблона"});
         SelectedTemplate = Templates[0];
         return true;
@@ -96,31 +97,59 @@ public partial class EditorPreviewCardViewModel : ObservableObject
         return true;
     }
 
+    bool _navigating = false;
+
     [RelayCommand]
     async void ContinueButton()
     {
-        if (!await Save())
+        if (_navigating)
             return;
 
+        _navigating = true;
+
+        if (!await Save())
+        {
+            _navigating = false;
+            return;
+        }
+
+        _prevCardId = Card.Id;
         if (!OldCard && SelectedTemplate.Id != -1)
-            await Shell.Current.GoToAsync($"{nameof(EditorPreviewCardPage)}/{nameof(TemplateFillerPage)}?CardId={Card.Id}&TemplateId={SelectedTemplate.Id}");
+            await Shell.Current.GoToAsync($"{nameof(EditorPreviewCardPage)}/{nameof(TemplateFillerPage)}?CardId={Card.Id}&TemplateId={SelectedTemplate.Id}", animate: true);
         else 
-            await Shell.Current.GoToAsync($"{nameof(EditorPreviewCardPage)}/{nameof(TemplateFillerPage)}?CardId={Card.Id}");
+            await Shell.Current.GoToAsync($"{nameof(EditorPreviewCardPage)}/{nameof(TemplateFillerPage)}?CardId={Card.Id}", animate: true);
+
+        _navigating = false;
     }
 
     [RelayCommand]
     async void SaveButton()
     {
-        if (!await Save())
+        if (_navigating)
             return;
 
+        _navigating = true;
+
+        if (!await Save())
+        {
+            _navigating = false;
+            return;
+        }
+
+        _prevCardId = -1;
         await Shell.Current.GoToAsync("..", animate: true);
+        _navigating = false;
     }
 
     public async void InitCard()
     {
-        if (CardId != -1)
+
+
+        if (CardId != -1 || _prevCardId != -1)
         {
+            if(_prevCardId != -1)
+                CardId = _prevCardId;
+
             OldCard = true;
             var card = await CardService.Get(CardId);
             Time = card.Date.TimeOfDay;

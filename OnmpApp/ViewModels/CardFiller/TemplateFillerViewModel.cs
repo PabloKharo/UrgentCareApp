@@ -88,12 +88,19 @@ public partial class TemplateFillerViewModel : ObservableObject
         }
     }
 
+
+    bool _navigating = false;
     [RelayCommand]
     async void ButtonPressed()
     {
+        if (_navigating) return;
+
+        _navigating = true;
         SaveTestResults(Card);
         await FullCardService.Update(Card);
         await Shell.Current.GoToAsync("../..", animate: true);
+
+        _navigating = false;
     }
 
 }

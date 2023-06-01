@@ -7,19 +7,35 @@ using OnmpApp.Models.Database;
 
 namespace OnmpApp.Database;
 
+
+public class SearchParameters
+{
+    public string SearchParam { get; set; }
+    public int Skip { get; set; }
+    public int Take { get; set; }
+}
+
 public static class CatalogTable
 {
-    public static async Task<List<CatalogShort>> Search(string search, int skip = 0, int take = 0)
+    public static async Task<List<CatalogShort>> Search(string search, int skip, int take)
     {
-        string query = "SELECT Name, ElType, CASE WHEN Text IS NULL THEN 0 ELSE 1 END AS Loaded FROM Catalogs WHERE Name LIKE ?";
-        var res = await BaseDatabase.DB.QueryAsync<CatalogShort>(query, $"%{search}%");
+        string query = "SELECT Name, ElType, CASE WHEN Text IS NULL THEN 0 ELSE 1 END AS Loaded " +
+               "FROM Catalogs " +
+               "WHERE LowerName LIKE ? " +
+               "ORDER BY Name " +
+               "LIMIT ? OFFSET ?";
+        var res = await BaseDatabase.DB.QueryAsync<CatalogShort>(query, $"%{search.ToLower()}%", take, skip);
         return res.ToList();
     }
 
     public static async Task<Catalog> Get(string name)
     {
-        var card = await BaseDatabase.DB.Table<Catalog>().Where(el => el.Name == name).FirstOrDefaultAsync();
-        return card;
+        return await BaseDatabase.DB.Table<Catalog>().Where(el => el.Name == name).FirstOrDefaultAsync();
+    }
+
+    public static async Task<int> Count()
+    {
+        return await BaseDatabase.DB.Table<Catalog>().CountAsync();
     }
 
     public static async Task<bool> Update(Catalog catalog)
@@ -34,7 +50,8 @@ public static class CatalogTable
         {
             Name = name,
             ElType = type,
-            Text = text
+            Text = text,
+            LowerName = name.ToLower()
         });
         return true;
     }

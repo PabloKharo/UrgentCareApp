@@ -232,6 +232,15 @@ namespace OnmpApp.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Загрузка справочника.
+        /// </summary>
+        public static string LoadCatalog {
+            get {
+                return ResourceManager.GetString("LoadCatalog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Войти.
         /// </summary>
         public static string LogIn {

@@ -31,20 +31,39 @@ public partial class CatalogTabViewModel : ObservableObject
 
     }
 
-    public async void SearchItems()
+    bool _searching = false;
+
+    [RelayCommand] // Добавление элементов, которые не были показаны
+    async void RemainingItemsThresholdReached()
     {
-        if (string.IsNullOrWhiteSpace(SearchText))
+        if (_searching) return;
+
+        _searching = true;
+
+        var res = await CatalogService.Search(SearchText, CatalogElements.Count);
+        foreach(var item in res)
         {
-            IsRefreshing = false;
-            return;
+            CatalogElements.Add(item);
         }
 
+        _searching = false;
+    }
+
+    public async void SearchItems()
+    {
         IsRefreshing = true;
 
+        if (_searching) return;
+
+        _searching = true;
+
+
         var res = await CatalogService.Search(SearchText);
-        CatalogElements = res.OrderBy(el => el.Name).ToObservableCollection();
+        CatalogElements = res?.ToObservableCollection();
 
         IsRefreshing = false;
+
+        _searching = false;
     }
 
     [RelayCommand] // Нажатие на карту
@@ -53,13 +72,9 @@ public partial class CatalogTabViewModel : ObservableObject
         if (selectedCatalog == null)
             return;
 
-        await Shell.Current.GoToAsync($"{nameof(CatalogTextPage)}?Name={selectedCatalog.Name}");
+        await Shell.Current.GoToAsync($"{nameof(CatalogTextPage)}?Name={selectedCatalog.Name}", animate: true);
     }
 
-    [RelayCommand] // Добавление элементов, которые не были показаны
-    static async void RemainingItemsThresholdReached()
-    {
-
-    }
+    
 
 }

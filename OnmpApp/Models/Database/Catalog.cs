@@ -21,6 +21,10 @@ public class Catalog
 
     public string Text { get; set; }
 
+    [NotNull, Indexed(Name = "lower_name_idx", Order = 1)]
+
+    public string LowerName { get; set; }
+
     public CatalogType ElType { get; set; }
 
     [Ignore]

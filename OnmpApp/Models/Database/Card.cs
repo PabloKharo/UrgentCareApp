@@ -33,6 +33,9 @@ public class Card
     [NotNull, Indexed(Name = "userid_idx", Order = 1)]
     public int UserId { get; set; }
 
+    [NotNull, MaxLength(64), Indexed(Name = "name_idx", Order = 1)]
+    public string LowerName { get; set; }
+
     // Название карты 
     [NotNull, MaxLength(64)]
     public string Name { get; set; }

@@ -13,9 +13,10 @@ using OnmpApp.Properties;
 
 namespace OnmpApp.Services;
 
+
 public static class CatalogService
 {
-    public static async Task<List<CatalogShort>> Search(string search, int skip = 0, int take = 0)
+    public static async Task<List<CatalogShort>> Search(string search, int skip = 0, int take = 15)
     {
         try
         {
@@ -52,8 +53,12 @@ public static class CatalogService
                 }
                 if (catalog.ElType == CatalogType.Disease)
                 {
-                    response = await client.GetAsync($"{Settings.ApiAddress}/diseases/get_diseases_by_tag/");
+                    response = await client.GetAsync($"{Settings.ApiAddress}/diseases/get_diseases_by_name/?name={catalog.Name}");
 
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    dynamic json = JObject.Parse(responseContent);
+
+                    catalog.Text = json[catalog.Name].ToString();
                 }
                 if (catalog.ElType == CatalogType.Medicine)
                 {
@@ -79,6 +84,50 @@ public static class CatalogService
 
         return null;
 
+    }
+
+    public static async Task<string> LoadData(CatalogType type)
+    {
+        try
+        {
+            using var client = new HttpClient();
+            HttpResponseMessage response = new();
+            if (type == CatalogType.Diagnose)
+                response = await client.GetAsync($"{Settings.ApiAddress}/diagnoses/get_diagnoses/");
+            else if (type == CatalogType.Disease)
+                response = await client.GetAsync($"{Settings.ApiAddress}/diseases/get_diseases/");
+            else if (type == CatalogType.Medicine)
+                response = await client.GetAsync($"{Settings.ApiAddress}/medicines/get_medicines/");
+
+            return await response.Content.ReadAsStringAsync();
+
+        }
+        catch (Exception ex)
+        {
+#if DEBUG
+            Debug.WriteLine(@"\tERROR {0}", ex.Message);
+#endif
+            ToastHelper.Show(Properties.Resources.Error);
+        }
+
+        return "";
+    }
+
+    public static async Task<int> Count()
+    {
+        try
+        {
+            return await CatalogTable.Count();
+        }
+        catch (Exception ex)
+        {
+#if DEBUG
+            Debug.WriteLine(@"\tERROR {0}", ex.Message);
+#endif
+            ToastHelper.Show(Properties.Resources.Error);
+        }
+
+        return 0;
     }
 
     public static async Task<bool> Update(Catalog catalog)
