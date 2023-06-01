@@ -8,7 +8,10 @@
              xmlns:properties="clr-namespace:OnmpApp.Properties"
 
              BackButtonVisible="True" Appearing="CatalogTextPage_OnAppearing"
-             HeaderText="{x:Static properties:Resources.Catalog}">
+             HeaderText="{x:Static properties:Resources.Catalog}"
+             RightButtonVisible="True"
+			 RightButtonSource="{AppThemeBinding Light=light_reload.png, Dark=dark_reload.png}"
+			 RightButtonCommand="{Binding ReloadCatalogCommand}">
     <ScrollView>
         <StackLayout Padding="10" Spacing="10">
             <Label Text="{Binding CatalogElement.Name}" FontAttributes="Bold" FontSize="20"/>

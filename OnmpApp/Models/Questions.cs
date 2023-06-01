@@ -4,7 +4,7 @@ using OnmpApp.Properties;
 
 namespace OnmpApp.Models;
 
-public abstract class TestQuestion : ObservableObject
+public abstract class Question : ObservableObject
 {
     public string QuestionText { get; set; }
     public List<string> Options { get; set; }
@@ -14,11 +14,11 @@ public abstract class TestQuestion : ObservableObject
 
     public abstract string GetValue();
     public abstract void SetValue(string val);
-    public abstract void CopyValue(TestQuestion question);
+    public abstract void CopyValue(Question question);
 
 }
 
-public partial class RadioButtonQuestion : TestQuestion
+public partial class RadioButtonQuestion : Question
 {
     [ObservableProperty]
     int selectedOptionIndex = -1;
@@ -33,7 +33,7 @@ public partial class RadioButtonQuestion : TestQuestion
         SelectedOptionIndex = Options.IndexOf(val);
     }
 
-    public override void CopyValue(TestQuestion question)
+    public override void CopyValue(Question question)
     {
         SelectedOptionIndex = ((RadioButtonQuestion)question).SelectedOptionIndex;
     }
@@ -91,14 +91,14 @@ public partial class RadioButtonWithTextQuestion : RadioButtonQuestion
         }
     }
 
-    public override void CopyValue(TestQuestion question)
+    public override void CopyValue(Question question)
     {
         SelectedOptionIndex = ((RadioButtonWithTextQuestion)question).SelectedOptionIndex;
         AdditionalText = ((RadioButtonWithTextQuestion)question).AdditionalText;
     }
 }
 
-public partial class CheckBoxQuestion : TestQuestion
+public partial class CheckBoxQuestion : Question
 {
     [ObservableProperty]
     List<bool> selectedOptions;
@@ -131,7 +131,7 @@ public partial class CheckBoxQuestion : TestQuestion
         }
     }
 
-    public override void CopyValue(TestQuestion question)
+    public override void CopyValue(Question question)
     {
         SelectedOptions = ((CheckBoxQuestion)question).SelectedOptions;
     }
@@ -215,14 +215,14 @@ public partial class CheckBoxWithTextQuestion : CheckBoxQuestion
         }
     }
 
-    public override void CopyValue(TestQuestion question)
+    public override void CopyValue(Question question)
     {
         SelectedOptions = ((CheckBoxWithTextQuestion)question).SelectedOptions;
         AdditionalText = ((CheckBoxWithTextQuestion)question).AdditionalText;
     }
 }
 
-public partial class TextQuestion : TestQuestion
+public partial class TextQuestion : Question
 {
     [ObservableProperty]
     string answerText;
@@ -240,7 +240,7 @@ public partial class TextQuestion : TestQuestion
         AnswerText = val;
     }
 
-    public override void CopyValue(TestQuestion question)
+    public override void CopyValue(Question question)
     {
         AnswerText = ((TextQuestion)question).AnswerText;
     }

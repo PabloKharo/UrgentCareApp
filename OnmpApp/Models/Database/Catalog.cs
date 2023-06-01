@@ -71,7 +71,7 @@ public class Catalog
             // OMPS
             if (subValue.ContainsKey("omps") && subValue["omps"] != null)
             {
-                formattedString.Spans.Add(new Span { Text = "OMPS:" + '\n' });
+                formattedString.Spans.Add(new Span { Text = "Объем мед. помощи:" + '\n' });
                 foreach (var omp in subValue["omps"])
                 {
                     if (omp.Value == null)
@@ -86,12 +86,14 @@ public class Catalog
             // tactics
             if (subValue.ContainsKey("tactics") && subValue["tactics"] != null)
             {
-                formattedString.Spans.Add(new Span { Text = "Tactics:" + '\n' });
-                foreach (var tactic in subValue["tactics"])
+                formattedString.Spans.Add(new Span { Text = "Тактика действий:" + '\n' });
+                List<dynamic> tacticsList = subValue["tactics"].ToObject<List<dynamic>>();
+                tacticsList = tacticsList.OrderBy(x => x).ToList();
+                foreach (var tactic in tacticsList)
                 {
-                    if(tactic.Value == null)
+                    if(tactic == null)
                         continue;
-                    formattedString.Spans.Add(new Span { Text = '\t' + tactic.ToString() + '\n' });
+                    formattedString.Spans.Add(new Span { Text = '\t' + tactic + '\n' });
                 }
 
                 formattedString.Spans.Add(new Span { Text = "\n" });
@@ -100,7 +102,7 @@ public class Catalog
             // sub_diagnoses
             if (subValue.ContainsKey("sub_diagnoses") && subValue["sub_diagnoses"] != null)
             {
-                formattedString.Spans.Add(new Span { Text = "Sub_Diagnoses:" + '\n' });
+                formattedString.Spans.Add(new Span { Text = "Поддиагнозы:" + '\n' });
 
                 foreach (var subDiag in subValue["sub_diagnoses"])
                 {
@@ -126,7 +128,7 @@ public class Catalog
                     //sub_diag_recommendation
                     if (subsubValue.ContainsKey("sub_diag_recommendation") && subsubValue["sub_diag_recommendation"].Value.ToString() != "Рекомендаций нет")
                     {
-                        formattedString.Spans.Add(new Span { Text = "\tSub_Recommendation: " + subsubValue["sub_diag_recommendation"].Value.ToString() + '\n' });
+                        formattedString.Spans.Add(new Span { Text = "\tРекомендация поддиагноза: " + subsubValue["sub_diag_recommendation"].Value.ToString() + '\n' });
                     }
                     
                 }
@@ -139,7 +141,7 @@ public class Catalog
             if (subValue.ContainsKey("diagnose_recommendation") && subValue["diagnose_recommendation"] != null
                 && subValue["diagnose_recommendation"].Value.ToString() != "Рекомендаций нет")
             {
-                formattedString.Spans.Add(new Span { Text = "Recommendation: " + subValue["diagnose_recommendation"].Value.ToString() + '\n' });
+                formattedString.Spans.Add(new Span { Text = "Рекомендация: " + subValue["diagnose_recommendation"].Value.ToString() + '\n' });
             }
 
             formattedString.Spans.Add(new Span { Text = "\n" });
@@ -160,26 +162,26 @@ public class Catalog
         // tag
         if(data.ContainsKey("tag") && data["tag"] != null)
         {
-            formattedString.Spans.Add(new Span { Text = "Tag: " + data["tag"].Value.ToString() + "\n\n" });
+            formattedString.Spans.Add(new Span { Text = "Группа: " + data["tag"].Value.ToString() + "\n\n" });
         }
 
         // description
         if(data.ContainsKey("description") && data["description"] != null)
         {
-            formattedString.Spans.Add(new Span { Text = "Description: " + data["description"].Value.ToString() + "\n\n" });
+            formattedString.Spans.Add(new Span { Text = "Описание: " + data["description"].Value.ToString() + "\n\n" });
         }
 
 
         // period
         if(data.ContainsKey("period") && data["period"] != null)
         {
-            formattedString.Spans.Add(new Span { Text = "Period: " + data["period"].Value.ToString() + "\n\n" });
+            formattedString.Spans.Add(new Span { Text = "Период: " + data["period"].Value.ToString() + "\n\n" });
         }
 
         //  symptomps
         if(data.ContainsKey("symptomps") && data["symptomps"] != null)
         {
-            formattedString.Spans.Add(new Span { Text = "Symptomps: " + '\n' });
+            formattedString.Spans.Add(new Span { Text = "Симптомы: " + '\n' });
             foreach (var symptom in data["symptomps"])
             {
                 if (symptom.Value == null)
@@ -193,7 +195,7 @@ public class Catalog
         // forms
         if(data.ContainsKey("forms") && data["forms"] != null)
         {
-            formattedString.Spans.Add(new Span { Text = "Forms: " + '\n' });
+            formattedString.Spans.Add(new Span { Text = "Формы: " + '\n' });
             foreach (var form in data["forms"])
             {
                 if (form.Value == null)
@@ -207,7 +209,7 @@ public class Catalog
         // form descriptions
         if(data.ContainsKey("form descriptions") && data["form descriptions"] != null)
         {
-            formattedString.Spans.Add(new Span { Text = "Form Descriptions: " + '\n' });
+            formattedString.Spans.Add(new Span { Text = "Описание форм: " + '\n' });
             foreach (var formDesc in data["form descriptions"])
             {
                 if (formDesc.Value == null)
@@ -221,7 +223,7 @@ public class Catalog
         // form symptomps
         if(data.ContainsKey("form symptomps") && data["form symptomps"] != null)
         {
-            formattedString.Spans.Add(new Span { Text = "Form Symptomps: " + '\n' });
+            formattedString.Spans.Add(new Span { Text = "Симптомы форм: " + '\n' });
             foreach (var formSymptom in data["form symptomps"])
             {
                 if (formSymptom.Value == null)
@@ -247,19 +249,19 @@ public class Catalog
         // genitive
         if(data.ContainsKey("genitive") && data["genitive"] != null)
         {
-            formattedString.Spans.Add(new Span { Text = "Genitive: " + data["genitive"].Value.ToString() + "\n\n" });
+            formattedString.Spans.Add(new Span { Text = "Название в р.п.: " + data["genitive"].Value.ToString() + "\n\n" });
         }
 
         // unit
         if(data.ContainsKey("unit") && data["unit"] != null)
         {
-            formattedString.Spans.Add(new Span { Text = "Unit: " + data["unit"].Value.ToString() + "\n\n" });
+            formattedString.Spans.Add(new Span { Text = "Мера: " + data["unit"].Value.ToString() + "\n\n" });
         }
 
         //  diagnoses
         if(data.ContainsKey("diagnoses") && data["diagnoses"] != null)
         {
-            formattedString.Spans.Add(new Span { Text = "Diagnoses: " + '\n' });
+            formattedString.Spans.Add(new Span { Text = "Диагнозы: " + '\n' });
             foreach (var diagnose in data["diagnoses"])
             {
                 if (diagnose.Value == null)
@@ -274,13 +276,13 @@ public class Catalog
                 //adult_dosage
                 if(diagValue.ContainsKey("adult_dosage") && diagValue["adult_dosage"] != null)
                 {
-                    formattedString.Spans.Add(new Span { Text = "\t\tAdult Dosage: " + diagValue["adult_dosage"].Value.ToString() + '\n' });
+                    formattedString.Spans.Add(new Span { Text = "\t\tВзрослая дозировка: " + diagValue["adult_dosage"].Value.ToString() + '\n' });
                 }
 
                 // child_dosage
                 if(diagValue.ContainsKey("child_dosage") && diagValue["child_dosage"] != null)
                 {
-                    formattedString.Spans.Add(new Span { Text = "\t\tChild Dosage: " + diagValue["child_dosage"].Value.ToString() + '\n' });
+                    formattedString.Spans.Add(new Span { Text = "\t\tДетская дозировка: " + diagValue["child_dosage"].Value.ToString() + '\n' });
                 }
                 
             }
@@ -291,7 +293,7 @@ public class Catalog
         // contraindications
         if(data.ContainsKey("contraindications") && data["contraindications"] != null)
         {
-            formattedString.Spans.Add(new Span { Text = "Contraindications: " + '\n' });
+            formattedString.Spans.Add(new Span { Text = "Противопоказания: " + '\n' });
             foreach (var contraindication in data["contraindications"])
             {
                 if (contraindication.Value == null)
@@ -305,7 +307,7 @@ public class Catalog
         // child_dosage_unit
         if(data.ContainsKey("child_dosage_unit") && data["child_dosage_unit"] != null)
         {
-            formattedString.Spans.Add(new Span { Text = "Child Dosage Unit: " + data["child_dosage_unit"].Value.ToString() + "\n\n" });
+            formattedString.Spans.Add(new Span { Text = "Мера детской дозировки: " + data["child_dosage_unit"].Value.ToString() + "\n\n" });
         }
 
         return formattedString;

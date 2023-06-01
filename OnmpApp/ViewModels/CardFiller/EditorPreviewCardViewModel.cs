@@ -65,6 +65,12 @@ public partial class EditorPreviewCardViewModel : ObservableObject
         SelectedStatus = CardStatuses[0];
     }
 
+    [RelayCommand]
+    async void PrintCard()
+    {
+
+    }
+
     public async Task<bool> GetTemplates()
     {
         var res = await CardService.Search("", false, false, true, false, -1, -1);

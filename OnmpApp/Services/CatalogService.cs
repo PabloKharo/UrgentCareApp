@@ -34,13 +34,13 @@ public static class CatalogService
 
 
     // Удаление карточки
-    public static async Task<Catalog> Get(string name)
+    public static async Task<Catalog> Get(string name, bool force = false)
     {
         try
         {
             var catalog = await CatalogTable.Get(name);
 
-            if(string.IsNullOrEmpty(catalog.Text))
+            if(string.IsNullOrEmpty(catalog.Text) || force)
             {
                 using var client = new HttpClient();
                 HttpResponseMessage response = new();

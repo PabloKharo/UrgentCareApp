@@ -9,9 +9,9 @@ namespace OnmpApp.Models;
 
 public static class TestQuestionsFactory
 {
-    public static List<TestQuestion> CreateFromAttributes<T>(T card) where T : new()
+    public static List<Question> CreateFromAttributes<T>(T card) where T : new()
     {
-        var testQuestions = new List<TestQuestion>();
+        var testQuestions = new List<Question>();
 
         var properties = typeof(T).GetProperties();
 

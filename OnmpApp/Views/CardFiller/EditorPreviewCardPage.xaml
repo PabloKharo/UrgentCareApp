@@ -15,7 +15,10 @@
              xmlns:properties="clr-namespace:OnmpApp.Properties"
                             
              HeaderText="{x:Static properties:Resources.Card}"
-             BackButtonVisible="True" Appearing="MasterContentPage_Appearing">
+             BackButtonVisible="True" Appearing="MasterContentPage_Appearing"
+             RightButtonVisible="True"
+			 RightButtonSource="{AppThemeBinding Light=light_print.png, Dark=dark_print.png}"
+			 RightButtonCommand="{Binding PrintCardCommand}">
     <ScrollView>
         <VerticalStackLayout HorizontalOptions="Fill" VerticalOptions="Start" Margin="10" Spacing="10">
             <!-- Поле для названия карты -->

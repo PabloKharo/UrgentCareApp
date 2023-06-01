@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using OnmpApp.Database;
 using OnmpApp.Services;
 
@@ -18,6 +19,11 @@ public partial class CatalogTextViewModel : ObservableObject
     [ObservableProperty]
     string _name;
 
+    [RelayCommand]
+    async void ReloadCatalog()
+    {
+        CatalogElement = await CatalogService.Get(Name, true);
+    }
 
     public async void InitPage()
     {

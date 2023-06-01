@@ -107,9 +107,13 @@
 	  <None Remove="Resources\Images\dark_catalog.png" />
 	  <None Remove="Resources\Images\dark_go_back.png" />
 	  <None Remove="Resources\Images\dark_info.png" />
+	  <None Remove="Resources\Images\dark_print.png" />
+	  <None Remove="Resources\Images\dark_reload.png" />
 	  <None Remove="Resources\Images\dark_save.png" />
 	  <None Remove="Resources\Images\light_go_back.png" />
 	  <None Remove="Resources\Images\light_info.png" />
+	  <None Remove="Resources\Images\light_print.png" />
+	  <None Remove="Resources\Images\light_reload.png" />
 	  <None Remove="Resources\Images\light_save.png" />
 	  <None Remove="Resources\Images\trash.png" />
 	  <None Remove="Resources\Images\user.png" />
