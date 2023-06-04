@@ -36,7 +36,9 @@
             <controls:TextEntryControl LabelText="{x:Static properties:Resources.FirstName}" EntryText="{Binding FirstName}"
                                               InvalidTriger="{Binding InvalidNameOccured}"/>
 
-            <controls:TextEntryControl LabelText="{x:Static properties:Resources.SecondName}" EntryText="{Binding SecondName}"
+            <controls:TextEntryControl LabelText="{x:Static properties:Resources.LastName}" EntryText="{Binding LastName}"
+                                              InvalidTriger="{Binding InvalidNameOccured}"/>
+            <controls:TextEntryControl LabelText="{x:Static properties:Resources.MiddleName}" EntryText="{Binding MiddleName}"
                                               InvalidTriger="{Binding InvalidNameOccured}"/>
 
             <!-- Кнопка регистрации -->

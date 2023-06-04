@@ -25,7 +25,10 @@ namespace OnmpApp.ViewModels.Authorize
         string _firstName;
 
         [ObservableProperty]
-        string _secondName;
+        string _lastName;
+
+        [ObservableProperty]
+        string _middleName;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(InvalidUserDataOccured))]
@@ -76,7 +79,7 @@ namespace OnmpApp.ViewModels.Authorize
             }
 
             // Проверка, что введены имена
-            if (string.IsNullOrEmpty(FirstName) || string.IsNullOrEmpty(SecondName))
+            if (string.IsNullOrEmpty(FirstName) || string.IsNullOrEmpty(LastName) || string.IsNullOrEmpty(MiddleName))
             {
                 InvalidNameOccured = true;
                 ErrorText = Properties.Resources.InvalidNames;
@@ -84,7 +87,7 @@ namespace OnmpApp.ViewModels.Authorize
                 return;
             }
 
-            if (!await UserService.Register(Email, FirstPassword, FirstName, SecondName))
+            if (!await UserService.Register(Email, FirstPassword, FirstName, LastName, MiddleName))
             {
                 InvalidEmailOccured = true;
                 ErrorText = Properties.Resources.Error;

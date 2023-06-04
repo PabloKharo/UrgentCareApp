@@ -103,7 +103,7 @@ public static class UserService
         return false;
     }
 
-    public static async Task<bool> Register(string email, string password, string first_name, string last_name)
+    public static async Task<bool> Register(string email, string password, string first_name, string last_name, string middle_name)
     {
         try
         {
@@ -113,7 +113,8 @@ public static class UserService
                 ["email"] = email,
                 ["password"] = password,
                 ["first_name"] = first_name,
-                ["last_name"] = last_name
+                ["last_name"] = last_name,
+                ["middle_name"] = middle_name
             };
 
             var content = new StringContent(json.ToString(), Encoding.UTF8, "application/json");

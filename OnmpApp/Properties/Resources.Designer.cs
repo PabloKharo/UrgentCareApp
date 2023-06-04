@@ -232,6 +232,15 @@ namespace OnmpApp.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Фамилия.
+        /// </summary>
+        public static string LastName {
+            get {
+                return ResourceManager.GetString("LastName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Загрузка справочника.
         /// </summary>
         public static string LoadCatalog {
@@ -273,6 +282,15 @@ namespace OnmpApp.Properties {
         public static string Medicine {
             get {
                 return ResourceManager.GetString("Medicine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Отчество.
+        /// </summary>
+        public static string MiddleName {
+            get {
+                return ResourceManager.GetString("MiddleName", resourceCulture);
             }
         }
         
@@ -354,15 +372,6 @@ namespace OnmpApp.Properties {
         public static string Search {
             get {
                 return ResourceManager.GetString("Search", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Фамилия.
-        /// </summary>
-        public static string SecondName {
-            get {
-                return ResourceManager.GetString("SecondName", resourceCulture);
             }
         }
         
